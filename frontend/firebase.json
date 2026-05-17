@@ -1,0 +1,13 @@
+{
+    "hosting": {
+        "rewrites": [
+            {
+                "source": "**",
+                "run": {
+                    "serviceId": "frontend-code-to-code-translation-kabul",
+                    "region": "europe-west1"
+                }
+            }
+        ]
+    }
+}

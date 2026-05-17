@@ -1,0 +1,3931 @@
+input_language,input_code,target_language,target_code,target_column
+python,"def f_gold ( n ) :
+    ans = 0 ; temp = 0 ;
+    for i in range ( 1 , n + 1 ) :
+        if temp < n :
+            temp = i - 1
+            num = 1
+            while temp < n :
+                if temp + i <= n :
+                    ans += i * num
+                else :
+                    ans += ( n - temp ) * num
+                temp += i
+                num += 1
+    return ans
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_MATRIX_ELEMENT_ELEMENT_INTEGER_DIVISION_ROW_COLUMN_1{
+static int f_gold ( int n ) {
+  int ans = 0 , temp = 0 , num ;
+  for ( int i = 1 ;
+  i <= n && temp < n ;
+  i ++ ) {
+    temp = i - 1 ;
+    num = 1 ;
+    while ( temp < n ) {
+      if ( temp + i <= n ) ans += ( i * num ) ;
+      else ans += ( ( n - temp ) * num ) ;
+      temp += i ;
+      num ++ ;
+    }
+  }
+  return ans ;
+}
+
+
+",python_java
+python,"def f_gold ( n ) :
+    dp = [ ] ;
+    dp.append ( 1 ) ;
+    dp.append ( 1 ) ;
+    for i in range ( 2 , n + 1 ) :
+        dp.append ( dp [ i - 1 ] + dp [ i - 2 ] + 1 ) ;
+    return dp [ n ] ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LEONARDO_NUMBER_1{
+static int f_gold ( int n ) {
+  int dp [ ] = new int [ n + 1 ] ;
+  dp [ 0 ] = dp [ 1 ] = 1 ;
+  for ( int i = 2 ;
+  i <= n ;
+  i ++ ) dp [ i ] = dp [ i - 1 ] + dp [ i - 2 ] + 1 ;
+  return dp [ n ] ;
+}
+
+
+",python_java
+python,"def f_gold ( a , b , c ) :
+    if ( a + b <= c ) or ( a + c <= b ) or ( b + c <= a ) :
+        return False
+    else :
+        return True
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class CHECK_WHETHER_TRIANGLE_VALID_NOT_SIDES_GIVEN{
+public static int f_gold ( int a , int b , int c ) {
+  if ( a + b <= c || a + c <= b || b + c <= a ) return 0 ;
+  else return 1 ;
+}
+
+
+",python_java
+python,"def f_gold ( x , y ) :
+    res = 1
+    for i in range ( y ) :
+        res = ( res * x ) % 10
+    return res
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_UNIT_DIGIT_X_RAISED_POWER_Y{
+static int f_gold ( int x , int y ) {
+  int res = 1 ;
+  for ( int i = 0 ;
+  i < y ;
+  i ++ ) res = ( res * x ) % 10 ;
+  return res ;
+}
+
+
+",python_java
+python,"def f_gold ( stack1 , stack2 , stack3 , n1 , n2 , n3 ) :
+    sum1 , sum2 , sum3 = 0 , 0 , 0
+    for i in range ( n1 ) :
+        sum1 += stack1 [ i ]
+    for i in range ( n2 ) :
+        sum2 += stack2 [ i ]
+    for i in range ( n3 ) :
+        sum3 += stack3 [ i ]
+    top1 , top2 , top3 = 0 , 0 , 0
+    ans = 0
+    while ( 1 ) :
+        if ( top1 == n1 or top2 == n2 or top3 == n3 ) :
+            return 0
+        if ( sum1 == sum2 and sum2 == sum3 ) :
+            return sum1
+        if ( sum1 >= sum2 and sum1 >= sum3 ) :
+            sum1 -= stack1 [ top1 ]
+            top1 = top1 + 1
+        elif ( sum2 >= sum3 and sum2 >= sum3 ) :
+            sum2 -= stack2 [ top2 ]
+            top2 = top2 + 1
+        elif ( sum3 >= sum2 and sum3 >= sum1 ) :
+            sum3 -= stack3 [ top3 ]
+            top3 = top3 + 1
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_MAXIMUM_SUM_POSSIBLE_EQUAL_SUM_THREE_STACKS{
+public static int f_gold ( int stack1 [ ] , int stack2 [ ] , int stack3 [ ] , int n1 , int n2 , int n3 ) {
+  int sum1 = 0 , sum2 = 0 , sum3 = 0 ;
+  for ( int i = 0 ;
+  i < n1 ;
+  i ++ ) sum1 += stack1 [ i ] ;
+  for ( int i = 0 ;
+  i < n2 ;
+  i ++ ) sum2 += stack2 [ i ] ;
+  for ( int i = 0 ;
+  i < n3 ;
+  i ++ ) sum3 += stack3 [ i ] ;
+  int top1 = 0 , top2 = 0 , top3 = 0 ;
+  int ans = 0 ;
+  while ( true ) {
+    if ( top1 == n1 || top2 == n2 || top3 == n3 ) return 0 ;
+    if ( sum1 == sum2 && sum2 == sum3 ) return sum1 ;
+    if ( sum1 >= sum2 && sum1 >= sum3 ) sum1 -= stack1 [ top1 ++ ] ;
+    else if ( sum2 >= sum3 && sum2 >= sum3 ) sum2 -= stack2 [ top2 ++ ] ;
+    else if ( sum3 >= sum2 && sum3 >= sum1 ) sum3 -= stack3 [ top3 ++ ] ;
+  }
+}
+
+
+",python_java
+python,"class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        def swap(i, j):
+            nums[i], nums[j] = nums[j], nums[i]
+
+        n = len(nums)
+        for i in range(n):
+            while 1 <= nums[i] <= n and nums[i] != nums[nums[i] - 1]:
+                swap(i, nums[i] - 1)
+        for i in range(n):
+            if i + 1 != nums[i]:
+                return i + 1
+        return n + 1",java,"class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            while (nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
+                swap(nums, i, nums[i] - 1);
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (i + 1 != nums[i]) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int t = nums[i];
+        nums[i] = nums[j];
+        nums[j] = t;
+    }
+}",python_java
+python,"class Solution:
+    def kthGrammar(self, n: int, k: int) -> int:
+        return (k - 1).bit_count() & 1",java,"class Solution {
+    public int kthGrammar(int n, int k) {
+        return Integer.bitCount(k - 1) & 1;
+    }
+}",python_java
+python,"def f_gold ( A , B , m , n ) :
+    dp = [ [ 0 for i in range ( m + 1 ) ] for j in range ( n + 1 ) ]
+    for i in range ( 1 , n + 1 , 1 ) :
+        for j in range ( i , m + 1 , 1 ) :
+            dp [ i ] [ j ] = max ( ( dp [ i - 1 ] [ j - 1 ] + ( A [ j - 1 ] * B [ i - 1 ] ) ) , dp [ i ] [ j - 1 ] )
+    return dp [ n ] [ m ]
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_MAXIMUM_DOT_PRODUCT_TWO_ARRAYS_INSERTION_0S{
+static int f_gold ( int A [ ] , int B [ ] , int m , int n ) {
+  int dp [ ] [ ] = new int [ n + 1 ] [ m + 1 ] ;
+  for ( int [ ] row : dp ) Arrays . fill ( row , 0 ) ;
+  for ( int i = 1 ;
+  i <= n ;
+  i ++ ) for ( int j = i ;
+  j <= m ;
+  j ++ ) dp [ i ] [ j ] = Math . max ( ( dp [ i - 1 ] [ j - 1 ] + ( A [ j - 1 ] * B [ i - 1 ] ) ) , dp [ i ] [ j - 1 ] ) ;
+  return dp [ n ] [ m ] ;
+}
+
+
+",python_java
+python,"class MyHashMap:
+    def __init__(self):
+        self.data = [-1] * 1000001
+
+    def put(self, key: int, value: int) -> None:
+        self.data[key] = value
+
+    def get(self, key: int) -> int:
+        return self.data[key]
+
+    def remove(self, key: int) -> None:
+        self.data[key] = -1
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+
+#############
+
+class MyHashMap: # hash to bucket
+    def __init__(self):
+        """"""
+        Initialize your data structure here.
+        """"""
+        self.size = 1000
+        self.buckets = [[] for _ in range(self.size)]
+
+    def _hash(self, key: int) -> int:
+        """"""
+        Generate a hash for a given key.
+        """"""
+        return key % self.size
+
+    def put(self, key: int, value: int) -> None:
+        """"""
+        Value will always be non-negative.
+        """"""
+        hash_key = self._hash(key)
+        for i, (k, v) in enumerate(self.buckets[hash_key]):
+            if k == key:
+                self.buckets[hash_key][i] = (key, value)
+                return
+        self.buckets[hash_key].append((key, value))
+
+    def get(self, key: int) -> int:
+        """"""
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key.
+        """"""
+        hash_key = self._hash(key)
+        for k, v in self.buckets[hash_key]:
+            if k == key:
+                return v
+        return -1
+
+    def remove(self, key: int) -> None:
+        """"""
+        Removes the mapping of the specified value key if this map contains a mapping for the key.
+        """"""
+        hash_key = self._hash(key)
+        for i, (k, v) in enumerate(self.buckets[hash_key]):
+            if k == key:
+                del self.buckets[hash_key][i]
+                return
+
+###############
+
+class MyHashMap: # open addressing with linear probing
+    def __init__(self):
+        self.capacity = 10000
+        self.data = [None] * self.capacity
+        self.DELETED = (None, None)  # Marker for deleted entries
+
+    def _hash(self, key):
+        return key % self.capacity
+
+    def put(self, key: int, value: int) -> None:
+        idx = self._hash(key)
+        while self.data[idx] not in (None, self.DELETED, key):
+            idx = (idx + 1) % self.capacity
+        self.data[idx] = (key, value)
+
+    def get(self, key: int) -> int:
+        idx, found_key = self._find(key)
+        if found_key:
+            return self.data[idx][1]
+        return -1
+
+    def remove(self, key: int) -> None:
+        idx, found_key = self._find(key)
+        if found_key:
+            self.data[idx] = self.DELETED
+
+    def _find(self, key):
+        original_idx = idx = self._hash(key)
+        while self.data[idx] is not None:
+            if self.data[idx] != self.DELETED and self.data[idx][0] == key:
+                return idx, True
+            idx = (idx + 1) % self.capacity
+            if idx == original_idx:  # Came full circle
+                break
+        return original_idx, False",java,"class MyHashMap {
+    private int[] data = new int[1000001];
+
+    public MyHashMap() {
+        Arrays.fill(data, -1);
+    }
+
+    public void put(int key, int value) {
+        data[key] = value;
+    }
+
+    public int get(int key) {
+        return data[key];
+    }
+
+    public void remove(int key) {
+        data[key] = -1;
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */",python_java
+python,"import math
+
+def f_gold ( n ) :
+    l = math.sqrt ( n )
+    sq = l * l
+    if ( sq == n ) :
+        return l * 4
+    else :
+        row = n / l
+        perimeter = 2 * ( l + row )
+        if ( n % l != 0 ) :
+            perimeter += 2
+        return perimeter
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_PERIMETER_N_BLOCKS{
+public static long f_gold ( int n ) {
+  int l = ( int ) Math . sqrt ( n ) ;
+  int sq = l * l ;
+  if ( sq == n ) return l * 4 ;
+  else {
+    long row = n / l ;
+    long perimeter = 2 * ( l + row ) ;
+    if ( n % l != 0 ) perimeter += 2 ;
+    return perimeter ;
+  }
+}
+
+
+",python_java
+python,"def f_gold ( arr1 , arr2 , m , n ) :
+    i = 0
+    j = 0
+    for i in range ( n ) :
+        for j in range ( m ) :
+            if ( arr2 [ i ] == arr1 [ j ] ) :
+                break
+        if ( j == m ) :
+            return 0
+    return 1
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_WHETHER_AN_ARRAY_IS_SUBSET_OF_ANOTHER_ARRAY_SET_1{
+static boolean f_gold ( int arr1 [ ] , int arr2 [ ] , int m , int n ) {
+  int i = 0 ;
+  int j = 0 ;
+  for ( i = 0 ;
+  i < n ;
+  i ++ ) {
+    for ( j = 0 ;
+    j < m ;
+    j ++ ) if ( arr2 [ i ] == arr1 [ j ] ) break ;
+    if ( j == m ) return false ;
+  }
+  return true ;
+}
+
+
+",python_java
+python,"def f_gold ( arr , n ) :
+    leftMax = [ None ] * n
+    leftMax [ 0 ] = float ( '-inf' )
+    for i in range ( 1 , n ) :
+        leftMax [ i ] = max ( leftMax [ i - 1 ] , arr [ i - 1 ] )
+    rightMin = float ( 'inf' )
+    for i in range ( n - 1 , - 1 , - 1 ) :
+        if leftMax [ i ] < arr [ i ] and rightMin > arr [ i ] :
+            return i
+        rightMin = min ( rightMin , arr [ i ] )
+    return - 1
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_THE_ELEMENT_BEFORE_WHICH_ALL_THE_ELEMENTS_ARE_SMALLER_THAN_IT_AND_AFTER_WHICH_ALL_ARE_GREATER_THAN_IT{
+static int f_gold ( int [ ] arr , int n ) {
+  int [ ] leftMax = new int [ n ] ;
+  leftMax [ 0 ] = Integer . MIN_VALUE ;
+  for ( int i = 1 ;
+  i < n ;
+  i ++ ) leftMax [ i ] = Math . max ( leftMax [ i - 1 ] , arr [ i - 1 ] ) ;
+  int rightMin = Integer . MAX_VALUE ;
+  for ( int i = n - 1 ;
+  i >= 0 ;
+  i -- ) {
+    if ( leftMax [ i ] < arr [ i ] && rightMin > arr [ i ] ) return i ;
+    rightMin = Math . min ( rightMin , arr [ i ] ) ;
+  }
+  return - 1 ;
+}
+
+
+",python_java
+python,"def f_gold ( arr , n , x , k ) :
+    i = 0
+    while ( i < n ) :
+        if ( arr [ i ] == x ) :
+            return i
+        i = i + max ( 1 , int ( abs ( arr [ i ] - x ) / k ) )
+    print ( ""number is not present!"" )
+    return - 1
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SEARCHING_ARRAY_ADJACENT_DIFFER_K{
+static int f_gold ( int arr [ ] , int n , int x , int k ) {
+  int i = 0 ;
+  while ( i < n ) {
+    if ( arr [ i ] == x ) return i ;
+    i = i + Math . max ( 1 , Math . abs ( arr [ i ] - x ) / k ) ;
+  }
+  System . out . println ( ""number is "" + ""not present!"" ) ;
+  return - 1 ;
+}
+
+
+",python_java
+python,"def f_gold ( arr , n ) :
+    arr.sort ( )
+    sum = 0
+    for i in range ( n ) :
+        sum += arr [ i ] * i
+    return sum
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMIZE_SUM_ARRII{
+static int f_gold ( int arr [ ] , int n ) {
+  Arrays . sort ( arr ) ;
+  int sum = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) sum += ( arr [ i ] * i ) ;
+  return sum ;
+}
+
+
+",python_java
+python,"'''
+>>> a = [ [1,2,3], [4,5,6] ]
+>>> b = a.copy()
+>>> b
+[[1, 2, 3], [4, 5, 6]]
+'''
+class NumMatrix:
+    def __init__(self, matrix: List[List[int]]):
+        m, n = len(matrix), len(matrix[0])
+        self.s = [[0] * (n + 1) for _ in range(m + 1)]
+        for i, row in enumerate(matrix):
+            for j, v in enumerate(row):
+                self.s[i + 1][j + 1] = (
+                    self.s[i][j + 1] + self.s[i + 1][j] - self.s[i][j] + v
+                )
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return (
+            self.s[row2 + 1][col2 + 1]
+            - self.s[row2 + 1][col1]
+            - self.s[row1][col2 + 1]
+            + self.s[row1][col1]
+        )
+
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)
+
+############
+
+class NumMatrix(object):
+  def __init__(self, matrix):
+    """"""
+    initialize your data structure here.
+    :type matrix: List[List[int]]
+    """"""
+    self.dp = [[0] * len(matrix[0]) for i in range(0, len(matrix))]
+    for i in range(0, len(matrix)):
+      for j in range(0, len(matrix[0])):
+        if i == 0:
+          self.dp[0][j] = self.dp[0][j - 1] + matrix[i][j]
+        elif j == 0:
+          self.dp[i][0] = self.dp[i - 1][0] + matrix[i][j]
+        else:
+          self.dp[i][j] = self.dp[i - 1][j] + self.dp[i][j - 1] - self.dp[i - 1][j - 1] + matrix[i][j]
+
+  def sumRegion(self, row1, col1, row2, col2):
+    """"""
+    sum of elements matrix[(row1,col1)..(row2,col2)], inclusive.
+    :type row1: int
+    :type col1: int
+    :type row2: int
+    :type col2: int
+    :rtype: int
+    """"""
+    dp = self.dp
+
+    diagSum = dp[row1 - 1][col1 - 1]
+    totalSum = dp[row2][col2]
+    leftSum = dp[row2][col1 - 1]
+    upSum = dp[row1 - 1][col2]
+    if row1 == 0:
+      upSum = 0
+      diagSum = 0
+    if col1 == 0:
+      leftSum = 0
+      diagSum = 0
+    return totalSum - leftSum - upSum + diagSum",java,"class NumMatrix {
+    private int[][] s;
+
+    public NumMatrix(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        s = new int[m + 1][n + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                s[i + 1][j + 1] = s[i + 1][j] + s[i][j + 1] - s[i][j] + matrix[i][j];
+            }
+        }
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        return s[row2 + 1][col2 + 1] - s[row2 + 1][col1] - s[row1][col2 + 1] + s[row1][col1];
+    }
+}
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * int param_1 = obj.sumRegion(row1,col1,row2,col2);
+ */",python_java
+python,"class Solution:
+    def numDistinctIslands2(self, grid: List[List[int]]) -> int:
+        def dfs(i, j, shape):
+            shape.append([i, j])
+            grid[i][j] = 0
+            for a, b in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
+                x, y = i + a, j + b
+                if 0 <= x < m and 0 <= y < n and grid[x][y] == 1:
+                    dfs(x, y, shape)
+
+        def normalize(shape):
+            shapes = [[] for _ in range(8)]
+            for i, j in shape:
+                shapes[0].append([i, j])
+                shapes[1].append([i, -j])
+                shapes[2].append([-i, j])
+                shapes[3].append([-i, -j])
+                shapes[4].append([j, i])
+                shapes[5].append([j, -i])
+                shapes[6].append([-j, i])
+                shapes[7].append([-j, -i])
+            for e in shapes:
+                e.sort()
+                for i in range(len(e) - 1, -1, -1):
+                    e[i][0] -= e[0][0]
+                    e[i][1] -= e[0][1]
+            shapes.sort()
+            return tuple(tuple(e) for e in shapes[0])
+
+        m, n = len(grid), len(grid[0])
+        s = set()
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]:
+                    shape = []
+                    dfs(i, j, shape)
+                    s.add(normalize(shape))
+        return len(s)",java,"class Solution {
+    private int m;
+    private int n;
+    private int[][] grid;
+
+    public int numDistinctIslands2(int[][] grid) {
+        m = grid.length;
+        n = grid[0].length;
+        this.grid = grid;
+        Set<List<List<Integer>>> s = new HashSet<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    List<Integer> shape = new ArrayList<>();
+                    dfs(i, j, shape);
+                    s.add(normalize(shape));
+                }
+            }
+        }
+        return s.size();
+    }
+
+    private List<List<Integer>> normalize(List<Integer> shape) {
+        List<int[]>[] shapes = new List[8];
+        for (int i = 0; i < 8; ++i) {
+            shapes[i] = new ArrayList<>();
+        }
+        for (int e : shape) {
+            int i = e / n;
+            int j = e % n;
+            shapes[0].add(new int[] {i, j});
+            shapes[1].add(new int[] {i, -j});
+            shapes[2].add(new int[] {-i, j});
+            shapes[3].add(new int[] {-i, -j});
+            shapes[4].add(new int[] {j, i});
+            shapes[5].add(new int[] {j, -i});
+            shapes[6].add(new int[] {-j, i});
+            shapes[7].add(new int[] {-j, -i});
+        }
+        for (List<int[]> e : shapes) {
+            e.sort((a, b) -> {
+                int i1 = a[0];
+                int j1 = a[1];
+                int i2 = b[0];
+                int j2 = b[1];
+                if (i1 == i2) {
+                    return j1 - j2;
+                }
+                return i1 - i2;
+            });
+            int a = e.get(0)[0];
+            int b = e.get(0)[1];
+            for (int k = e.size() - 1; k >= 0; --k) {
+                int i = e.get(k)[0];
+                int j = e.get(k)[1];
+                e.set(k, new int[] {i - a, j - b});
+            }
+        }
+        Arrays.sort(shapes, (a, b) -> {
+            for (int k = 0; k < a.size(); ++k) {
+                int i1 = a.get(k)[0];
+                int j1 = a.get(k)[1];
+                int i2 = b.get(k)[0];
+                int j2 = b.get(k)[1];
+                if (i1 != i2) {
+                    return i1 - i2;
+                }
+                if (j1 != j2) {
+                    return j1 - j2;
+                }
+            }
+            return 0;
+        });
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int[] e : shapes[0]) {
+            ans.add(Arrays.asList(e[0], e[1]));
+        }
+        return ans;
+    }
+
+    private void dfs(int i, int j, List<Integer> shape) {
+        shape.add(i * n + j);
+        grid[i][j] = 0;
+        int[] dirs = {-1, 0, 1, 0, -1};
+        for (int k = 0; k < 4; ++k) {
+            int x = i + dirs[k];
+            int y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
+                dfs(x, y, shape);
+            }
+        }
+    }
+}",python_java
+python,"class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        cnt = m = 0
+        for x in nums:
+            if cnt == 0:
+                m, cnt = x, 1
+            else:
+                cnt += 1 if m == x else -1
+        return m",java,"class Solution {
+    public int majorityElement(int[] nums) {
+        int cnt = 0, m = 0;
+        for (int x : nums) {
+            if (cnt == 0) {
+                m = x;
+                cnt = 1;
+            } else {
+                cnt += m == x ? 1 : -1;
+            }
+        }
+        return m;
+    }
+}",python_java
+python,"def f_gold ( x ) :
+    i = 1 ;
+    fact = 1 ;
+    for i in range ( 1 , x ) :
+        fact = fact * i
+        if ( fact % x == 0 ) :
+            break
+    return i
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_FIRST_NATURAL_NUMBER_WHOSE_FACTORIAL_DIVISIBLE_X{
+static int f_gold ( int x ) {
+  int i = 1 ;
+  int fact = 1 ;
+  for ( i = 1 ;
+  i < x ;
+  i ++ ) {
+    fact = fact * i ;
+    if ( fact % x == 0 ) break ;
+  }
+  return i ;
+}
+
+
+",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans = []
+        while root:
+            if root.right is None:
+                ans.append(root.val)
+                root = root.left
+            else:
+                next = root.right
+                while next.left and next.left != root:
+                    next = next.left
+                if next.left != root:
+                    ans.append(root.val)
+                    next.left = root
+                    root = root.right
+                else:
+                    next.left = None
+                    root = root.left
+        return ans[::-1]",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        while (root != null) {
+            if (root.right == null) {
+                ans.addFirst(root.val);
+                root = root.left;
+            } else {
+                TreeNode next = root.right;
+                while (next.left != null && next.left != root) {
+                    next = next.left;
+                }
+                if (next.left == null) {
+                    ans.addFirst(root.val);
+                    next.left = root;
+                    root = root.right;
+                } else {
+                    next.left = null;
+                    root = root.left;
+                }
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"def f_gold ( b , m ) :
+    return ( b / m - 1 ) * ( b / m ) / 2
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMUM_NUMBER_OF_SQUARES_THAT_CAN_BE_FIT_IN_A_RIGHT_ANGLE_ISOSCELES_TRIANGLE{
+static int f_gold ( int b , int m ) {
+  return ( b / m - 1 ) * ( b / m ) / 2 ;
+}
+
+
+",python_java
+python,"class Solution:
+    def isPowerOfFour(self, n: int) -> bool:
+        return n > 0 and (n & (n - 1)) == 0 and (n & 0xAAAAAAAA) == 0",java,"class Solution {
+    public boolean isPowerOfFour(int n) {
+        return n > 0 && (n & (n - 1)) == 0 && (n & 0xaaaaaaaa) == 0;
+    }
+}",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def dfs(root, s):
+            if root is None:
+                return False
+            s += root.val
+            if root.left is None and root.right is None and s == targetSum:
+                return True
+            return dfs(root.left, s) or dfs(root.right, s)
+
+        return dfs(root, 0)",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        return dfs(root, targetSum);
+    }
+
+    private boolean dfs(TreeNode root, int s) {
+        if (root == null) {
+            return false;
+        }
+        s -= root.val;
+        if (root.left == null && root.right == null && s == 0) {
+            return true;
+        }
+        return dfs(root.left, s) || dfs(root.right, s);
+    }
+}",python_java
+python,"def f_gold ( num ) :
+    series = [ 1 , 3 , 2 , - 1 , - 3 , - 2 ] ;
+    series_index = 0 ;
+    result = 0 ;
+    for i in range ( ( len ( num ) - 1 ) , - 1 , - 1 ) :
+        digit = ord ( num [ i ] ) - 48 ;
+        result += digit * series [ series_index ] ;
+        series_index = ( series_index + 1 ) % 6 ;
+        result %= 7 ;
+    if ( result < 0 ) :
+        result = ( result + 7 ) % 7 ;
+    return result ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class REMAINDER_7_LARGE_NUMBERS{
+static int f_gold ( String num ) {
+  int series [ ] = {
+    1 , 3 , 2 , - 1 , - 3 , - 2 };
+    int series_index = 0 ;
+    int result = 0 ;
+    for ( int i = num . length ( ) - 1 ;
+    i >= 0 ;
+    i -- ) {
+      int digit = num . charAt ( i ) - '0' ;
+      result += digit * series [ series_index ] ;
+      series_index = ( series_index + 1 ) % 6 ;
+      result %= 7 ;
+    }
+    if ( result < 0 ) result = ( result + 7 ) % 7 ;
+    return result ;
+  }
+  
+
+",python_java
+python,"class ValidWordAbbr:
+    def __init__(self, dictionary: List[str]):
+        self.d = defaultdict(set)
+        for s in dictionary:
+            self.d[self.abbr(s)].add(s)
+
+    def isUnique(self, word: str) -> bool:
+        s = self.abbr(word)
+        return s not in self.d or all(word == t for t in self.d[s])
+
+    def abbr(self, s: str) -> str:
+        return s if len(s) < 3 else s[0] + str(len(s) - 2) + s[-1]
+
+
+# Your ValidWordAbbr object will be instantiated and called as such:
+# obj = ValidWordAbbr(dictionary)
+# param_1 = obj.isUnique(word)",java,"class ValidWordAbbr {
+    private Map<String, Set<String>> d = new HashMap<>();
+
+    public ValidWordAbbr(String[] dictionary) {
+        for (var s : dictionary) {
+            d.computeIfAbsent(abbr(s), k -> new HashSet<>()).add(s);
+        }
+    }
+
+    public boolean isUnique(String word) {
+        var ws = d.get(abbr(word));
+        return ws == null || (ws.size() == 1 && ws.contains(word));
+    }
+
+    private String abbr(String s) {
+        int n = s.length();
+        return n < 3 ? s : s.substring(0, 1) + (n - 2) + s.substring(n - 1);
+    }
+}
+
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr obj = new ValidWordAbbr(dictionary);
+ * boolean param_1 = obj.isUnique(word);
+ */",python_java
+python,"def f_gold ( a , n , k ) :
+    b = dict ( )
+    for i in range ( n ) :
+        x = a [ i ]
+        d = min ( 1 + i , n - i )
+        if x not in b.keys ( ) :
+            b [ x ] = d
+        else :
+            b [ x ] = min ( d , b [ x ] )
+    ans = 10 ** 9
+    for i in range ( n ) :
+        x = a [ i ]
+        if ( x != ( k - x ) and ( k - x ) in b.keys ( ) ) :
+            ans = min ( max ( b [ x ] , b [ k - x ] ) , ans )
+    return ans
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PRINT_MAXIMUM_SHORTEST_DISTANCE{
+static int f_gold ( int a [ ] , int n , int k ) {
+  HashMap < Integer , Integer > b = new HashMap < Integer , Integer > ( ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    int x = a [ i ] ;
+    int d = Math . min ( 1 + i , n - i ) ;
+    if ( ! b . containsKey ( x ) ) b . put ( x , d ) ;
+    else {
+      b . put ( x , Math . min ( d , b . get ( x ) ) ) ;
+    }
+  }
+  int ans = Integer . MAX_VALUE ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    int x = a [ i ] ;
+    if ( x != k - x && b . containsKey ( k - x ) ) ans = Math . min ( Math . max ( b . get ( x ) , b . get ( k - x ) ) , ans ) ;
+  }
+  return ans ;
+}
+
+
+",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+# best
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder: # or, not inorder
+            return None
+        v = preorder[0]
+        i = inorder.index(v)
+        root = TreeNode(v)
+        root.left = self.buildTree(preorder[1: i+1], inorder[:i])
+        root.right = self.buildTree(preorder[i+1:], inorder[i+1:])
+        return root
+
+
+# inorder.index(preorder_val)
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(pleft, pright, ileft, iright):
+            if pleft > pright or ileft > iright:
+                return None
+            k = inorder.index(preorder[pleft])
+            root = TreeNode(preorder[pleft])
+            root.left = dfs(pleft + 1, pleft + (k - ileft), ileft, k - 1)
+            root.right = dfs(pleft + 1 + (k - ileft), pright, k + 1, iright)
+            return root
+
+        n = len(preorder)
+        return dfs(0, n - 1, 0, n - 1)
+
+
+# build dict for val => index
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(pleft, pright, ileft, iright):
+            if pleft > pright or ileft > iright:
+                return None
+            v = preorder[pleft]
+            k = d[v]
+            root = TreeNode(v)
+            root.left = dfs(pleft + 1, pleft + (k - ileft), ileft, k - 1)
+            root.right = dfs(pleft + 1 + (k - ileft), pright, k + 1, iright)
+            return root
+
+        d = {v: i for i, v in enumerate(inorder)}
+        n = len(preorder)
+        return dfs(0, n - 1, 0, n - 1)
+
+############
+
+'''
+search for index, also use .index(val)
+  >>> a = [1,2,3,4,5]
+  >>> a.index(3)
+  2
+'''
+class Solution(object):
+  def buildTree(self, preorder, inorder):
+    """"""
+    :type preorder: List[int]
+    :type inorder: List[int]
+    :rtype: TreeNode
+    """"""
+
+    self.preindex = 0
+    ind = {v: i for i, v in enumerate(inorder)}
+    head = self.dc(0, len(preorder) - 1, preorder, inorder, ind)
+    return head
+
+  def dc(self, start, end, preorder, inorder, ind):
+    if start <= end:
+      mid = ind[preorder[self.preindex]]
+      self.preindex += 1
+      root = TreeNode(inorder[mid])
+      root.left = self.dc(start, mid - 1, preorder, inorder, ind)
+      root.right = self.dc(mid + 1, end, preorder, inorder, ind)
+      return root
+
+############
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(i: int, j: int, n: int):
+            if n <= 0:
+                return None
+            v = preorder[i]
+            k = d[v]
+            l = dfs(i + 1, j, k - j)
+            r = dfs(i + 1 + k - j, k + 1, n - k + j - 1)
+            return TreeNode(v, l, r)
+
+        d = {v: i for i, v in enumerate(inorder)}
+        return dfs(0, 0, len(preorder))",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int[] preorder;
+    private Map<Integer, Integer> d = new HashMap<>();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        this.preorder = preorder;
+        for (int i = 0; i < n; ++i) {
+            d.put(inorder[i], i);
+        }
+        return dfs(0, 0, n);
+    }
+
+    private TreeNode dfs(int i, int j, int n) {
+        if (n <= 0) {
+            return null;
+        }
+        int v = preorder[i];
+        int k = d.get(v);
+        TreeNode l = dfs(i + 1, j, k - j);
+        TreeNode r = dfs(i + 1 + k - j, k + 1, n - 1 - (k - j));
+        return new TreeNode(v, l, r);
+    }
+}",python_java
+python,"def f_gold ( side ) :
+    area = side * side
+    return area
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PROGRAM_AREA_SQUARE{
+static int f_gold ( int side ) {
+  int area = side * side ;
+  return area ;
+}
+
+
+",python_java
+python,"def f_gold ( x ) :
+    return ( - ( ~ x ) ) 
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class ADD_1_TO_A_GIVEN_NUMBER_1{
+static int f_gold ( int x ) {
+  return ( - ( ~ x ) ) ;
+}
+
+
+",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def splitBST(
+        self, root: Optional[TreeNode], target: int
+    ) -> List[Optional[TreeNode]]:
+        def dfs(root):
+            if root is None:
+                return [None, None]
+            if root.val <= target:
+                l, r = dfs(root.right)
+                root.right = l
+                return [root, r]
+            else:
+                l, r = dfs(root.left)
+                root.left = r
+                return [l, root]
+
+        return dfs(root)",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int t;
+
+    public TreeNode[] splitBST(TreeNode root, int target) {
+        t = target;
+        return dfs(root);
+    }
+
+    private TreeNode[] dfs(TreeNode root) {
+        if (root == null) {
+            return new TreeNode[] {null, null};
+        }
+        if (root.val <= t) {
+            TreeNode[] ans = dfs(root.right);
+            root.right = ans[0];
+            ans[0] = root;
+            return ans;
+        } else {
+            TreeNode[] ans = dfs(root.left);
+            root.left = ans[1];
+            ans[1] = root;
+            return ans;
+        }
+    }
+}",python_java
+python,"def f_gold ( arr , N ) :
+    lis = [ 0 ] * N
+    for i in range ( N ) :
+        lis [ i ] = 1
+    for i in range ( 1 , N ) :
+        for j in range ( i ) :
+            if ( arr [ i ] >= arr [ j ] and lis [ i ] < lis [ j ] + 1 ) :
+                lis [ i ] = lis [ j ] + 1
+    max = 0
+    for i in range ( N ) :
+        if ( max < lis [ i ] ) :
+            max = lis [ i ]
+    return ( N - max )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_INSERTIONS_SORT_ARRAY{
+static int f_gold ( int arr [ ] , int N ) {
+  int [ ] lis = new int [ N ] ;
+  for ( int i = 0 ;
+  i < N ;
+  i ++ ) lis [ i ] = 1 ;
+  for ( int i = 1 ;
+  i < N ;
+  i ++ ) for ( int j = 0 ;
+  j < i ;
+  j ++ ) if ( arr [ i ] >= arr [ j ] && lis [ i ] < lis [ j ] + 1 ) lis [ i ] = lis [ j ] + 1 ;
+  int max = 0 ;
+  for ( int i = 0 ;
+  i < N ;
+  i ++ ) if ( max < lis [ i ] ) max = lis [ i ] ;
+  return ( N - max ) ;
+}
+
+
+",python_java
+python,"def f_gold ( n ) :
+    sum = 0
+    sum = 1 << n ;
+    return ( sum - 1 )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_OF_ALL_ELEMENTS_UP_TO_NTH_ROW_IN_A_PASCALS_TRIANGLE_1{
+static long f_gold ( int n ) {
+  long sum = 0 ;
+  sum = 1 << n ;
+  return ( sum - 1 ) ;
+}
+
+
+",python_java
+python,"def f_gold ( a , b , n ) :
+    s = 0
+    for i in range ( 0 , n ) :
+        s += a [ i ] + b [ i ]
+    if n == 1 :
+        return a [ 0 ] + b [ 0 ]
+    if s % n != 0 :
+        return - 1
+    x = s // n
+    for i in range ( 0 , n ) :
+        if a [ i ] > x :
+            return - 1
+        if i > 0 :
+            a [ i ] += b [ i - 1 ]
+            b [ i - 1 ] = 0
+        if a [ i ] == x :
+            continue
+        y = a [ i ] + b [ i ]
+        if i + 1 < n :
+            y += b [ i + 1 ]
+        if y == x :
+            a [ i ] = y
+            b [ i ] = 0
+            if i + 1 < n : b [ i + 1 ] = 0
+            continue
+        if a [ i ] + b [ i ] == x :
+            a [ i ] += b [ i ]
+            b [ i ] = 0
+            continue
+        if i + 1 < n and a [ i ] + b [ i + 1 ] == x :
+            a [ i ] += b [ i + 1 ]
+            b [ i + 1 ] = 0
+            continue
+        return - 1
+    for i in range ( 0 , n ) :
+        if b [ i ] != 0 :
+            return - 1
+    return x
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SCHEDULE_JOBS_SERVER_GETS_EQUAL_LOAD{
+static int f_gold ( int a [ ] , int b [ ] , int n ) {
+  int i ;
+  int s = 0 ;
+  for ( i = 0 ;
+  i < n ;
+  i ++ ) s += ( a [ i ] + b [ i ] ) ;
+  if ( n == 1 ) return a [ 0 ] + b [ 0 ] ;
+  if ( s % n != 0 ) return - 1 ;
+  int x = s / n ;
+  for ( i = 0 ;
+  i < n ;
+  i ++ ) {
+    if ( a [ i ] > x ) return - 1 ;
+    if ( i > 0 ) {
+      a [ i ] += b [ i - 1 ] ;
+      b [ i - 1 ] = 0 ;
+    }
+    if ( a [ i ] == x ) continue ;
+    int y = a [ i ] + b [ i ] ;
+    if ( i + 1 < n ) y += b [ i + 1 ] ;
+    if ( y == x ) {
+      a [ i ] = y ;
+      b [ i ] = 0 ;
+      continue ;
+    }
+    if ( a [ i ] + b [ i ] == x ) {
+      a [ i ] += b [ i ] ;
+      b [ i ] = 0 ;
+      continue ;
+    }
+    if ( i + 1 < n && a [ i ] + b [ i + 1 ] == x ) {
+      a [ i ] += b [ i + 1 ] ;
+      b [ i + 1 ] = 0 ;
+      continue ;
+    }
+    return - 1 ;
+  }
+  for ( i = 0 ;
+  i < n ;
+  i ++ ) if ( b [ i ] != 0 ) return - 1 ;
+  return x ;
+}
+
+
+",python_java
+python,"def f_gold ( n ) :
+    nCr = 1
+    res = 1
+    for r in range ( 1 , n + 1 ) :
+        nCr = ( nCr * ( n + 1 - r ) ) / r ;
+        res += nCr * nCr ;
+    return res ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_EVEN_LENGTH_BINARY_SEQUENCES_WITH_SAME_SUM_OF_FIRST_AND_SECOND_HALF_BITS_1{
+static int f_gold ( int n ) {
+  int nCr = 1 , res = 1 ;
+  for ( int r = 1 ;
+  r <= n ;
+  r ++ ) {
+    nCr = ( nCr * ( n + 1 - r ) ) / r ;
+    res += nCr * nCr ;
+  }
+  return res ;
+}
+
+
+",python_java
+python,"'''
+>>> a = [1,2,3,4,5]
+>>> a[1]
+2
+>>> a[~1]
+4
+'''
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        start = newInterval[0]
+        end = newInterval[1]
+
+        left = list(filter(lambda x: x[1] < start, intervals)) # cast via list()
+        right = list(filter(lambda x: x[0] > end, intervals))
+
+        if left + right != intervals:
+            start = min(start, intervals[len(left)][0]) # note, left not -1, because index starts at 0
+            end = max(end, intervals[~len(right)][1]) # same, starting at right with index=0
+
+        return left + [[start, end]] + right
+
+######
+
+class Solution: # re-use Leetcode-56's merge solution
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        intervals.append(newInterval)
+        return self.merge(intervals)
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        ans = []
+        for intv in sorted(intervals, key=lambda x: x[0]):
+            if ans and ans[-1][1] >= intv[0]:
+                ans[-1][1] = max(ans[-1][1], intv[1])
+            else:
+                ans.append(intv)
+        return ans
+
+######
+
+class Solution:
+    def insert(
+        self, intervals: List[List[int]], newInterval: List[int]
+    ) -> List[List[int]]:
+        def merge(intervals: List[List[int]]) -> List[List[int]]:
+            intervals.sort()
+            ans = [intervals[0]]
+            for s, e in intervals[1:]:
+                if ans[-1][1] < s:
+                    ans.append([s, e])
+                else:
+                    ans[-1][1] = max(ans[-1][1], e)
+            return ans
+
+        intervals.append(newInterval)
+        return merge(intervals)",java,"class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int[][] newIntervals = new int[intervals.length + 1][2];
+        for (int i = 0; i < intervals.length; ++i) {
+            newIntervals[i] = intervals[i];
+        }
+        newIntervals[intervals.length] = newInterval;
+        return merge(newIntervals);
+    }
+
+    private int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        List<int[]> ans = new ArrayList<>();
+        ans.add(intervals[0]);
+        for (int i = 1; i < intervals.length; ++i) {
+            int s = intervals[i][0], e = intervals[i][1];
+            if (ans.get(ans.size() - 1)[1] < s) {
+                ans.add(intervals[i]);
+            } else {
+                ans.get(ans.size() - 1)[1] = Math.max(ans.get(ans.size() - 1)[1], e);
+            }
+        }
+        return ans.toArray(new int[ans.size()][]);
+    }
+}",python_java
+python,"class Solution:
+    def remainingMethods(
+        self, n: int, k: int, invocations: List[List[int]]
+    ) -> List[int]:
+        def dfs(i: int):
+            suspicious[i] = True
+            for j in g[i]:
+                if not suspicious[j]:
+                    dfs(j)
+
+        def dfs2(i: int):
+            vis[i] = True
+            for j in f[i]:
+                if not vis[j]:
+                    suspicious[j] = False
+                    dfs2(j)
+
+        f = [[] for _ in range(n)]
+        g = [[] for _ in range(n)]
+        for a, b in invocations:
+            f[a].append(b)
+            f[b].append(a)
+            g[a].append(b)
+        suspicious = [False] * n
+        dfs(k)
+
+        vis = [False] * n
+        ans = []
+        for i in range(n):
+            if not suspicious[i] and not vis[i]:
+                dfs2(i)
+        return [i for i in range(n) if not suspicious[i]]",java,"class Solution {
+    private boolean[] suspicious;
+    private boolean[] vis;
+    private List<Integer>[] f;
+    private List<Integer>[] g;
+
+    public List<Integer> remainingMethods(int n, int k, int[][] invocations) {
+        suspicious = new boolean[n];
+        vis = new boolean[n];
+        f = new List[n];
+        g = new List[n];
+        Arrays.setAll(f, i -> new ArrayList<>());
+        Arrays.setAll(g, i -> new ArrayList<>());
+        for (var e : invocations) {
+            int a = e[0], b = e[1];
+            f[a].add(b);
+            f[b].add(a);
+            g[a].add(b);
+        }
+        dfs(k);
+        for (int i = 0; i < n; ++i) {
+            if (!suspicious[i] && !vis[i]) {
+                dfs2(i);
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (!suspicious[i]) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    private void dfs(int i) {
+        suspicious[i] = true;
+        for (int j : g[i]) {
+            if (!suspicious[j]) {
+                dfs(j);
+            }
+        }
+    }
+
+    private void dfs2(int i) {
+        vis[i] = true;
+        for (int j : f[i]) {
+            if (!vis[j]) {
+                suspicious[j] = false;
+                dfs2(j);
+            }
+        }
+    }
+}",python_java
+python,"'''
+Without nonlocal, any assignment to prev, first, and second inside dfs
+would be treated as creating new local variables within dfs,
+rather than modifying the outer variables.
+'''
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """"""
+        Do not return anything, modify root in-place instead.
+        """"""
+
+        def dfs(root):
+            if root is None:
+                return
+            nonlocal prev, first, second
+            dfs(root.left)
+            if prev and prev.val > root.val:
+                if first is None:
+                    first = prev
+                second = root
+            prev = root
+            dfs(root.right)
+
+        prev = first = second = None
+        dfs(root)
+        first.val, second.val = second.val, first.val",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private TreeNode prev;
+    private TreeNode first;
+    private TreeNode second;
+
+    public void recoverTree(TreeNode root) {
+        dfs(root);
+        int t = first.val;
+        first.val = second.val;
+        second.val = t;
+    }
+
+    private void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left);
+        if (prev != null && prev.val > root.val) {
+            if (first == null) {
+                first = prev;
+            }
+            second = root;
+        }
+        prev = root;
+        dfs(root.right);
+    }
+}",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        def dfs(root):
+            if root is None:
+                return
+            root.left, root.right = root.right, root.left
+            dfs(root.left)
+            dfs(root.right)
+
+        dfs(root)
+        return root",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        dfs(root);
+        return root;
+    }
+
+    private void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode t = root.left;
+        root.left = root.right;
+        root.right = t;
+        dfs(root.left);
+        dfs(root.right);
+    }
+}",python_java
+python,"def f_gold ( arr , n ) :
+    SubsetSum_1 = 0
+    SubsetSum_2 = 0
+    for i in range ( 0 , n ) :
+        isSingleOccurance = True
+        for j in range ( i + 1 , n ) :
+            if ( arr [ i ] == arr [ j ] ) :
+                isSingleOccurance = False
+                arr [ i ] = arr [ j ] = 0
+                break
+        if ( isSingleOccurance == True ) :
+            if ( arr [ i ] > 0 ) :
+                SubsetSum_1 += arr [ i ]
+            else :
+                SubsetSum_2 += arr [ i ]
+    return abs ( SubsetSum_1 - SubsetSum_2 )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMUM_POSSIBLE_DIFFERENCE_TWO_SUBSETS_ARRAY{
+static int f_gold ( int [ ] arr , int n ) {
+  int SubsetSum_1 = 0 , SubsetSum_2 = 0 ;
+  for ( int i = 0 ;
+  i <= n - 1 ;
+  i ++ ) {
+    boolean isSingleOccurance = true ;
+    for ( int j = i + 1 ;
+    j <= n - 1 ;
+    j ++ ) {
+      if ( arr [ i ] == arr [ j ] ) {
+        isSingleOccurance = false ;
+        arr [ i ] = arr [ j ] = 0 ;
+        break ;
+      }
+    }
+    if ( isSingleOccurance ) {
+      if ( arr [ i ] > 0 ) SubsetSum_1 += arr [ i ] ;
+      else SubsetSum_2 += arr [ i ] ;
+    }
+  }
+  return Math . abs ( SubsetSum_1 - SubsetSum_2 ) ;
+}
+
+
+",python_java
+python,"def f_gold(str):
+    N = len(str)
+    dp = [[0 for x in range(N + 1)] for y in range(N + 1)]
+    for l in range(1, N + 1):
+        i = 0
+        j = l - 1
+        while j < N:
+            if (l == 1):
+                dp[i][j] = 1
+            else:
+                dp[i][j] = 1 + dp[i + 1][j]
+                if (str[i] == str[i + 1]):
+                    dp[i][j] = min(1 + dp[i + 2][j], dp[i][j])
+                for K in range(i + 2, j + 1):
+                    if (str[i] == str[K]):
+                        dp[i][j] = min(dp[i + 1][K - 1] +
+                                       dp[K + 1][j], dp[i][j])
+            i += 1
+            j += 1
+    return dp[0][N - 1]
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_STEPS_TO_DELETE_A_STRING_AFTER_REPEATED_DELETION_OF_PALINDROME_SUBSTRINGS{
+static int f_gold ( String str ) {
+  int N = str . length ( ) ;
+  int [ ] [ ] dp = new int [ N + 1 ] [ N + 1 ] ;
+  for ( int i = 0 ;
+  i <= N ;
+  i ++ ) for ( int j = 0 ;
+  j <= N ;
+  j ++ ) dp [ i ] [ j ] = 0 ;
+  for ( int len = 1 ;
+  len <= N ;
+  len ++ ) {
+    for ( int i = 0 , j = len - 1 ;
+    j < N ;
+    i ++ , j ++ ) {
+      if ( len == 1 ) dp [ i ] [ j ] = 1 ;
+      else {
+        dp [ i ] [ j ] = 1 + dp [ i + 1 ] [ j ] ;
+        if ( str . charAt ( i ) == str . charAt ( i + 1 ) ) dp [ i ] [ j ] = Math . min ( 1 + dp [ i + 2 ] [ j ] , dp [ i ] [ j ] ) ;
+        for ( int K = i + 2 ;
+        K <= j ;
+        K ++ ) if ( str . charAt ( i ) == str . charAt ( K ) ) dp [ i ] [ j ] = Math . min ( dp [ i + 1 ] [ K - 1 ] + dp [ K + 1 ] [ j ] , dp [ i ] [ j ] ) ;
+      }
+    }
+  }
+  return dp [ 0 ] [ N - 1 ] ;
+}
+
+
+",python_java
+python,"import math
+
+def f_gold ( n ) :
+    if ( n < 0 ) :
+        return 0 ;
+    if ( n <= 1 ) :
+        return 1 ;
+    digits = 0 ;
+    for i in range ( 2 , n + 1 ) :
+        digits += math.log10 ( i ) ;
+    return math.floor ( digits ) + 1 ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_DIGITS_FACTORIAL_SET_1{
+static int f_gold ( int n ) {
+  if ( n < 0 ) return 0 ;
+  if ( n <= 1 ) return 1 ;
+  double digits = 0 ;
+  for ( int i = 2 ;
+  i <= n ;
+  i ++ ) digits += Math . log10 ( i ) ;
+  return ( int ) ( Math . floor ( digits ) ) + 1 ;
+}
+
+
+",python_java
+python,"class Solution:
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        if n == 0:
+            return 1
+        if n == 1:
+            return 10
+        ans, cur = 10, 9
+        for i in range(n - 1):
+            cur *= 9 - i
+            ans += cur
+        return ans",java,"class Solution {
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return 10;
+        }
+        int ans = 10;
+        for (int i = 0, cur = 9; i < n - 1; ++i) {
+            cur *= (9 - i);
+            ans += cur;
+        }
+        return ans;
+    }
+}",python_java
+python,"class Solution:
+    def intersectionSizeTwo(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda x: (x[1], -x[0]))
+        s = e = -1
+        ans = 0
+        for a, b in intervals:
+            if a <= s:
+                continue
+            if a > e:
+                ans += 2
+                s, e = b - 1, b
+            else:
+                ans += 1
+                s, e = e, b
+        return ans",java,"class Solution {
+    public int intersectionSizeTwo(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[1] == b[1] ? b[0] - a[0] : a[1] - b[1]);
+        int ans = 0;
+        int s = -1, e = -1;
+        for (int[] v : intervals) {
+            int a = v[0], b = v[1];
+            if (a <= s) {
+                continue;
+            }
+            if (a > e) {
+                ans += 2;
+                s = b - 1;
+                e = b;
+            } else {
+                ans += 1;
+                s = e;
+                e = b;
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        cnt = Counter(words)
+        m, n = len(s), len(words)
+        k = len(words[0])
+        ans = []
+        for i in range(k):
+            cnt1 = Counter()
+            l = r = i
+            t = 0
+            while r + k <= m:
+                w = s[r : r + k]
+                r += k
+                if w not in cnt:
+                    l = r
+                    cnt1.clear()
+                    t = 0
+                    continue
+                cnt1[w] += 1
+                t += 1
+                while cnt1[w] > cnt[w]:
+                    remove = s[l : l + k]
+                    l += k
+                    cnt1[remove] -= 1
+                    t -= 1
+                if t == n:
+                    ans.append(l)
+        return ans",java,"class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        Map<String, Integer> cnt = new HashMap<>();
+        for (String w : words) {
+            cnt.merge(w, 1, Integer::sum);
+        }
+        int m = s.length(), n = words.length;
+        int k = words[0].length();
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < k; ++i) {
+            Map<String, Integer> cnt1 = new HashMap<>();
+            int l = i, r = i;
+            int t = 0;
+            while (r + k <= m) {
+                String w = s.substring(r, r + k);
+                r += k;
+                if (!cnt.containsKey(w)) {
+                    cnt1.clear();
+                    l = r;
+                    t = 0;
+                    continue;
+                }
+                cnt1.merge(w, 1, Integer::sum);
+                ++t;
+                while (cnt1.get(w) > cnt.get(w)) {
+                    String remove = s.substring(l, l + k);
+                    l += k;
+                    cnt1.merge(remove, -1, Integer::sum);
+                    --t;
+                }
+                if (t == n) {
+                    ans.add(l);
+                }
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        f = [[0] * n for _ in range(m)]
+        f[0][0] = grid[0][0]
+        for i in range(1, m):
+            f[i][0] = f[i - 1][0] + grid[i][0]
+        for j in range(1, n):
+            f[0][j] = f[0][j - 1] + grid[0][j]
+        for i in range(1, m):
+            for j in range(1, n):
+                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + grid[i][j]
+        return f[-1][-1]",java,"class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] f = new int[m][n];
+        f[0][0] = grid[0][0];
+        for (int i = 1; i < m; ++i) {
+            f[i][0] = f[i - 1][0] + grid[i][0];
+        }
+        for (int j = 1; j < n; ++j) {
+            f[0][j] = f[0][j - 1] + grid[0][j];
+        }
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                f[i][j] = Math.min(f[i - 1][j], f[i][j - 1]) + grid[i][j];
+            }
+        }
+        return f[m - 1][n - 1];
+    }
+}",python_java
+python,"def f_gold ( arr , n ) :
+    invcount = 0
+    for i in range ( 1 , n - 1 ) :
+        small = 0
+        for j in range ( i + 1 , n ) :
+            if ( arr [ i ] > arr [ j ] ) :
+                small += 1
+        great = 0 ;
+        for j in range ( i - 1 , - 1 , - 1 ) :
+            if ( arr [ i ] < arr [ j ] ) :
+                great += 1
+        invcount += great * small
+    return invcount
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_INVERSIONS_OF_SIZE_THREE_IN_A_GIVE_ARRAY_1{
+static int f_gold ( int arr [ ] , int n ) {
+  int invcount = 0 ;
+  for ( int i = 0 ;
+  i < n - 1 ;
+  i ++ ) {
+    int small = 0 ;
+    for ( int j = i + 1 ;
+    j < n ;
+    j ++ ) if ( arr [ i ] > arr [ j ] ) small ++ ;
+    int great = 0 ;
+    for ( int j = i - 1 ;
+    j >= 0 ;
+    j -- ) if ( arr [ i ] < arr [ j ] ) great ++ ;
+    invcount += great * small ;
+  }
+  return invcount ;
+}
+
+
+",python_java
+python,"class BinaryIndexedTree:
+    def __init__(self, n):
+        self.n = n
+        self.c = [0] * (n + 1)
+
+    @staticmethod
+    def lowbit(x):
+        return x & -x
+
+    def update(self, x, delta):
+        while x <= self.n:
+            self.c[x] += delta
+            x += BinaryIndexedTree.lowbit(x)
+
+    def query(self, x):
+        s = 0
+        while x > 0:
+            s += self.c[x]
+            x -= BinaryIndexedTree.lowbit(x)
+        return s
+
+
+class NumArray:
+    def __init__(self, nums: List[int]):
+        self.tree = BinaryIndexedTree(len(nums))
+        for i, v in enumerate(nums, 1):
+            self.tree.update(i, v)
+
+    def update(self, index: int, val: int) -> None:
+        prev = self.sumRange(index, index)
+        self.tree.update(index + 1, val - prev)
+
+    def sumRange(self, left: int, right: int) -> int:
+        return self.tree.query(right + 1) - self.tree.query(left)
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
+
+############
+
+# Segment tree node
+class STNode(object):
+  def __init__(self, start, end):
+    self.start = start
+    self.end = end
+    self.total = 0
+    self.left = None
+    self.right = None
+
+
+class SegmentedTree(object):
+  def __init__(self, nums, start, end):
+    self.root = self.buildTree(nums, start, end)
+
+  def buildTree(self, nums, start, end):
+    if start > end:
+      return None
+
+    if start == end:
+      node = STNode(start, end)
+      node.total = nums[start]
+      return node
+
+    mid = start + (end - start) / 2
+
+    root = STNode(start, end)
+    root.left = self.buildTree(nums, start, mid)
+    root.right = self.buildTree(nums, mid + 1, end)
+    root.total = root.left.total + root.right.total
+    return root
+
+  def updateVal(self, i, val):
+    def updateVal(root, i, val):
+      if root.start == root.end:
+        root.total = val
+        return val
+      mid = root.start + (root.end - root.start) / 2
+      if i <= mid:
+        updateVal(root.left, i, val)
+      else:
+        updateVal(root.right, i, val)
+
+      root.total = root.left.total + root.right.total
+      return root.total
+
+    return updateVal(self.root, i, val)
+
+  def sumRange(self, i, j):
+    def rangeSum(root, start, end):
+      if root.start == start and root.end == end:
+        return root.total
+
+      mid = root.start + (root.end - root.start) / 2
+      if j <= mid:
+        return rangeSum(root.left, start, end)
+      elif i >= mid + 1:
+        return rangeSum(root.right, start, end)
+      else:
+        return rangeSum(root.left, start, mid) + rangeSum(root.right, mid + 1, end)
+
+    return rangeSum(self.root, i, j)
+
+
+class NumArray(object):
+  def __init__(self, nums):
+    """"""
+    initialize your data structure here.
+    :type nums: List[int]
+    """"""
+    self.stTree = SegmentedTree(nums, 0, len(nums) - 1)
+
+  def update(self, i, val):
+    """"""
+    :type i: int
+    :type val: int
+    :rtype: int
+    """"""
+    return self.stTree.updateVal(i, val)
+
+  def sumRange(self, i, j):
+    """"""
+    sum of elements nums[i..j], inclusive.
+    :type i: int
+    :type j: int
+    :rtype: int
+    """"""
+    return self.stTree.sumRange(i, j)
+
+# Your NumArray object will be instantiated and called as such:
+# numArray = NumArray(nums)
+# numArray.sumRange(0, 1)
+# numArray.update(1, 10)
+# numArray.sumRange(1, 2)",java,"class BinaryIndexedTree {
+    private int n;
+    private int[] c;
+
+    public BinaryIndexedTree(int n) {
+        this.n = n;
+        c = new int[n + 1];
+    }
+
+    public void update(int x, int delta) {
+        while (x <= n) {
+            c[x] += delta;
+            x += x & -x;
+        }
+    }
+
+    public int query(int x) {
+        int s = 0;
+        while (x > 0) {
+            s += c[x];
+            x -= x & -x;
+        }
+        return s;
+    }
+}
+
+class NumArray {
+    private BinaryIndexedTree tree;
+
+    public NumArray(int[] nums) {
+        int n = nums.length;
+        tree = new BinaryIndexedTree(n);
+        for (int i = 0; i < n; ++i) {
+            tree.update(i + 1, nums[i]);
+        }
+    }
+
+    public void update(int index, int val) {
+        int prev = sumRange(index, index);
+        tree.update(index + 1, val - prev);
+    }
+
+    public int sumRange(int left, int right) {
+        return tree.query(right + 1) - tree.query(left);
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(index,val);
+ * int param_2 = obj.sumRange(left,right);
+ */",python_java
+python,"def f_gold ( N ) :
+    length = len ( N )
+    l = int ( ( length ) / 2 )
+    count = 0
+    for i in range ( l + 1 ) :
+        s = N [ 0 : 0 + i ]
+        l1 = len ( s )
+        t = N [ i : l1 + i ]
+        try :
+            if s [ 0 ] == '0' or t [ 0 ] == '0' :
+                continue
+        except :
+            continue
+        if s == t :
+            count += 1
+    return count
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class BREAKING_NUMBER_FIRST_PART_INTEGRAL_DIVISION_SECOND_POWER_10{
+static int f_gold ( String N ) {
+  int len = N . length ( ) ;
+  int l = ( len ) / 2 ;
+  int count = 0 ;
+  for ( int i = 1 ;
+  i <= l ;
+  i ++ ) {
+    String s = N . substring ( 0 , i ) ;
+    int l1 = s . length ( ) ;
+    String t = N . substring ( i , l1 + i ) ;
+    if ( s . charAt ( 0 ) == '0' || t . charAt ( 0 ) == '0' ) continue ;
+    if ( s . compareTo ( t ) == 0 ) count ++ ;
+  }
+  return count ;
+}
+
+
+",python_java
+python,"class Solution:
+    def countPairs(self, nums: List[int]) -> int:
+        nums.sort()
+        ans = 0
+        cnt = defaultdict(int)
+        for x in nums:
+            vis = {x}
+            s = list(str(x))
+            for j in range(len(s)):
+                for i in range(j):
+                    s[i], s[j] = s[j], s[i]
+                    vis.add(int("""".join(s)))
+                    s[i], s[j] = s[j], s[i]
+            ans += sum(cnt[x] for x in vis)
+            cnt[x] += 1
+        return ans",java,"class Solution {
+    public int countPairs(int[] nums) {
+        Arrays.sort(nums);
+        int ans = 0;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            Set<Integer> vis = new HashSet<>();
+            vis.add(x);
+            char[] s = String.valueOf(x).toCharArray();
+            for (int j = 0; j < s.length; ++j) {
+                for (int i = 0; i < j; ++i) {
+                    swap(s, i, j);
+                    vis.add(Integer.parseInt(String.valueOf(s)));
+                    swap(s, i, j);
+                }
+            }
+            for (int y : vis) {
+                ans += cnt.getOrDefault(y, 0);
+            }
+            cnt.merge(x, 1, Integer::sum);
+        }
+        return ans;
+    }
+
+    private void swap(char[] s, int i, int j) {
+        char t = s[i];
+        s[i] = s[j];
+        s[j] = t;
+    }
+}",python_java
+python,"def f_gold ( s ) :
+    n = len ( s )
+    auxArr = [ 0 for i in range ( n ) ]
+    if ( s [ 0 ] == '1' ) :
+        auxArr [ 0 ] = 1
+    for i in range ( 0 , n ) :
+        if ( s [ i ] == '1' ) :
+            auxArr [ i ] = auxArr [ i - 1 ] + 1
+        else :
+            auxArr [ i ] = auxArr [ i - 1 ]
+    count = 0
+    for i in range ( n - 1 , - 1 , - 1 ) :
+        if ( s [ i ] == '1' ) :
+            count += auxArr [ i ]
+    return count
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class NUMBER_OF_SUBSTRINGS_WITH_ODD_DECIMAL_VALUE_IN_A_BINARY_STRING{
+static int f_gold ( String s ) {
+  int n = s . length ( ) ;
+  int [ ] auxArr = new int [ n ] ;
+  if ( s . charAt ( 0 ) == '1' ) auxArr [ 0 ] = 1 ;
+  for ( int i = 1 ;
+  i < n ;
+  i ++ ) {
+    if ( s . charAt ( i ) == '1' ) auxArr [ i ] = auxArr [ i - 1 ] + 1 ;
+    else auxArr [ i ] = auxArr [ i - 1 ] ;
+  }
+  int count = 0 ;
+  for ( int i = n - 1 ;
+  i >= 0 ;
+  i -- ) if ( s . charAt ( i ) == '1' ) count += auxArr [ i ] ;
+  return count ;
+}
+
+
+",python_java
+python,"class Solution:
+    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
+        def f(nums: List[int], k: int) -> List[int]:
+            n = len(nums)
+            stk = [0] * k
+            top = -1
+            remain = n - k
+            for x in nums:
+                while top >= 0 and stk[top] < x and remain > 0:
+                    top -= 1
+                    remain -= 1
+                if top + 1 < k:
+                    top += 1
+                    stk[top] = x
+                else:
+                    remain -= 1
+            return stk
+
+        def compare(nums1: List[int], nums2: List[int], i: int, j: int) -> bool:
+            if i >= len(nums1):
+                return False
+            if j >= len(nums2):
+                return True
+            if nums1[i] > nums2[j]:
+                return True
+            if nums1[i] < nums2[j]:
+                return False
+            return compare(nums1, nums2, i + 1, j + 1)
+
+        def merge(nums1: List[int], nums2: List[int]) -> List[int]:
+            m, n = len(nums1), len(nums2)
+            i = j = 0
+            ans = [0] * (m + n)
+            for k in range(m + n):
+                if compare(nums1, nums2, i, j):
+                    ans[k] = nums1[i]
+                    i += 1
+                else:
+                    ans[k] = nums2[j]
+                    j += 1
+            return ans
+
+        m, n = len(nums1), len(nums2)
+        l, r = max(0, k - n), min(k, m)
+        ans = [0] * k
+        for x in range(l, r + 1):
+            arr1 = f(nums1, x)
+            arr2 = f(nums2, k - x)
+            arr = merge(arr1, arr2)
+            if ans < arr:
+                ans = arr
+        return ans",java,"class Solution {
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int m = nums1.length, n = nums2.length;
+        int l = Math.max(0, k - n), r = Math.min(k, m);
+        int[] ans = new int[k];
+        for (int x = l; x <= r; ++x) {
+            int[] arr1 = f(nums1, x);
+            int[] arr2 = f(nums2, k - x);
+            int[] arr = merge(arr1, arr2);
+            if (compare(arr, ans, 0, 0)) {
+                ans = arr;
+            }
+        }
+        return ans;
+    }
+
+    private int[] f(int[] nums, int k) {
+        int n = nums.length;
+        int[] stk = new int[k];
+        int top = -1;
+        int remain = n - k;
+        for (int x : nums) {
+            while (top >= 0 && stk[top] < x && remain > 0) {
+                --top;
+                --remain;
+            }
+            if (top + 1 < k) {
+                stk[++top] = x;
+            } else {
+                --remain;
+            }
+        }
+        return stk;
+    }
+
+    private int[] merge(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        int i = 0, j = 0;
+        int[] ans = new int[m + n];
+        for (int k = 0; k < m + n; ++k) {
+            if (compare(nums1, nums2, i, j)) {
+                ans[k] = nums1[i++];
+            } else {
+                ans[k] = nums2[j++];
+            }
+        }
+        return ans;
+    }
+
+    private boolean compare(int[] nums1, int[] nums2, int i, int j) {
+        if (i >= nums1.length) {
+            return false;
+        }
+        if (j >= nums2.length) {
+            return true;
+        }
+        if (nums1[i] > nums2[j]) {
+            return true;
+        }
+        if (nums1[i] < nums2[j]) {
+            return false;
+        }
+        return compare(nums1, nums2, i + 1, j + 1);
+    }
+}",python_java
+python,"class Solution:
+    def longestWord(self, words: List[str]) -> str:
+        cnt, ans = 0, ''
+        s = set(words)
+        for w in s:
+            n = len(w)
+            if all(w[:i] in s for i in range(1, n)):
+                if cnt < n:
+                    cnt, ans = n, w
+                elif cnt == n and w < ans:
+                    ans = w
+        return ans",java,"class Solution {
+    private Set<String> s;
+
+    public String longestWord(String[] words) {
+        s = new HashSet<>(Arrays.asList(words));
+        int cnt = 0;
+        String ans = """";
+        for (String w : s) {
+            int n = w.length();
+            if (check(w)) {
+                if (cnt < n) {
+                    cnt = n;
+                    ans = w;
+                } else if (cnt == n && w.compareTo(ans) < 0) {
+                    ans = w;
+                }
+            }
+        }
+        return ans;
+    }
+
+    private boolean check(String word) {
+        for (int i = 1, n = word.length(); i < n; ++i) {
+            if (!s.contains(word.substring(0, i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}",python_java
+python,"def f_gold ( arr , n ) :
+    count = 0
+    cummulative_sum = 0
+    arr.sort ( )
+    for i in range ( n ) :
+        if arr [ i ] >= cummulative_sum :
+            count += 1
+            cummulative_sum += arr [ i ]
+    return count
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMUM_REMOVAL_FROM_ARRAY_WHEN_REMOVAL_TIME_WAITING_TIME{
+static int f_gold ( int arr [ ] , int n ) {
+  int count = 0 ;
+  int cummulative_sum = 0 ;
+  Arrays . sort ( arr ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    if ( arr [ i ] >= cummulative_sum ) {
+      count ++ ;
+      cummulative_sum += arr [ i ] ;
+    }
+  }
+  return count ;
+}
+
+
+",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+# dfs
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        maxLen = 0
+
+        # curLen: consecutive length until parent node
+        def dfs(root: TreeNode, lastVal: int, curLen: int) -> None:
+            nonlocal maxLen
+            if not root:
+                return
+
+            curLen = (curLen + 1) if (not lastVal) and root.val == lastVal + 1 else 1
+            maxLen = max(maxLen, curLen)
+
+            dfs(root.left, root.val, curLen)
+            dfs(root.right, root.val, curLen)
+
+        dfs(root, None, 0)
+        return maxLen
+
+############
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from collections import deque
+
+# iterative, bfs
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        max_length = 0
+        # Queue elements are tuples: (current node, length of consecutive sequence)
+        queue = deque([(root, 1)])
+        
+        while queue:
+            current, length = queue.popleft()
+            max_length = max(max_length, length)
+            
+            for neighbor in [current.left, current.right]:
+                if neighbor:
+                    # Check if neighbor is consecutive
+                    if neighbor.val == current.val + 1:
+                        queue.append((neighbor, length + 1))
+                    else:
+                        queue.append((neighbor, 1))
+        
+        return max_length
+
+############
+
+class Solution:
+    def longestConsecutive(self, root: Optional[TreeNode]) -> int:
+        def dfs(root: Optional[TreeNode]) -> int:
+            if root is None:
+                return 0
+            l = dfs(root.left) + 1
+            r = dfs(root.right) + 1
+            if root.left and root.left.val - root.val != 1:
+                l = 1
+            if root.right and root.right.val - root.val != 1:
+                r = 1
+            t = max(l, r)
+            nonlocal ans
+            ans = max(ans, t)
+            return t
+
+        ans = 0
+        dfs(root)
+        return ans",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int ans;
+
+    public int longestConsecutive(TreeNode root) {
+        dfs(root);
+        return ans;
+    }
+
+    private int dfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = dfs(root.left) + 1;
+        int r = dfs(root.right) + 1;
+        if (root.left != null && root.left.val - root.val != 1) {
+            l = 1;
+        }
+        if (root.right != null && root.right.val - root.val != 1) {
+            r = 1;
+        }
+        int t = Math.max(l, r);
+        ans = Math.max(ans, t);
+        return t;
+    }
+}",python_java
+python,"class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        s = set(nums)
+        ans = 0
+        for x in nums:
+            if x - 1 not in s:
+                y = x + 1
+                while y in s:
+                    y += 1
+                ans = max(ans, y - x)
+        return ans",java,"class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> s = new HashSet<>();
+        for (int x : nums) {
+            s.add(x);
+        }
+        int ans = 0;
+        for (int x : nums) {
+            if (!s.contains(x - 1)) {
+                int y = x + 1;
+                while (s.contains(y)) {
+                    ++y;
+                }
+                ans = Math.max(ans, y - x);
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"def f_gold ( n ) :
+    if ( n <= 0 ) :
+        return 0
+    fibo = [ 0 ] * ( n + 1 )
+    fibo [ 1 ] = 1
+    sm = fibo [ 0 ] + fibo [ 1 ]
+    for i in range ( 2 , n + 1 ) :
+        fibo [ i ] = fibo [ i - 1 ] + fibo [ i - 2 ]
+        sm = sm + fibo [ i ]
+    return sm
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_FIBONACCI_NUMBERS{
+static int f_gold ( int n ) {
+  if ( n <= 0 ) return 0 ;
+  int fibo [ ] = new int [ n + 1 ] ;
+  fibo [ 0 ] = 0 ;
+  fibo [ 1 ] = 1 ;
+  int sum = fibo [ 0 ] + fibo [ 1 ] ;
+  for ( int i = 2 ;
+  i <= n ;
+  i ++ ) {
+    fibo [ i ] = fibo [ i - 1 ] + fibo [ i - 2 ] ;
+    sum += fibo [ i ] ;
+  }
+  return sum ;
+}
+
+
+",python_java
+python,"class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        n = len(nums)
+        ans = inf
+        for i, v in enumerate(nums):
+            j, k = i + 1, n - 1
+            while j < k:
+                t = v + nums[j] + nums[k]
+                if t == target:
+                    return t
+                if abs(t - target) < abs(ans - target):
+                    ans = t
+                if t > target:
+                    k -= 1
+                else:
+                    j += 1
+        return ans",java,"class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int ans = 1 << 30;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            int j = i + 1, k = n - 1;
+            while (j < k) {
+                int t = nums[i] + nums[j] + nums[k];
+                if (t == target) {
+                    return t;
+                }
+                if (Math.abs(t - target) < Math.abs(ans - target)) {
+                    ans = t;
+                }
+                if (t > target) {
+                    --k;
+                } else {
+                    ++j;
+                }
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"def f_gold ( s ) :
+    n = len ( s ) ;
+    sub_count = ( n * ( n + 1 ) ) // 2 ;
+    arr = [ 0 ] * sub_count ;
+    index = 0 ;
+    for i in range ( n ) :
+        for j in range ( 1 , n - i + 1 ) :
+            arr [ index ] = s [ i : i + j ] ;
+            index += 1 ;
+    arr.sort ( ) ;
+    res = """" ;
+    for i in range ( sub_count ) :
+        res += arr [ i ] ;
+    return res ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LEXICOGRAPHICAL_CONCATENATION_SUBSTRINGS_STRING{
+static String f_gold ( String s ) {
+  int n = s . length ( ) ;
+  int sub_count = n * ( n + 1 ) / 2 ;
+  String [ ] arr = new String [ sub_count ] ;
+  int index = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) for ( int len = 1 ;
+  len <= n - i ;
+  len ++ ) {
+    arr [ index ++ ] = s . substring ( i , i + len ) ;
+  }
+  Arrays . sort ( arr ) ;
+  String res = """" ;
+  for ( int i = 0 ;
+  i < sub_count ;
+  i ++ ) res += arr [ i ] ;
+  return res ;
+}
+
+
+",python_java
+python,"def f_gold ( n ) :
+    dp = [ 0 for i in range ( n + 1 ) ]
+    for i in range ( n + 1 ) :
+        if ( i <= 2 ) :
+            dp [ i ] = i
+        else :
+            dp [ i ] = dp [ i - 1 ] + ( i - 1 ) * dp [ i - 2 ]
+    return dp [ n ]
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FRIENDS_PAIRING_PROBLEM{
+static int f_gold ( int n ) {
+  int dp [ ] = new int [ n + 1 ] ;
+  for ( int i = 0 ;
+  i <= n ;
+  i ++ ) {
+    if ( i <= 2 ) dp [ i ] = i ;
+    else dp [ i ] = dp [ i - 1 ] + ( i - 1 ) * dp [ i - 2 ] ;
+  }
+  return dp [ n ] ;
+}
+
+
+",python_java
+python,"import sys
+
+def f_gold ( arr , n ) :
+    longest_start = - 1 ;
+    longest_end = 0 ;
+    for start in range ( n ) :
+        min = sys.maxsize ;
+        max = - sys.maxsize ;
+        for end in range ( start , n ) :
+            val = arr [ end ] ;
+            if ( val < min ) :
+                min = val ;
+            if ( val > max ) :
+                max = val ;
+            if ( 2 * min <= max ) :
+                break ;
+            if ( end - start > longest_end - longest_start or longest_start == - 1 ) :
+                longest_start = start ;
+                longest_end = end ;
+    if ( longest_start == - 1 ) :
+        return n ;
+    return ( n - ( longest_end - longest_start + 1 ) ) ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class REMOVE_MINIMUM_ELEMENTS_EITHER_SIDE_2MIN_MAX{
+static int f_gold ( int arr [ ] , int n ) {
+  int longest_start = - 1 , longest_end = 0 ;
+  for ( int start = 0 ;
+  start < n ;
+  start ++ ) {
+    int min = Integer . MAX_VALUE , max = Integer . MIN_VALUE ;
+    for ( int end = start ;
+    end < n ;
+    end ++ ) {
+      int val = arr [ end ] ;
+      if ( val < min ) {
+        min = val ;
+      }
+      if ( val > max ) {
+        max = val ;
+      }
+      if ( 2 * min <= max ) {
+        break ;
+      }
+      if ( end - start > longest_end - longest_start || longest_start == - 1 ) {
+        longest_start = start ;
+        longest_end = end ;
+      }
+    }
+  }
+  if ( longest_start == - 1 ) {
+    return n ;
+  }
+  return ( n - ( longest_end - longest_start + 1 ) ) ;
+}
+
+
+",python_java
+python,"class Solution:
+    def letterCasePermutation(self, s: str) -> List[str]:
+        def dfs(i):
+            if i >= len(s):
+                ans.append(''.join(t))
+                return
+            dfs(i + 1)
+            if t[i].isalpha():
+                t[i] = chr(ord(t[i]) ^ 32)
+                dfs(i + 1)
+
+        t = list(s)
+        ans = []
+        dfs(0)
+        return ans",java,"class Solution {
+    private List<String> ans = new ArrayList<>();
+    private char[] t;
+
+    public List<String> letterCasePermutation(String s) {
+        t = s.toCharArray();
+        dfs(0);
+        return ans;
+    }
+
+    private void dfs(int i) {
+        if (i >= t.length) {
+            ans.add(String.valueOf(t));
+            return;
+        }
+        dfs(i + 1);
+        if (t[i] >= 'A') {
+            t[i] ^= 32;
+            dfs(i + 1);
+        }
+    }
+}",python_java
+python,"from queue import Queue
+
+def f_gold ( ip , op , n ) :
+    Input = Queue ( )
+    for i in range ( n ) :
+        Input.put ( ip [ i ] )
+    output = Queue ( )
+    for i in range ( n ) :
+        output.put ( op [ i ] )
+    tempStack = [ ]
+    while ( not Input.empty ( ) ) :
+        ele = Input.queue [ 0 ]
+        Input.get ( )
+        if ( ele == output.queue [ 0 ] ) :
+            output.get ( )
+            while ( len ( tempStack ) != 0 ) :
+                if ( tempStack [ - 1 ] == output.queue [ 0 ] ) :
+                    tempStack.pop ( )
+                    output.get ( )
+                else :
+                    break
+        else :
+            tempStack.append ( ele )
+    return ( Input.empty ( ) and len ( tempStack ) == 0 )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class STACK_PERMUTATIONS_CHECK_IF_AN_ARRAY_IS_STACK_PERMUTATION_OF_OTHER{
+static boolean f_gold ( int ip [ ] , int op [ ] , int n ) {
+  Queue < Integer > input = new LinkedList < > ( ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    input . add ( ip [ i ] ) ;
+  }
+  Queue < Integer > output = new LinkedList < > ( ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    output . add ( op [ i ] ) ;
+  }
+  Stack < Integer > tempStack = new Stack < > ( ) ;
+  while ( ! input . isEmpty ( ) ) {
+    int ele = input . poll ( ) ;
+    if ( ele == output . peek ( ) ) {
+      output . poll ( ) ;
+      while ( ! tempStack . isEmpty ( ) ) {
+        if ( tempStack . peek ( ) == output . peek ( ) ) {
+          tempStack . pop ( ) ;
+          output . poll ( ) ;
+        }
+        else break ;
+      }
+    }
+    else {
+      tempStack . push ( ele ) ;
+    }
+  }
+  return ( input . isEmpty ( ) && tempStack . isEmpty ( ) ) ;
+}
+
+
+",python_java
+python,"class BinaryIndexedTree:
+    __slots__ = [""n"", ""c"", ""d""]
+
+    def __init__(self, n):
+        self.n = n
+        self.c = [0] * (n + 1)
+        self.d = [0] * (n + 1)
+
+    def update(self, x, v, cnt):
+        while x <= self.n:
+            if self.c[x] < v:
+                self.c[x] = v
+                self.d[x] = cnt
+            elif self.c[x] == v:
+                self.d[x] += cnt
+            x += x & -x
+
+    def query(self, x):
+        v = cnt = 0
+        while x:
+            if self.c[x] > v:
+                v = self.c[x]
+                cnt = self.d[x]
+            elif self.c[x] == v:
+                cnt += self.d[x]
+            x -= x & -x
+        return v, cnt
+
+
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        arr = sorted(set(nums))
+        m = len(arr)
+        tree = BinaryIndexedTree(m)
+        for x in nums:
+            i = bisect_left(arr, x) + 1
+            v, cnt = tree.query(i - 1)
+            tree.update(i, v + 1, max(cnt, 1))
+        return tree.query(m)[1]",java,"class BinaryIndexedTree {
+    private int n;
+    private int[] c;
+    private int[] d;
+
+    public BinaryIndexedTree(int n) {
+        this.n = n;
+        c = new int[n + 1];
+        d = new int[n + 1];
+    }
+
+    public void update(int x, int v, int cnt) {
+        while (x <= n) {
+            if (c[x] < v) {
+                c[x] = v;
+                d[x] = cnt;
+            } else if (c[x] == v) {
+                d[x] += cnt;
+            }
+            x += x & -x;
+        }
+    }
+
+    public int[] query(int x) {
+        int v = 0, cnt = 0;
+        while (x > 0) {
+            if (c[x] > v) {
+                v = c[x];
+                cnt = d[x];
+            } else if (c[x] == v) {
+                cnt += d[x];
+            }
+            x -= x & -x;
+        }
+        return new int[] {v, cnt};
+    }
+}
+
+public class Solution {
+    public int findNumberOfLIS(int[] nums) {
+        // int[] arr = Arrays.stream(nums).distinct().sorted().toArray();
+        int[] arr = nums.clone();
+        Arrays.sort(arr);
+        int m = arr.length;
+        BinaryIndexedTree tree = new BinaryIndexedTree(m);
+        for (int x : nums) {
+            int i = Arrays.binarySearch(arr, x) + 1;
+            int[] t = tree.query(i - 1);
+            int v = t[0];
+            int cnt = t[1];
+            tree.update(i, v + 1, Math.max(cnt, 1));
+        }
+        return tree.query(m)[1];
+    }
+}",python_java
+python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+
+class Solution:
+    def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
+        ans = None
+        while root:
+            if root.val > p.val:
+                ans = root
+                root = root.left
+            else:
+                root = root.right
+        return ans",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        TreeNode ans = null;
+        while (root != null) {
+            if (root.val > p.val) {
+                ans = root;
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        return ans;
+    }
+}",python_java
+python,"def f_gold ( arr , n ) :
+    difference = 0
+    ans = 0
+    hash_positive = [ 0 ] * ( n + 1 )
+    hash_negative = [ 0 ] * ( n + 1 )
+    hash_positive [ 0 ] = 1
+    for i in range ( n ) :
+        if ( arr [ i ] & 1 == 1 ) :
+            difference = difference + 1
+        else :
+            difference = difference - 1
+        if ( difference < 0 ) :
+            ans += hash_negative [ - difference ]
+            hash_negative [ - difference ] = hash_negative [ - difference ] + 1
+        else :
+            ans += hash_positive [ difference ]
+            hash_positive [ difference ] = hash_positive [ difference ] + 1
+    return ans
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_SUBARRAYS_WITH_SAME_EVEN_AND_ODD_ELEMENTS{
+static int f_gold ( int [ ] arr , int n ) {
+  int difference = 0 ;
+  int ans = 0 ;
+  int [ ] hash_positive = new int [ n + 1 ] ;
+  int [ ] hash_negative = new int [ n + 1 ] ;
+  hash_positive [ 0 ] = 1 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    if ( ( arr [ i ] & 1 ) == 1 ) {
+      difference ++ ;
+    }
+    else {
+      difference -- ;
+    }
+    if ( difference < 0 ) {
+      ans += hash_negative [ - difference ] ;
+      hash_negative [ - difference ] ++ ;
+    }
+    else {
+      ans += hash_positive [ difference ] ;
+      hash_positive [ difference ] ++ ;
+    }
+  }
+  return ans ;
+}
+
+
+",python_java
+python,"class Solution:
+    def maxRemovals(self, source: str, pattern: str, targetIndices: List[int]) -> int:
+        m, n = len(source), len(pattern)
+        f = [[-inf] * (n + 1) for _ in range(m + 1)]
+        f[0][0] = 0
+        s = set(targetIndices)
+        for i, c in enumerate(source, 1):
+            for j in range(n + 1):
+                f[i][j] = f[i - 1][j] + int((i - 1) in s)
+                if j and c == pattern[j - 1]:
+                    f[i][j] = max(f[i][j], f[i - 1][j - 1])
+        return f[m][n]",java,"class Solution {
+    public int maxRemovals(String source, String pattern, int[] targetIndices) {
+        int m = source.length(), n = pattern.length();
+        int[][] f = new int[m + 1][n + 1];
+        final int inf = Integer.MAX_VALUE / 2;
+        for (var g : f) {
+            Arrays.fill(g, -inf);
+        }
+        f[0][0] = 0;
+        int[] s = new int[m];
+        for (int i : targetIndices) {
+            s[i] = 1;
+        }
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 0; j <= n; ++j) {
+                f[i][j] = f[i - 1][j] + s[i - 1];
+                if (j > 0 && source.charAt(i - 1) == pattern.charAt(j - 1)) {
+                    f[i][j] = Math.max(f[i][j], f[i - 1][j - 1]);
+                }
+            }
+        }
+        return f[m][n];
+    }
+}",python_java
+python,"def f_gold ( n ) :
+    return ( n * ( n + 1 ) / 2 ) * ( 1 << ( n - 1 ) )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_SUBSETS_SET_FORMED_FIRST_N_NATURAL_NUMBERS{
+static long f_gold ( int n ) {
+  return ( n * ( n + 1 ) / 2 ) * ( 1 << ( n - 1 ) ) ;
+}
+
+
+",python_java
+python,"def f_gold ( arr , n , X ) :
+    if ( X < arr [ 0 ] ) :
+        return 0 ;
+    elif ( X > arr [ n - 1 ] ) :
+        return n
+    lowerPnt = 0
+    i = 1
+    while ( i < n and arr [ i ] < X ) :
+        lowerPnt = i
+        i = i * 2
+    while ( lowerPnt < n and arr [ lowerPnt ] < X ) :
+        lowerPnt += 1
+    return lowerPnt
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LOWER_INSERTION_POINT{
+static int f_gold ( int arr [ ] , int n , int X ) {
+  if ( X < arr [ 0 ] ) return 0 ;
+  else if ( X > arr [ n - 1 ] ) return n ;
+  int lowerPnt = 0 ;
+  int i = 1 ;
+  while ( i < n && arr [ i ] < X ) {
+    lowerPnt = i ;
+    i = i * 2 ;
+  }
+  while ( lowerPnt < n && arr [ lowerPnt ] < X ) lowerPnt ++ ;
+  return lowerPnt ;
+}
+
+
+",python_java
+python,"class Node:
+    __slots__ = ['left', 'right', 'add', 'v']
+
+    def __init__(self):
+        self.left = None
+        self.right = None
+        self.add = 0
+        self.v = False
+
+
+class SegmentTree:
+    __slots__ = ['root']
+
+    def __init__(self):
+        self.root = Node()
+
+    def modify(self, left, right, v, l=1, r=int(1e9), node=None):
+        if node is None:
+            node = self.root
+        if l >= left and r <= right:
+            if v == 1:
+                node.add = 1
+                node.v = True
+            else:
+                node.add = -1
+                node.v = False
+            return
+        self.pushdown(node)
+        mid = (l + r) >> 1
+        if left <= mid:
+            self.modify(left, right, v, l, mid, node.left)
+        if right > mid:
+            self.modify(left, right, v, mid + 1, r, node.right)
+        self.pushup(node)
+
+    def query(self, left, right, l=1, r=int(1e9), node=None):
+        if node is None:
+            node = self.root
+        if l >= left and r <= right:
+            return node.v
+        self.pushdown(node)
+        mid = (l + r) >> 1
+        v = True
+        if left <= mid:
+            v = v and self.query(left, right, l, mid, node.left)
+        if right > mid:
+            v = v and self.query(left, right, mid + 1, r, node.right)
+        return v
+
+    def pushup(self, node):
+        node.v = bool(node.left and node.left.v and node.right and node.right.v)
+
+    def pushdown(self, node):
+        if node.left is None:
+            node.left = Node()
+        if node.right is None:
+            node.right = Node()
+        if node.add:
+            node.left.add = node.right.add = node.add
+            node.left.v = node.add == 1
+            node.right.v = node.add == 1
+            node.add = 0
+
+
+class RangeModule:
+    def __init__(self):
+        self.tree = SegmentTree()
+
+    def addRange(self, left: int, right: int) -> None:
+        self.tree.modify(left, right - 1, 1)
+
+    def queryRange(self, left: int, right: int) -> bool:
+        return self.tree.query(left, right - 1)
+
+    def removeRange(self, left: int, right: int) -> None:
+        self.tree.modify(left, right - 1, -1)
+
+
+# Your RangeModule object will be instantiated and called as such:
+# obj = RangeModule()
+# obj.addRange(left,right)
+# param_2 = obj.queryRange(left,right)
+# obj.removeRange(left,right)",java,"class Node {
+    Node left;
+    Node right;
+    int add;
+    boolean v;
+}
+
+class SegmentTree {
+    private Node root = new Node();
+
+    public SegmentTree() {
+    }
+
+    public void modify(int left, int right, int v) {
+        modify(left, right, v, 1, (int) 1e9, root);
+    }
+
+    public void modify(int left, int right, int v, int l, int r, Node node) {
+        if (l >= left && r <= right) {
+            node.v = v == 1;
+            node.add = v;
+            return;
+        }
+        pushdown(node);
+        int mid = (l + r) >> 1;
+        if (left <= mid) {
+            modify(left, right, v, l, mid, node.left);
+        }
+        if (right > mid) {
+            modify(left, right, v, mid + 1, r, node.right);
+        }
+        pushup(node);
+    }
+
+    public boolean query(int left, int right) {
+        return query(left, right, 1, (int) 1e9, root);
+    }
+
+    public boolean query(int left, int right, int l, int r, Node node) {
+        if (l >= left && r <= right) {
+            return node.v;
+        }
+        pushdown(node);
+        int mid = (l + r) >> 1;
+        boolean v = true;
+        if (left <= mid) {
+            v = v && query(left, right, l, mid, node.left);
+        }
+        if (right > mid) {
+            v = v && query(left, right, mid + 1, r, node.right);
+        }
+        return v;
+    }
+
+    public void pushup(Node node) {
+        node.v = node.left != null && node.left.v && node.right != null && node.right.v;
+    }
+
+    public void pushdown(Node node) {
+        if (node.left == null) {
+            node.left = new Node();
+        }
+        if (node.right == null) {
+            node.right = new Node();
+        }
+        if (node.add != 0) {
+            node.left.add = node.add;
+            node.right.add = node.add;
+            node.left.v = node.add == 1;
+            node.right.v = node.add == 1;
+            node.add = 0;
+        }
+    }
+}
+
+class RangeModule {
+    private SegmentTree tree = new SegmentTree();
+
+    public RangeModule() {
+    }
+
+    public void addRange(int left, int right) {
+        tree.modify(left, right - 1, 1);
+    }
+
+    public boolean queryRange(int left, int right) {
+        return tree.query(left, right - 1);
+    }
+
+    public void removeRange(int left, int right) {
+        tree.modify(left, right - 1, -1);
+    }
+}
+
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule obj = new RangeModule();
+ * obj.addRange(left,right);
+ * boolean param_2 = obj.queryRange(left,right);
+ * obj.removeRange(left,right);
+ */",python_java
+python,"def f_gold(arr, n):
+    vis = dict()
+    for i in range(n):
+        vis[arr[i]] = 1
+    k = len(vis)
+    vid = dict()
+    ans = 0
+    right = 0
+    window = 0
+    for left in range(n):
+        while (right < n and window < k):
+            if arr[right] in vid.keys():
+                vid[arr[right]] += 1
+            else:
+                vid[arr[right]] = 1
+            if (vid[arr[right]] == 1):
+                window += 1
+            right += 1
+        if (window == k):
+            ans += (n - right + 1)
+        vid[arr[left]] -= 1
+        if (vid[arr[left]] == 0):
+            window -= 1
+    return ans
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_SUBARRAYS_TOTAL_DISTINCT_ELEMENTS_ORIGINAL_ARRAY{
+static int f_gold ( int arr [ ] , int n ) {
+  HashMap < Integer , Integer > vis = new HashMap < Integer , Integer > ( ) {
+    @ Override public Integer get ( Object key ) {
+      if ( ! containsKey ( key ) ) return 0 ;
+      return super . get ( key ) ;
+    }
+  };
+  for ( int i = 0 ;
+  i < n ;
+  ++ i ) vis . put ( arr [ i ] , 1 ) ;
+  int k = vis . size ( ) ;
+  vis . clear ( ) ;
+  int ans = 0 , right = 0 , window = 0 ;
+  for ( int left = 0 ;
+  left < n ;
+  ++ left ) {
+    while ( right < n && window < k ) {
+      vis . put ( arr [ right ] , vis . get ( arr [ right ] ) + 1 ) ;
+      if ( vis . get ( arr [ right ] ) == 1 ) ++ window ;
+      ++ right ;
+    }
+    if ( window == k ) ans += ( n - right + 1 ) ;
+    vis . put ( arr [ left ] , vis . get ( arr [ left ] ) - 1 ) ;
+    if ( vis . get ( arr [ left ] ) == 0 ) -- window ;
+  }
+  return ans ;
+}
+
+
+",python_java
+python,"def f_gold(n, k):
+    if (n + 1 >= k):
+        return (k - 1)
+    else:
+        return (2 * n + 1 - k)
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_FREQUENCY_K_MATRIX_SIZE_N_MATRIXI_J_IJ{
+public static int f_gold ( int n , int k ) {
+  if ( n + 1 >= k ) return ( k - 1 ) ;
+  else return ( 2 * n + 1 - k ) ;
+}
+
+
+",python_java
+python,"class Solution:
+    def resultsArray(self, queries: List[List[int]], k: int) -> List[int]:
+        ans = []
+        pq = []
+        for i, (x, y) in enumerate(queries):
+            heappush(pq, -(abs(x) + abs(y)))
+            if i >= k:
+                heappop(pq)
+            ans.append(-pq[0] if i >= k - 1 else -1)
+        return ans",java,"class Solution {
+    public int[] resultsArray(int[][] queries, int k) {
+        int n = queries.length;
+        int[] ans = new int[n];
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for (int i = 0; i < n; ++i) {
+            int x = Math.abs(queries[i][0]) + Math.abs(queries[i][1]);
+            pq.offer(x);
+            if (i >= k) {
+                pq.poll();
+            }
+            ans[i] = i >= k - 1 ? pq.peek() : -1;
+        }
+        return ans;
+    }
+}",python_java
+python,"import math
+
+def f_gold ( n ) :
+    if ( n % 2 != 0 ) :
+        return 0
+    res = 1
+    for i in range ( 2 , ( int ) ( math.sqrt ( n ) ) + 1 ) :
+        count = 0
+        curr_sum = 1
+        curr_term = 1
+        while ( n % i == 0 ) :
+            count = count + 1
+            n = n // i
+            if ( i == 2 and count == 1 ) :
+                curr_sum = 0
+            curr_term = curr_term * i
+            curr_sum = curr_sum + curr_term
+        res = res * curr_sum
+    if ( n >= 2 ) :
+        res = res * ( 1 + n )
+    return res
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_SUM_EVEN_FACTORS_NUMBER{
+public static int f_gold ( int n ) {
+  if ( n % 2 != 0 ) return 0 ;
+  int res = 1 ;
+  for ( int i = 2 ;
+  i <= Math . sqrt ( n ) ;
+  i ++ ) {
+    int count = 0 , curr_sum = 1 ;
+    int curr_term = 1 ;
+    while ( n % i == 0 ) {
+      count ++ ;
+      n = n / i ;
+      if ( i == 2 && count == 1 ) curr_sum = 0 ;
+      curr_term *= i ;
+      curr_sum += curr_term ;
+    }
+    res *= curr_sum ;
+  }
+  if ( n >= 2 ) res *= ( 1 + n ) ;
+  return res ;
+}
+
+
+",python_java
+python,"def f_gold ( arr , n ) :
+    arr.sort ( )
+    count = 0 ; max_count = 0 ; min_count = n
+    for i in range ( 0 , ( n - 1 ) ) :
+        if arr [ i ] == arr [ i + 1 ] :
+            count += 1
+            continue
+        else :
+            max_count = max ( max_count , count )
+            min_count = min ( min_count , count )
+            count = 0
+    return max_count - min_count
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class DIFFERENCE_BETWEEN_HIGHEST_AND_LEAST_FREQUENCIES_IN_AN_ARRAY{
+static int f_gold ( int arr [ ] , int n ) {
+  Arrays . sort ( arr ) ;
+  int count = 0 , max_count = 0 , min_count = n ;
+  for ( int i = 0 ;
+  i < ( n - 1 ) ;
+  i ++ ) {
+    if ( arr [ i ] == arr [ i + 1 ] ) {
+      count += 1 ;
+      continue ;
+    }
+    else {
+      max_count = Math . max ( max_count , count ) ;
+      min_count = Math . min ( min_count , count ) ;
+      count = 0 ;
+    }
+  }
+  return ( max_count - min_count ) ;
+}
+
+
+",python_java
+python,"def f_gold ( a , n ) :
+    if ( n == 1 ) :
+        return a [ 0 ]
+    max_neg = float ( '-inf' )
+    min_pos = float ( 'inf' )
+    count_neg = 0
+    count_zero = 0
+    prod = 1
+    for i in range ( 0 , n ) :
+        if ( a [ i ] == 0 ) :
+            count_zero = count_zero + 1
+            continue
+        if ( a [ i ] < 0 ) :
+            count_neg = count_neg + 1
+            max_neg = max ( max_neg , a [ i ] )
+        if ( a [ i ] > 0 ) :
+            min_pos = min ( min_pos , a [ i ] )
+        prod = prod * a [ i ]
+    if ( count_zero == n or ( count_neg == 0 and count_zero > 0 ) ) :
+        return 0 ;
+    if ( count_neg == 0 ) :
+        return min_pos
+    if ( ( count_neg & 1 ) == 0 and count_neg != 0 ) :
+        prod = int ( prod / max_neg )
+    return prod ;
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_PRODUCT_SUBSET_ARRAY{
+static int f_gold ( int a [ ] , int n ) {
+  if ( n == 1 ) return a [ 0 ] ;
+  int negmax = Integer . MIN_VALUE ;
+  int posmin = Integer . MAX_VALUE ;
+  int count_neg = 0 , count_zero = 0 ;
+  int product = 1 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    if ( a [ i ] == 0 ) {
+      count_zero ++ ;
+      continue ;
+    }
+    if ( a [ i ] < 0 ) {
+      count_neg ++ ;
+      negmax = Math . max ( negmax , a [ i ] ) ;
+    }
+    if ( a [ i ] > 0 && a [ i ] < posmin ) posmin = a [ i ] ;
+    product *= a [ i ] ;
+  }
+  if ( count_zero == n || ( count_neg == 0 && count_zero > 0 ) ) return 0 ;
+  if ( count_neg == 0 ) return posmin ;
+  if ( count_neg % 2 == 0 && count_neg != 0 ) {
+    product = product / negmax ;
+  }
+  return product ;
+}
+
+
+",python_java
+python,"class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        if n < 2:
+            return 0
+        # 3-D dp: n days * k completed transactions * 2 ops buy/sell
+        # my understanding, one transaction, meaning both buy then sell completed
+        dp = [[[0] * 2 for _ in range(k + 1)] for _ in range(n)]
+        for i in range(1, k + 1):
+            dp[0][i][1] = -prices[0] # dp[][][ 0/1 ], 1 is buy, 0 is sell
+        for i in range(1, n):
+            for j in range(1, k + 1):
+                dp[i][j][0] = max(dp[i - 1][j][1] + prices[i], dp[i - 1][j][0]) # [1] => sell happening <= that day
+                dp[i][j][1] = max(dp[i - 1][j - 1][0] - prices[i], dp[i - 1][j][1])
+        return dp[-1][k][0]
+
+##############
+
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        @cache
+        def dfs(i, j, k):
+            if i >= len(prices):
+                return 0
+            ans = dfs(i + 1, j, k)
+            if k:
+                ans = max(ans, prices[i] + dfs(i + 1, j, 0))
+            elif j:
+                ans = max(ans, -prices[i] + dfs(i + 1, j - 1, 1))
+            return ans
+
+        return dfs(0, k, 0)
+
+##############
+
+import heapq
+import random
+
+
+class Solution(object):
+  def findKthLargest(self, nums, k):
+    """"""
+    :type A: List[int]
+    :type k: int
+    :rtype: int
+    """"""
+
+    def quickselect(start, end, nums, k):
+      if start == end:
+        return nums[start]
+
+      mid = partition(start, end, nums)
+
+      if mid == k:
+        return nums[mid]
+      elif k > mid:
+        return quickselect(mid + 1, end, nums, k)
+      else:
+        return quickselect(start, mid - 1, nums, k)
+
+    def partition(start, end, nums):
+      p = random.randrange(start, end + 1)
+      pv = nums[p]
+      nums[end], nums[p] = nums[p], nums[end]
+      mid = start
+      for i in range(start, end):
+        if nums[i] >= pv:
+          nums[i], nums[mid] = nums[mid], nums[i]
+          mid += 1
+      nums[mid], nums[end] = nums[end], nums[mid]
+      return mid
+
+    return quickselect(0, len(nums) - 1, nums, k - 1)
+
+  def maxProfit(self, k, prices):
+    """"""
+    :type k: int
+    :type prices: List[int]
+    :rtype: int
+    """"""
+    if not prices:
+      return 0
+    stack = []
+    heap = []
+    v = p = 0
+    n = len(prices)
+    ans = 0
+    while p < n:
+      v = p
+      while v < n - 1 and prices[v] >= prices[v + 1]:
+        v += 1
+      p = v + 1
+      while p < n and prices[p] > prices[p - 1]:
+        p += 1
+      while stack and prices[stack[-1][0]] > prices[v]:
+        _v, _p = stack.pop()
+        heap.append(prices[_p - 1] - prices[_v])
+      while stack and prices[stack[-1][1] - 1] < prices[p - 1]:
+        heap.append(prices[stack[-1][1] - 1] - prices[v])
+        v, _ = stack.pop()
+      stack.append((v, p))
+
+    heap += [prices[p - 1] - prices[v] for v, p in stack]
+    if len(heap) < k:
+      return sum(heap)
+    self.findKthLargest(heap, k)
+    return sum(heap[:k])",java,"class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        int[][] f = new int[k + 1][2];
+        for (int j = 1; j <= k; ++j) {
+            f[j][1] = -prices[0];
+        }
+        for (int i = 1; i < n; ++i) {
+            for (int j = k; j > 0; --j) {
+                f[j][0] = Math.max(f[j][1] + prices[i], f[j][0]);
+                f[j][1] = Math.max(f[j - 1][0] - prices[i], f[j][1]);
+            }
+        }
+        return f[k][0];
+    }
+}",python_java
+python,"def f_gold ( a ) :
+    return ( 4 * a )
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PYTHON_PROGRAM_FIND_PERIMETER_CIRCUMFERENCE_SQUARE_RECTANGLE{
+static int f_gold ( int a ) {
+  return 4 * a ;
+}
+
+
+",python_java

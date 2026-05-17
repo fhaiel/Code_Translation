@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+*.egg-info
+env/
+venv/
+local_windows_requirements.txt
+
+#Django
+db.sqlite3
+*.sqlite3
+staticfiles/
+static/
+*.static/
+media/
+*.log
+logs/

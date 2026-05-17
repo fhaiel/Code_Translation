@@ -1,0 +1,3289 @@
+input_language,input_code,target_language,target_code,target_column
+c++,"
+using namespace std;
+void f_gold ( int arr [ ], int n, int k ) {
+  for ( int i = 0;
+  i < k;
+  i ++ ) {
+    int x = arr [ 0 ];
+    for ( int j = 0;
+    j < n - 1;
+    ++ j ) arr [ j ] = arr [ j + 1 ];
+    arr [ n - 1 ] = x;
+  }
+}
+
+
+",python,"def f_gold ( arr , n , k ) :
+    for i in range ( 0 , k ) :
+        x = arr [ 0 ]
+        for j in range ( 0 , n - 1 ) :
+            arr [ j ] = arr [ j + 1 ]
+        arr [ n - 1 ] = x
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int i;
+  for ( i = 0;
+  i < n;
+  i ++ ) {
+    if ( arr [ i ] == i ) return i;
+  }
+  return - 1;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    for i in range ( n ) :
+        if arr [ i ] is i :
+            return i
+    return - 1
+
+
+",c++_python
+c++,"/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+class Solution {
+public:
+    int depthSumInverse(vector<NestedInteger>& nestedList) {
+        int maxDepth = 0, ws = 0, s = 0;
+        function<void(NestedInteger&, int)> dfs = [&](NestedInteger& x, int d) {
+            maxDepth = max(maxDepth, d);
+            if (x.isInteger()) {
+                ws += x.getInteger() * d;
+                s += x.getInteger();
+            } else {
+                for (auto& y : x.getList()) {
+                    dfs(y, d + 1);
+                }
+            }
+        };
+        for (auto& x : nestedList) {
+            dfs(x, 1);
+        }
+        return (maxDepth + 1) * s - ws;
+    }
+};",python,"# """"""
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """"""
+# class NestedInteger:
+#    def __init__(self, value=None):
+#        """"""
+#        If value is not specified, initializes an empty list.
+#        Otherwise initializes a single integer equal to value.
+#        """"""
+#
+#    def isInteger(self):
+#        """"""
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        :rtype bool
+#        """"""
+#
+#    def add(self, elem):
+#        """"""
+#        Set this NestedInteger to hold a nested list and adds a nested integer elem to it.
+#        :rtype void
+#        """"""
+#
+#    def setInteger(self, value):
+#        """"""
+#        Set this NestedInteger to hold a single integer equal to value.
+#        :rtype void
+#        """"""
+#
+#    def getInteger(self):
+#        """"""
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        :rtype int
+#        """"""
+#
+#    def getList(self):
+#        """"""
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        :rtype List[NestedInteger]
+#        """"""
+class Solution:
+    def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
+        def max_depth(nestedList):
+            depth = 1
+            for item in nestedList:
+                if item.isInteger():
+                    continue
+                depth = max(depth, max_depth(item.getList()) + 1)
+            return depth
+
+        def dfs(nestedList, max_depth):
+            depth_sum = 0
+            for item in nestedList:
+                if item.isInteger():
+                    depth_sum += item.getInteger() * max_depth
+                else:
+                    depth_sum += dfs(item.getList(), max_depth - 1)
+            return depth_sum
+
+        depth = max_depth(nestedList)
+        return dfs(nestedList, depth)
+
+############
+
+class Solution_onePass: # iterative
+    def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
+        if not nestedList:
+        # can remove this check, an empty list in Python is considered ""falsy""
+        # and the loop will exit when it reaches the end of the list
+            return 0
+
+        # weighted is like previous round result
+        unweighted = weighted = 0
+        while nestedList:
+            next_level = []
+            for a in nestedList:
+                if a.isInteger():
+                    unweighted += a.getInteger()
+                else:
+                    next_level.extend(a.getList())
+            weighted += unweighted
+            nestedList = next_level
+        return weighted",c++_python
+c++,"class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i = 0, j = height.size() - 1;
+        int ans = 0;
+        while (i < j) {
+            int t = min(height[i], height[j]) * (j - i);
+            ans = max(ans, t);
+            if (height[i] < height[j]) {
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return ans;
+    }
+};",python,"class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        i, j = 0, len(height) - 1
+        ans = 0
+        while i < j:
+            t = (j - i) * min(height[i], height[j])
+            ans = max(ans, t)
+            if height[i] < height[j]:
+                i += 1
+            else:
+                j -= 1
+        return ans",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr1 [ ], int arr2 [ ], int n ) {
+  int index = n;
+  int left = 0, right = n - 1;
+  while ( left <= right ) {
+    int mid = ( left + right ) / 2;
+    if ( arr2 [ mid ] == arr1 [ mid ] ) left = mid + 1;
+    else {
+      index = mid;
+      right = mid - 1;
+    }
+  }
+  return index;
+}
+
+
+",python,"def f_gold ( arr1 , arr2 , n ) :
+    index = n
+    left = 0
+    right = n - 1
+    while ( left <= right ) :
+        mid = ( int ) ( ( left + right ) / 2 )
+        if ( arr2 [ mid ] == arr1 [ mid ] ) :
+            left = mid + 1
+        else :
+            index = mid
+            right = mid - 1
+    return index
+
+
+",c++_python
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        int l = maxDepth(root->left), r = maxDepth(root->right);
+        return 1 + max(l, r);
+    }
+};",python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        l, r = self.maxDepth(root.left), self.maxDepth(root.right)
+        return 1 + max(l, r)",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int low, int high, int key ) {
+  if ( high < low ) return - 1;
+  int mid = ( low + high ) / 2;
+  if ( key == arr [ mid ] ) return mid;
+  if ( key > arr [ mid ] ) return f_gold ( arr, ( mid + 1 ), high, key );
+  return f_gold ( arr, low, ( mid - 1 ), key );
+}
+
+
+",python,"def f_gold ( arr , low , high , key ) :
+    if ( high < low ) :
+        return - 1
+    mid = ( low + high ) / 2
+    if ( key == arr [ int ( mid ) ] ) :
+        return mid
+    if ( key > arr [ int ( mid ) ] ) :
+        return f_gold ( arr , ( mid + 1 ) , high , key )
+    return ( f_gold ( arr , low , ( mid - 1 ) , key ) )
+
+
+",c++_python
+c++,"class ValidWordAbbr {
+public:
+    ValidWordAbbr(vector<string>& dictionary) {
+        for (auto& s : dictionary) {
+            d[abbr(s)].insert(s);
+        }
+    }
+
+    bool isUnique(string word) {
+        string s = abbr(word);
+        return !d.count(s) || (d[s].size() == 1 && d[s].count(word));
+    }
+
+private:
+    unordered_map<string, unordered_set<string>> d;
+
+    string abbr(string& s) {
+        int n = s.size();
+        return n < 3 ? s : s.substr(0, 1) + to_string(n - 2) + s.substr(n - 1, 1);
+    }
+};
+
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr* obj = new ValidWordAbbr(dictionary);
+ * bool param_1 = obj->isUnique(word);
+ */",python,"class ValidWordAbbr:
+    def __init__(self, dictionary: List[str]):
+        self.d = defaultdict(set)
+        for s in dictionary:
+            self.d[self.abbr(s)].add(s)
+
+    def isUnique(self, word: str) -> bool:
+        s = self.abbr(word)
+        return s not in self.d or all(word == t for t in self.d[s])
+
+    def abbr(self, s: str) -> str:
+        return s if len(s) < 3 else s[0] + str(len(s) - 2) + s[-1]
+
+
+# Your ValidWordAbbr object will be instantiated and called as such:
+# obj = ValidWordAbbr(dictionary)
+# param_1 = obj.isUnique(word)",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  unordered_map < int, int > mp;
+  for ( int i = 0;
+  i < n;
+  i ++ ) mp [ arr [ i ] ] ++;
+  int ans = 0;
+  for ( auto it = mp . begin ( );
+  it != mp . end ( );
+  it ++ ) {
+    int count = it -> second;
+    ans += ( count * ( count - 1 ) ) / 2;
+  }
+  return ans;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    mp = dict ( )
+    for i in range ( n ) :
+        if arr [ i ] in mp.keys ( ) :
+            mp [ arr [ i ] ] += 1
+        else :
+            mp [ arr [ i ] ] = 1
+    ans = 0
+    for it in mp :
+        count = mp [ it ]
+        ans += ( count * ( count - 1 ) ) // 2
+    return ans
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int smallestDistancePair(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int left = 0, right = nums.back() - nums.front();
+        while (left < right) {
+            int mid = (left + right) >> 1;
+            if (count(mid, k, nums) >= k)
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+
+    int count(int dist, int k, vector<int>& nums) {
+        int cnt = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            int target = nums[i] - dist;
+            int j = lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+            cnt += i - j;
+        }
+        return cnt;
+    }
+};",python,"class Solution:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        def count(dist):
+            cnt = 0
+            for i, b in enumerate(nums):
+                a = b - dist
+                j = bisect_left(nums, a, 0, i)
+                cnt += i - j
+            return cnt
+
+        nums.sort()
+        return bisect_left(range(nums[-1] - nums[0]), k, key=count)",c++_python
+c++,"
+using namespace std;
+bool f_gold ( int arr [ ], int n ) {
+  if ( n == 0 || n == 1 ) return true;
+  for ( int i = 1;
+  i < n;
+  i ++ ) if ( arr [ i - 1 ] > arr [ i ] ) return false;
+  return true;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    if ( n == 0 or n == 1 ) :
+        return True
+    for i in range ( 1 , n ) :
+        if ( arr [ i - 1 ] > arr [ i ] ) :
+            return False
+    return True
+
+
+",c++_python
+c++,"
+using namespace std;
+bool f_gold ( int arr [ ], int n ) {
+  int max = * max_element ( arr, arr + n );
+  int min = * min_element ( arr, arr + n );
+  int m = max - min + 1;
+  if ( m > n ) return false;
+  bool visited [ m ];
+  memset ( visited, false, sizeof ( visited ) );
+  for ( int i = 0;
+  i < n;
+  i ++ ) visited [ arr [ i ] - min ] = true;
+  for ( int i = 0;
+  i < m;
+  i ++ ) if ( visited [ i ] == false ) return false;
+  return true;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    max1 = max ( arr )
+    min1 = min ( arr )
+    m = max1 - min1 + 1
+    if ( m > n ) :
+        return False
+    visited = [ 0 ] * m
+    for i in range ( 0 , n ) :
+        visited [ arr [ i ] - min1 ] = True
+    for i in range ( 0 , m ) :
+        if ( visited [ i ] == False ) :
+            return False
+    return True
+
+
+",c++_python
+c++,"
+using namespace std;
+bool f_gold ( unsigned int n, unsigned int k ) {
+  bool oneSeen = false;
+  while ( n > 0 ) {
+    int digit = n % k;
+    if ( digit > 1 ) return false;
+    if ( digit == 1 ) {
+      if ( oneSeen ) return false;
+      oneSeen = true;
+    }
+    n /= k;
+  }
+  return true;
+}
+
+
+",python,"def f_gold ( n , k ) :
+    oneSeen = False
+    while ( n > 0 ) :
+        digit = n % k
+        if ( digit > 1 ) :
+            return False
+        if ( digit == 1 ) :
+            if ( oneSeen ) :
+                return False
+            oneSeen = True
+        n //= k
+    return True
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        priority_queue<int, vector<int>, greater<int>> q;
+        q.push(1);
+        int x = 0;
+        while (n--) {
+            x = q.top();
+            q.pop();
+            for (int& k : primes) {
+                if (x <= INT_MAX / k) {
+                    q.push(k * x);
+                }
+                if (x % k == 0) {
+                    break;
+                }
+            }
+        }
+        return x;
+    }
+};",python,"'''
+The time complexity of the provided code is `O(n * k * log(n))`
+* where n is the input parameter n.
+* where k is the number of prime numbers in the input list
+
+    For a single outer for loop iteration
+        * Popping the smallest element from the heap using heappop(), which takes `O(log(n))` time complexity.
+        * Pushing the new number into the heap using heappush(), which takes `O(log(n))` time complexity.
+        * Therefore, the overall time complexity of the loop is `O(k * log(n))`, where k is the number of prime numbers in the input list.
+
+    Since the loop runs for n iterations and each iteration has a time complexity of O(k * log(n)), the total time complexity of the code is `O(n * k * log(n))`.
+
+
+The space complexity of the code is `O(n)` due to the heap and the hash table
+* where n is the input parameter n.
+'''
+
+from heapq import heappush, heappop
+
+class Solution:
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        h = [1] # heap
+        vis = {1} # hashtable to de-dup
+        ans = 1 # initiator
+        for _ in range(n):
+            ans = heappop(h)
+            for v in primes:
+                nxt = ans * v
+                if nxt not in vis:
+                    vis.add(nxt)
+                    heappush(h, nxt)
+        return ans
+
+
+############
+
+'''
+>>> a = {x:x+1 for x in range(10)}
+>>> a
+{0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10}
+>>> a.items()
+[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10)]
+>>> a.values()
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> a.keys()
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+>>> float(""-inf"") == -math.inf
+True
+'''
+class Solution:
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        if n <= 0 or primes is None:
+            return 0
+
+        nums = [1]
+        index = [0] * len(primes)
+
+        while len(nums) < n:
+            minv = float('inf')
+            for i in range(len(primes)):
+                minv = min(minv, primes[i] * nums[index[i]])
+            nums.append(minv)
+
+            for i in range(len(primes)):
+                if primes[i] * nums[index[i]] == minv:
+                    index[i] += 1
+
+        return nums[-1]
+
+if __name__ == '__main__':
+    # if no de-dup, result will be:
+    #           [1, 2, 4, 7, 8, 13, 14, 14, 16, 19, 26, 26]
+    # corret:   [1, 2, 4, 7, 8, 13, 14, 16, 19, 26, 28, 32]
+    print(Solution().nthSuperUglyNumber(12, [2,7,13,19]))
+
+#############
+
+class Solution: # not that good, just for reference
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        q = [1]
+        x = 0
+        mx_int = (1 << 31) - 1
+        for _ in range(n):
+            x = heappop(q)
+            for k in primes:
+                if x <= mx_int // k: # make sure not overflow int type
+                    heappush(q, k * x)
+                if x % k == 0: # to avoid duplicates, eg [2,3,5], when x is 6
+                    break
+            # print(x)
+            # print(list(q))
+        return x
+
+'''
+primes = [2,3,5]
+n = 10
+result should be: 12
+    [1, 2, 3, 4, 5, 6, 8, 9, 10, 12]
+
+
+for the print enabled, I got:
+
+    1
+    [2, 3, 5]
+    2
+    [3, 5, 4] ==> heappop got 3, 3%3==0 so still added 3*3=9, but not added 3*5=15
+    3
+    [4, 5, 6, 9]
+    4
+    [5, 8, 6, 9]
+    5
+    [6, 8, 9, 10, 15, 25]
+    6
+    [8, 10, 9, 25, 15, 12]
+    8
+    [9, 10, 12, 25, 15, 16]
+    9
+    [10, 15, 12, 25, 16, 18, 27]
+    10
+    [12, 15, 18, 25, 16, 27, 20]
+    12
+    [15, 16, 18, 25, 20, 27, 24]
+'''",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n, int k ) {
+  int dist_count = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    int j;
+    for ( j = 0;
+    j < n;
+    j ++ ) if ( i != j && arr [ j ] == arr [ i ] ) break;
+    if ( j == n ) dist_count ++;
+    if ( dist_count == k ) return arr [ i ];
+  }
+  return - 1;
+}
+
+
+",python,"def f_gold ( arr , n , k ) :
+    dist_count = 0
+    for i in range ( n ) :
+        j = 0
+        while j < n :
+            if ( i != j and arr [ j ] == arr [ i ] ) :
+                break
+            j += 1
+        if ( j == n ) :
+            dist_count += 1
+        if ( dist_count == k ) :
+            return arr [ i ]
+    return - 1
+
+
+",c++_python
+c++,"class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> stk;
+        for (int x : asteroids) {
+            if (x > 0) {
+                stk.push_back(x);
+            } else {
+                while (stk.size() && stk.back() > 0 && stk.back() < -x) {
+                    stk.pop_back();
+                }
+                if (stk.size() && stk.back() == -x) {
+                    stk.pop_back();
+                } else if (stk.empty() || stk.back() < 0) {
+                    stk.push_back(x);
+                }
+            }
+        }
+        return stk;
+    }
+};",python,"class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        stk = []
+        for x in asteroids:
+            if x > 0:
+                stk.append(x)
+            else:
+                while stk and stk[-1] > 0 and stk[-1] < -x:
+                    stk.pop()
+                if stk and stk[-1] == -x:
+                    stk.pop()
+                elif not stk or stk[-1] < 0:
+                    stk.append(x)
+        return stk",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  if ( n < 10 ) return n * ( n + 1 ) / 2;
+  int d = log10 ( n );
+  int * a = new int [ d + 1 ];
+  a [ 0 ] = 0, a [ 1 ] = 45;
+  for ( int i = 2;
+  i <= d;
+  i ++ ) a [ i ] = a [ i - 1 ] * 10 + 45 * ceil ( pow ( 10, i - 1 ) );
+  int p = ceil ( pow ( 10, d ) );
+  int msd = n / p;
+  return msd * a [ d ] + ( msd * ( msd - 1 ) / 2 ) * p + msd * ( 1 + n % p ) + f_gold ( n % p );
+}
+
+
+",python,"import math
+
+def f_gold ( n ) :
+    if ( n < 10 ) :
+        return ( n * ( n + 1 ) / 2 )
+    d = ( int ) ( math.log10 ( n ) )
+    a = [ 0 ] * ( d + 1 )
+    a [ 0 ] = 0
+    a [ 1 ] = 45
+    for i in range ( 2 , d + 1 ) :
+        a [ i ] = a [ i - 1 ] * 10 + 45 * ( int ) ( math.ceil ( math.pow ( 10 , i - 1 ) ) )
+    p = ( int ) ( math.ceil ( math.pow ( 10 , d ) ) )
+    msd = n // p
+    return ( int ) ( msd * a [ d ] + ( msd * ( msd - 1 ) // 2 ) * p + msd * ( 1 + n % p ) + f_gold ( n % p ) )
+
+
+",c++_python
+c++,"
+using namespace std;
+bool f_gold ( int p ) {
+  long long checkNumber = pow ( 2, p ) - 1;
+  long long nextval = 4 % checkNumber;
+  for ( int i = 1;
+  i < p - 1;
+  i ++ ) nextval = ( nextval * nextval - 2 ) % checkNumber;
+  return ( nextval == 0 );
+}
+
+
+",python,"def f_gold ( p ) :
+    checkNumber = 2 ** p - 1
+    nextval = 4 % checkNumber
+    for i in range ( 1 , p - 1 ) :
+        nextval = ( nextval * nextval - 2 ) % checkNumber
+    if ( nextval == 0 ) : return True
+    else : return False
+
+
+",c++_python
+c++,"class BinaryIndexedTree {
+private:
+    int n;
+    vector<int> c;
+    vector<int> d;
+
+public:
+    BinaryIndexedTree(int n)
+        : n(n)
+        , c(n + 1, 0)
+        , d(n + 1, 0) {}
+
+    void update(int x, int v, int cnt) {
+        while (x <= n) {
+            if (c[x] < v) {
+                c[x] = v;
+                d[x] = cnt;
+            } else if (c[x] == v) {
+                d[x] += cnt;
+            }
+            x += x & -x;
+        }
+    }
+
+    pair<int, int> query(int x) {
+        int v = 0, cnt = 0;
+        while (x > 0) {
+            if (c[x] > v) {
+                v = c[x];
+                cnt = d[x];
+            } else if (c[x] == v) {
+                cnt += d[x];
+            }
+            x -= x & -x;
+        }
+        return {v, cnt};
+    }
+};
+
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        vector<int> arr = nums;
+        sort(arr.begin(), arr.end());
+        arr.erase(unique(arr.begin(), arr.end()), arr.end());
+        int m = arr.size();
+        BinaryIndexedTree tree(m);
+        for (int x : nums) {
+            auto it = lower_bound(arr.begin(), arr.end(), x);
+            int i = distance(arr.begin(), it) + 1;
+            auto [v, cnt] = tree.query(i - 1);
+            tree.update(i, v + 1, max(cnt, 1));
+        }
+        return tree.query(m).second;
+    }
+};",python,"class BinaryIndexedTree:
+    __slots__ = [""n"", ""c"", ""d""]
+
+    def __init__(self, n):
+        self.n = n
+        self.c = [0] * (n + 1)
+        self.d = [0] * (n + 1)
+
+    def update(self, x, v, cnt):
+        while x <= self.n:
+            if self.c[x] < v:
+                self.c[x] = v
+                self.d[x] = cnt
+            elif self.c[x] == v:
+                self.d[x] += cnt
+            x += x & -x
+
+    def query(self, x):
+        v = cnt = 0
+        while x:
+            if self.c[x] > v:
+                v = self.c[x]
+                cnt = self.d[x]
+            elif self.c[x] == v:
+                cnt += self.d[x]
+            x -= x & -x
+        return v, cnt
+
+
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        arr = sorted(set(nums))
+        m = len(arr)
+        tree = BinaryIndexedTree(m)
+        for x in nums:
+            i = bisect_left(arr, x) + 1
+            v, cnt = tree.query(i - 1)
+            tree.update(i, v + 1, max(cnt, 1))
+        return tree.query(m)[1]",c++_python
+c++,"
+using namespace std;
+bool f_gold ( string str ) {
+  stack < char > Stack;
+  for ( char ch : str ) {
+    if ( ch == ')' ) {
+      char top = Stack . top ( );
+      Stack . pop ( );
+      int elementsInside = 0;
+      while ( top != '(' ) {
+        elementsInside ++;
+        top = Stack . top ( );
+        Stack . pop ( );
+      }
+      if ( elementsInside < 1 ) {
+        return 1;
+      }
+    }
+    else Stack . push ( ch );
+  }
+  return false;
+}
+
+
+",python,"def f_gold ( string ) :
+    Stack = [ ]
+    for ch in string :
+        if ch == ')' :
+            top = Stack.pop ( )
+            elementsInside = 0
+            while top != '(' :
+                elementsInside += 1
+                top = Stack.pop ( )
+            if elementsInside < 1 :
+                return True
+        else :
+            Stack.append ( ch )
+    return False
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int i = 0;
+  int ans = 0;
+  while ( ( 1 << i ) <= n ) {
+    bool k = 0;
+    int change = 1 << i;
+    for ( int j = 0;
+    j <= n;
+    j ++ ) {
+      ans += k;
+      if ( change == 1 ) {
+        k = ! k;
+        change = 1 << i;
+      }
+      else {
+        change --;
+      }
+    }
+    i ++;
+  }
+  return ans;
+}
+
+
+",python,"def f_gold ( n ) :
+    i = 0
+    ans = 0
+    while ( ( 1 << i ) <= n ) :
+        k = 0
+        change = 1 << i
+        for j in range ( 0 , n + 1 ) :
+            ans += k
+            if change == 1 :
+                k = not k
+                change = 1 << i
+            else :
+                change -= 1
+        i += 1
+    return ans
+
+
+",c++_python
+c++,"class Solution {
+public:
+    bool isValid(string s) {
+        string stk;
+        for (char c : s) {
+            if (c == '(' || c == '{' || c == '[')
+                stk.push_back(c);
+            else if (stk.empty() || !match(stk.back(), c))
+                return false;
+            else
+                stk.pop_back();
+        }
+        return stk.empty();
+    }
+
+    bool match(char l, char r) {
+        return (l == '(' && r == ')') || (l == '[' && r == ']') || (l == '{' && r == '}');
+    }
+};",python,"class Solution:
+    def isValid(self, s: str) -> bool:
+        stk = []
+        d = {'()', '[]', '{}'}
+        for c in s:
+            if c in '({[':
+                stk.append(c)
+            elif not stk or stk.pop() + c not in d:
+                return False
+        return not stk",c++_python
+c++,"
+using namespace std;
+int f_gold ( int m, int n, int x ) {
+  int table [ n + 1 ] [ x + 1 ];
+  memset ( table, 0, sizeof ( table ) );
+  for ( int j = 1;
+  j <= m && j <= x;
+  j ++ ) table [ 1 ] [ j ] = 1;
+  for ( int i = 2;
+  i <= n;
+  i ++ ) for ( int j = 1;
+  j <= x;
+  j ++ ) for ( int k = 1;
+  k <= m && k < j;
+  k ++ ) table [ i ] [ j ] += table [ i - 1 ] [ j - k ];
+  return table [ n ] [ x ];
+}
+
+
+",python,"def f_gold ( m , n , x ) :
+    table = [ [ 0 ] * ( x + 1 ) for i in range ( n + 1 ) ]
+    for j in range ( 1 , min ( m + 1 , x + 1 ) ) :
+        table [ 1 ] [ j ] = 1
+    for i in range ( 2 , n + 1 ) :
+        for j in range ( 1 , x + 1 ) :
+            for k in range ( 1 , min ( m + 1 , j ) ) :
+                table [ i ] [ j ] += table [ i - 1 ] [ j - k ]
+    return table [ - 1 ] [ - 1 ]
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int n = t.size();
+        unsigned long long f[n + 1];
+        memset(f, 0, sizeof(f));
+        f[0] = 1;
+        for (char& a : s) {
+            for (int j = n; j; --j) {
+                char b = t[j - 1];
+                if (a == b) {
+                    f[j] += f[j - 1];
+                }
+            }
+        }
+        return f[n];
+    }
+};",python,"class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        n = len(t)
+        f = [1] + [0] * n
+        for a in s:
+            for j in range(n, 0, -1):
+                if a == t[j - 1]:
+                    f[j] += f[j - 1]
+        return f[n]",c++_python
+c++,"class Solution {
+public:
+    long long maximizeSumOfWeights(vector<vector<int>>& edges, int k) {
+        int n = edges.size() + 1;
+        vector<vector<pair<int, int>>> g(n);
+        for (auto& e : edges) {
+            int u = e[0], v = e[1], w = e[2];
+            g[u].emplace_back(v, w);
+            g[v].emplace_back(u, w);
+        }
+        using ll = long long;
+        auto dfs = [&](auto&& dfs, int u, int fa) -> pair<ll, ll> {
+            ll s = 0;
+            vector<ll> t;
+            for (auto& [v, w] : g[u]) {
+                if (v == fa) {
+                    continue;
+                }
+                auto [a, b] = dfs(dfs, v, u);
+                s += a;
+                ll d = w + b - a;
+                if (d > 0) {
+                    t.push_back(d);
+                }
+            }
+            ranges::sort(t, greater<>());
+            for (int i = 0; i < min((int) t.size(), k - 1); ++i) {
+                s += t[i];
+            }
+            return {s + (t.size() >= k ? t[k - 1] : 0), s};
+        };
+
+        auto [x, y] = dfs(dfs, 0, -1);
+        return max(x, y);
+    }
+};",python,"class Solution:
+    def maximizeSumOfWeights(self, edges: List[List[int]], k: int) -> int:
+        def dfs(u: int, fa: int) -> Tuple[int, int]:
+            s = 0
+            t = []
+            for v, w in g[u]:
+                if v == fa:
+                    continue
+                a, b = dfs(v, u)
+                s += a
+                if (d := (w + b - a)) > 0:
+                    t.append(d)
+            t.sort(reverse=True)
+            return s + sum(t[:k]), s + sum(t[: k - 1])
+
+        n = len(edges) + 1
+        g: List[List[Tuple[int, int]]] = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        x, y = dfs(0, -1)
+        return max(x, y)",c++_python
+c++,"
+using namespace std;
+bool f_gold ( string s, char c ) {
+  bool oneSeen = false;
+  int i = 0, n = s . length ( );
+  while ( i < n ) {
+    if ( s [ i ] == c ) {
+      if ( oneSeen == true ) return false;
+      while ( i < n && s [ i ] == c ) i ++;
+      oneSeen = true;
+    }
+    else i ++;
+  }
+  return true;
+}
+
+
+",python,"def f_gold ( s , c ) :
+    oneSeen = False
+    i = 0
+    n = len ( s )
+    while ( i < n ) :
+        if ( s [ i ] == c ) :
+            if ( oneSeen == True ) :
+                return False
+            while ( i < n and s [ i ] == c ) :
+                i = i + 1
+            oneSeen = True
+        else :
+            i = i + 1
+    return True
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int result = 0;
+  for ( int i = 2;
+  i <= sqrt ( n );
+  i ++ ) {
+    if ( n % i == 0 ) {
+      if ( i == ( n / i ) ) result += i;
+      else result += ( i + n / i );
+    }
+  }
+  return ( result + n + 1 );
+}
+
+
+",python,"import math
+
+def f_gold ( n ) :
+    result = 0
+    for i in range ( 2 , ( int ) ( math.sqrt ( n ) ) + 1 ) :
+        if ( n % i == 0 ) :
+            if ( i == ( n / i ) ) :
+                result = result + i
+            else :
+                result = result + ( i + n // i )
+    return ( result + n + 1 )
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int N, int k ) {
+  int maxSum = 0;
+  sort ( arr, arr + N );
+  for ( int i = N - 1;
+  i > 0;
+  -- i ) {
+    if ( arr [ i ] - arr [ i - 1 ] < k ) {
+      maxSum += arr [ i ];
+      maxSum += arr [ i - 1 ];
+      -- i;
+    }
+  }
+  return maxSum;
+}
+
+
+",python,"def f_gold ( arr , N , k ) :
+    maxSum = 0 ;
+    arr.sort ( ) ;
+    i = N - 1 ;
+    while ( i >= 0 ) :
+        if ( arr [ i ] - arr [ i - 1 ] < k ) :
+            maxSum += arr [ i ] ;
+            maxSum += arr [ i - 1 ] ;
+            i -= 1 ;
+        i -= 1 ;
+    return maxSum ;
+
+
+",c++_python
+c++,"class Solution {
+public:
+    bool isAdditiveNumber(string num) {
+        int n = num.size();
+        for (int i = 1; i < min(n - 1, 19); ++i) {
+            for (int j = i + 1; j < min(n, i + 19); ++j) {
+                if (i > 1 && num[0] == '0') break;
+                if (j - i > 1 && num[i] == '0') continue;
+                auto a = stoll(num.substr(0, i));
+                auto b = stoll(num.substr(i, j - i));
+                if (dfs(a, b, num.substr(j, n - j))) return true;
+            }
+        }
+        return false;
+    }
+
+    bool dfs(long long a, long long b, string num) {
+        if (num == """") return true;
+        if (a + b > 0 && num[0] == '0') return false;
+        for (int i = 1; i < min((int) num.size() + 1, 19); ++i)
+            if (a + b == stoll(num.substr(0, i)))
+                if (dfs(b, a + b, num.substr(i, num.size() - i)))
+                    return true;
+        return false;
+    }
+};",python,"class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+
+        def dfs(startIndex: int, out: List[int]) -> bool:
+            # equal check is here
+            if len(out) >= 3 and out[-1] != out[-2] + out[-3]:
+                return False
+            if startIndex == len(num):
+                return len(out) >= 3
+
+            for i in range(startIndex, len(num)):
+                current = num[startIndex: i + 1]
+                if (len(current) > 1 and current[0] == '0'):
+                    break
+
+                out.append(int(current))
+                if dfs(i + 1, out):
+                    return True
+                out.pop()
+
+            return False
+
+        if not num:
+            return False
+        return dfs(0, [])
+
+#############
+
+# follow up: super large number, solve overflow issue
+class Solution:
+    def addStrings(num1: str, num2: str) -> str:
+        carry = 0
+        result = []
+        
+        i, j = len(num1) - 1, len(num2) - 1
+        while i >= 0 or j >= 0 or carry:
+            x = int(num1[i]) if i >= 0 else 0
+            y = int(num2[j]) if j >= 0 else 0
+            sum = x + y + carry
+            result.append(str(sum % 10))
+            carry = sum // 10
+            i, j = i - 1, j - 1
+        
+        return ''.join(reversed(result))
+
+    def isAdditiveNumber(num: str) -> bool:
+        n = len(num)
+        for i in range(1, n):
+            for j in range(i+1, n):
+                num1, num2 = num[:i], num[i:j]
+                if (len(num1) > 1 and num1[0] == '0') or (len(num2) > 1 and num2[0] == '0'):
+                    continue
+                while j < n:
+                    sum = addStrings(num1, num2)
+                    if not num.startswith(sum, j):
+                        break
+                    j += len(sum)
+                    num1, num2 = num2, sum
+                    if j == n:
+                        return True
+        return False
+
+#############
+
+class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+        def dfs(a, b, num):
+            if not num:
+                return True
+            if a + b > 0 and num[0] == '0':
+                return False
+            for i in range(1, len(num) + 1):
+                if a + b == int(num[:i]):
+                    if dfs(b, a + b, num[i:]):
+                        return True
+            return False
+
+        n = len(num)
+        for i in range(1, n - 1): # 1st cut
+            if i > 1 and num[0] == '0': # 0 + 1 = 1 is fine, but 00 + 1 is wrong
+                break
+            for j in range(i + 1, n): # 2nd cut, so making it a 3-segments
+                if j - i > 1 and num[i] == '0':
+                    break
+                if dfs(int(num[:i]), int(num[i:j]), num[j:]): # better than below, early stop
+                    return True
+        return False",c++_python
+c++,"
+using namespace std;
+unsigned int f_gold ( unsigned int n ) {
+  int res = 1, i;
+  for ( i = 2;
+  i <= n;
+  i ++ ) res *= i;
+  return res;
+}
+
+
+",python,"def f_gold ( n ) :
+    return 1 if ( n == 1 or n == 0 ) else n * f_gold ( n - 1 ) ;
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int X [ ], int Y [ ], int m, int n ) {
+  int res = 0;
+  sort ( X, X + m, greater < int > ( ) );
+  sort ( Y, Y + n, greater < int > ( ) );
+  int hzntl = 1, vert = 1;
+  int i = 0, j = 0;
+  while ( i < m && j < n ) {
+    if ( X [ i ] > Y [ j ] ) {
+      res += X [ i ] * vert;
+      hzntl ++;
+      i ++;
+    }
+    else {
+      res += Y [ j ] * hzntl;
+      vert ++;
+      j ++;
+    }
+  }
+  int total = 0;
+  while ( i < m ) total += X [ i ++ ];
+  res += total * vert;
+  total = 0;
+  while ( j < n ) total += Y [ j ++ ];
+  res += total * hzntl;
+  return res;
+}
+
+
+",python,"def f_gold ( X , Y , m , n ) :
+    res = 0
+    X.sort ( reverse = True )
+    Y.sort ( reverse = True )
+    hzntl = 1 ; vert = 1
+    i = 0 ; j = 0
+    while ( i < m and j < n ) :
+        if ( X [ i ] > Y [ j ] ) :
+            res += X [ i ] * vert
+            hzntl += 1
+            i += 1
+        else :
+            res += Y [ j ] * hzntl
+            vert += 1
+            j += 1
+    total = 0
+    while ( i < m ) :
+        total += X [ i ]
+        i += 1
+    res += total * vert
+    total = 0
+    while ( j < n ) :
+        total += Y [ j ]
+        j += 1
+    res += total * hzntl
+    return res
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( string s ) {
+  int aCount = 0;
+  int bCount = 0;
+  int cCount = 0;
+  for ( unsigned int i = 0;
+  i < s . size ( );
+  i ++ ) {
+    if ( s [ i ] == 'a' ) aCount = ( 1 + 2 * aCount );
+    else if ( s [ i ] == 'b' ) bCount = ( aCount + 2 * bCount );
+    else if ( s [ i ] == 'c' ) cCount = ( bCount + 2 * cCount );
+  }
+  return cCount;
+}
+
+
+",python,"def f_gold ( s ) :
+    aCount = 0
+    bCount = 0
+    cCount = 0
+    for i in range ( len ( s ) ) :
+        if ( s [ i ] == 'a' ) :
+            aCount = ( 1 + 2 * aCount )
+        elif ( s [ i ] == 'b' ) :
+            bCount = ( aCount + 2 * bCount )
+        elif ( s [ i ] == 'c' ) :
+            cCount = ( bCount + 2 * cCount )
+    return cCount
+
+
+",c++_python
+c++,"
+using namespace std;
+bool f_gold ( int arr [ ], int n, int k ) {
+  int count;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    count = 0;
+    for ( int j = 0;
+    j < n;
+    j ++ ) {
+      if ( arr [ j ] == arr [ i ] ) count ++;
+      if ( count > 2 * k ) return false;
+    }
+  }
+  return true;
+}
+
+
+",python,"def f_gold ( arr , n , k ) :
+    for i in range ( n ) :
+        count = 0
+        for j in range ( n ) :
+            if arr [ j ] == arr [ i ] :
+                count += 1
+            if count > 2 * k :
+                return False
+    return True
+
+
+",c++_python
+c++,"class Solution {
+public:
+    char kthCharacter(long long k, vector<int>& operations) {
+        long long n = 1;
+        int i = 0;
+        while (n < k) {
+            n *= 2;
+            ++i;
+        }
+        int d = 0;
+        while (n > 1) {
+            if (k > n / 2) {
+                k -= n / 2;
+                d += operations[i - 1];
+            }
+            n /= 2;
+            --i;
+        }
+        return 'a' + (d % 26);
+    }
+};",python,"class Solution:
+    def kthCharacter(self, k: int, operations: List[int]) -> str:
+        n, i = 1, 0
+        while n < k:
+            n *= 2
+            i += 1
+        d = 0
+        while n > 1:
+            if k > n // 2:
+                k -= n // 2
+                d += operations[i - 1]
+            n //= 2
+            i -= 1
+        return chr(d % 26 + ord(""a""))",c++_python
+c++,"class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char, int> nums{
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000},
+        };
+        int ans = nums[s.back()];
+        for (int i = 0; i < s.size() - 1; ++i) {
+            int sign = nums[s[i]] < nums[s[i + 1]] ? -1 : 1;
+            ans += sign * nums[s[i]];
+        }
+        return ans;
+    }
+};",python,"class Solution:
+    def romanToInt(self, s: str) -> int:
+        d = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+        return sum((-1 if d[a] < d[b] else 1) * d[a] for a, b in pairwise(s)) + d[s[-1]]",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int count = 0, ans = 1;
+  while ( n % 2 == 0 ) {
+    count ++;
+    n /= 2;
+  }
+  if ( count % 2 ) ans *= 2;
+  for ( int i = 3;
+  i <= sqrt ( n );
+  i += 2 ) {
+    count = 0;
+    while ( n % i == 0 ) {
+      count ++;
+      n /= i;
+    }
+    if ( count % 2 ) ans *= i;
+  }
+  if ( n > 2 ) ans *= n;
+  return ans;
+}
+
+
+",python,"import math
+
+def f_gold ( n ) :
+    count = 0
+    ans = 1
+    while n % 2 == 0 :
+        count += 1
+        n //= 2
+    if count % 2 is not 0 :
+        ans *= 2
+    for i in range ( 3 , ( int ) ( math.sqrt ( n ) ) + 1 , 2 ) :
+        count = 0
+        while n % i == 0 :
+            count += 1
+            n //= i
+        if count % 2 is not 0 :
+            ans *= i
+    if n > 2 :
+        ans *= n
+    return ans
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int r ) {
+  return ( 2 * r * r );
+}
+
+
+",python,"def f_gold ( r ) :
+    return ( 2 * r * r )
+
+
+",c++_python
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        if (!root || !root->left) return root;
+        TreeNode* newRoot = upsideDownBinaryTree(root->left);
+        root->left->right = root;
+        root->left->left = root->right;
+        root->left = nullptr;
+        root->right = nullptr;
+        return newRoot;
+    }
+};",python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root is None or root.left is None:
+            return root
+        new_root = self.upsideDownBinaryTree(root.left)
+        root.left.right = root
+        root.left.left = root.right
+        root.left = None
+        root.right = None
+        return new_root",c++_python
+c++,"
+using namespace std;
+int f_gold ( int x, int y, int z ) {
+  if ( ! ( y / x ) ) return ( ! ( y / z ) ) ? y : z;
+  return ( ! ( x / z ) ) ? x : z;
+}
+
+
+",python,"def f_gold ( x , y , z ) :
+    if ( not ( y / x ) ) :
+        return y if ( not ( y / z ) ) else z
+    return x if ( not ( x / z ) ) else z
+
+
+",c++_python
+c++,"class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        int i = num1.size() - 1, j = num2.size() - 1;
+        string ans;
+        for (int c = 0; i >= 0 || j >= 0 || c; --i, --j) {
+            int a = i < 0 ? 0 : num1[i] - '0';
+            int b = j < 0 ? 0 : num2[j] - '0';
+            c += a + b;
+            ans += to_string(c % 10);
+            c /= 10;
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+
+    string subStrings(string num1, string num2) {
+        int m = num1.size(), n = num2.size();
+        bool neg = m < n || (m == n && num1 < num2);
+        if (neg) {
+            swap(num1, num2);
+        }
+        int i = num1.size() - 1, j = num2.size() - 1;
+        string ans;
+        for (int c = 0; i >= 0; --i, --j) {
+            c = (num1[i] - '0') - c - (j < 0 ? 0 : num2[j] - '0');
+            ans += to_string((c + 10) % 10);
+            c = c < 0 ? 1 : 0;
+        }
+        while (ans.size() > 1 && ans.back() == '0') {
+            ans.pop_back();
+        }
+        if (neg) {
+            ans.push_back('-');
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};",python,"class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0 or j >= 0 or c:
+            a = 0 if i < 0 else int(num1[i])
+            b = 0 if j < 0 else int(num2[j])
+            c, v = divmod(a + b + c, 10) # nice
+            ans.append(str(v))
+            i, j = i - 1, j - 1
+        return """".join(ans[::-1])
+
+    # follow-up, substract
+    def subStrings(self, num1: str, num2: str) -> str:
+        m, n = len(num1), len(num2)
+        neg = m < n or (m == n and num1 < num2)
+        if neg:
+            num1, num2 = num2, num1
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0:
+            c = int(num1[i]) - c - (0 if j < 0 else int(num2[j]))
+            ans.append(str((c + 10) % 10))
+            c = 1 if c < 0 else 0
+            i, j = i - 1, j - 1
+
+        # eg. 99199 - 99198 = 1, ans here is ""10000""
+        while len(ans) > 1 and ans[-1] == ""0"":
+            ans.pop()
+        if neg: # will not be ""-0"", neg only when <0
+            ans.append(""-"")
+        return """".join(ans[::-1])
+
+############
+
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0 or j >= 0 or c:
+            a = 0 if i < 0 else int(num1[i])
+            b = 0 if j < 0 else int(num2[j])
+            c, v = divmod(a + b + c, 10)
+            ans.append(str(v))
+            i, j = i - 1, j - 1
+        return """".join(ans[::-1])
+
+    def subStrings(self, num1: str, num2: str) -> str:
+        m, n = len(num1), len(num2)
+        neg = m < n or (m == n and num1 < num2)
+        if neg:
+            num1, num2 = num2, num1
+        i, j = len(num1) - 1, len(num2) - 1
+        ans = []
+        c = 0
+        while i >= 0:
+            c = int(num1[i]) - c - (0 if j < 0 else int(num2[j]))
+            ans.append(str((c + 10) % 10))
+            c = 1 if c < 0 else 0
+            i, j = i - 1, j - 1
+        while len(ans) > 1 and ans[-1] == ""0"":
+            ans.pop()
+        if neg:
+            ans.append(""-"")
+        return """".join(ans[::-1])",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n, int idx ) {
+  int result = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    if ( arr [ i ] < arr [ idx ] ) result ++;
+    if ( arr [ i ] == arr [ idx ] && i < idx ) result ++;
+  }
+  return result;
+}
+
+
+",python,"def f_gold ( arr , n , idx ) :
+    result = 0
+    for i in range ( n ) :
+        if ( arr [ i ] < arr [ idx ] ) :
+            result += 1
+        if ( arr [ i ] == arr [ idx ] and i < idx ) :
+            result += 1
+    return result ;
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int ans = 0, mx = 0, last = 0;
+        for (int i = 0; i < nums.size() - 1; ++i) {
+            mx = max(mx, i + nums[i]);
+            if (last == i) {
+                ++ans;
+                last = mx;
+            }
+        }
+        return ans;
+    }
+};",python,"class Solution:
+    def jump(self, nums: List[int]) -> int:
+        current_reach = next_reach = steps = 0
+        # stop at 2nd-to-last, not the last index.
+        # because, eg. nums=[1,0] or nums=[0,0],
+        # just check the 2nd-to-last then we can decide if able to reach end
+
+        # eg. - if input is [0], then 0 step needed
+        for i, num in enumerate(nums[:-1]):
+            next_reach = max(next_reach, i + num)
+            if i == current_reach:
+                current_reach = next_reach # update next-reach before if check
+                steps += 1 # in question, guarenteed can reach end. or else need more check
+        return steps
+
+############
+
+class Solution(object):
+  def jump(self, nums):
+    """"""
+    :type nums: List[int]
+    :rtype: int
+    """"""
+    pos = 0
+    ans = 0
+    bound = len(nums)
+    while pos < len(nums) - 1:
+      dis = nums[pos]
+      farthest = posToFarthest = 0
+      for i in range(pos + 1, min(pos + dis + 1, bound)):
+        canReach = i + nums[i]
+        if i == len(nums) - 1:
+          return ans + 1
+        if canReach > farthest:
+          farthest = canReach
+          posToFarthest = i
+      ans += 1
+      pos = posToFarthest
+    return ans",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int A [ n + 1 ], B [ n + 1 ];
+  A [ 0 ] = 1, A [ 1 ] = 0, B [ 0 ] = 0, B [ 1 ] = 1;
+  for ( int i = 2;
+  i <= n;
+  i ++ ) {
+    A [ i ] = A [ i - 2 ] + 2 * B [ i - 1 ];
+    B [ i ] = A [ i - 1 ] + B [ i - 2 ];
+  }
+  return A [ n ];
+}
+
+
+",python,"def f_gold ( n ) :
+    A = [ 0 ] * ( n + 1 )
+    B = [ 0 ] * ( n + 1 )
+    A [ 0 ] = 1
+    A [ 1 ] = 0
+    B [ 0 ] = 0
+    B [ 1 ] = 1
+    for i in range ( 2 , n + 1 ) :
+        A [ i ] = A [ i - 2 ] + 2 * B [ i - 1 ]
+        B [ i ] = A [ i - 1 ] + B [ i - 2 ]
+    return A [ n ]
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr1 [ ], int arr2 [ ], int n ) {
+  for ( int i = 0;
+  i < n;
+  i ++ ) if ( arr1 [ i ] != arr2 [ i ] ) return i;
+  return n;
+}
+
+
+",python,"def f_gold ( arr1 , arr2 , n ) :
+    for i in range ( 0 , n ) :
+        if ( arr1 [ i ] != arr2 [ i ] ) :
+            return i
+    return n
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int ans = 0;
+  for ( int i = 1;
+  i <= n;
+  i ++ ) for ( int j = 1;
+  j <= n;
+  j ++ ) ans += ( i / j );
+  return ans;
+}
+
+
+",python,"def f_gold ( N ) :
+    ans = 0
+    for i in range ( 1 , N + 1 ) :
+        for j in range ( 1 , N + 1 ) :
+            ans += i // j
+    return ans
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n, int X ) {
+  if ( X < arr [ 0 ] ) return 0;
+  else if ( X > arr [ n - 1 ] ) return n;
+  int lowerPnt = 0;
+  int i = 1;
+  while ( i < n && arr [ i ] < X ) {
+    lowerPnt = i;
+    i = i * 2;
+  }
+  while ( lowerPnt < n && arr [ lowerPnt ] < X ) lowerPnt ++;
+  return lowerPnt;
+}
+
+
+",python,"def f_gold ( arr , n , X ) :
+    if ( X < arr [ 0 ] ) :
+        return 0 ;
+    elif ( X > arr [ n - 1 ] ) :
+        return n
+    lowerPnt = 0
+    i = 1
+    while ( i < n and arr [ i ] < X ) :
+        lowerPnt = i
+        i = i * 2
+    while ( lowerPnt < n and arr [ lowerPnt ] < X ) :
+        lowerPnt += 1
+    return lowerPnt
+
+
+",c++_python
+c++,"class Solution {
+public:
+    string simplifyPath(string path) {
+        deque<string> stk;
+        stringstream ss(path);
+        string t;
+        while (getline(ss, t, '/')) {
+            if (t == """" || t == ""."") {
+                continue;
+            }
+            if (t == "".."") {
+                if (!stk.empty()) {
+                    stk.pop_back();
+                }
+            } else {
+                stk.push_back(t);
+            }
+        }
+        if (stk.empty()) {
+            return ""/"";
+        }
+        string ans;
+        for (auto& s : stk) {
+            ans += ""/"" + s;
+        }
+        return ans;
+    }
+};",python,"class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stk = []
+        for s in path.split('/'):
+            if not s or s == '.':
+                continue
+            if s == '..':
+                if stk:
+                    stk.pop()
+            else:
+                stk.append(s)
+        return '/' + '/'.join(stk)",c++_python
+c++,"
+using namespace std;
+bool f_gold ( int num ) {
+  if ( num < 0 ) return false;
+  int sum = 0;
+  for ( int n = 1;
+  sum <= num;
+  n ++ ) {
+    sum = sum + n;
+    if ( sum == num ) return true;
+  }
+  return false;
+}
+
+
+",python,"def f_gold ( num ) :
+    if ( num < 0 ) :
+        return False
+    sum , n = 0 , 1
+    while ( sum <= num ) :
+        sum = sum + n
+        if ( sum == num ) :
+            return True
+        n += 1
+    return False
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  return ( 3 * n * n - n ) / 2;
+}
+
+
+",python,"def f_gold ( n ) :
+    return ( 3 * n * n - n ) / 2
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int s ) {
+  int sum = 0;
+  for ( int n = 1;
+  sum < s;
+  n ++ ) {
+    sum += n * n;
+    if ( sum == s ) return n;
+  }
+  return - 1;
+}
+
+
+",python,"def f_gold ( s ) :
+    _sum = 0
+    n = 1
+    while ( _sum < s ) :
+        _sum += n * n
+        n += 1
+    n -= 1
+    if _sum == s :
+        return n
+    return - 1
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int s ) {
+  int maxvalue = 0;
+  for ( int i = 1;
+  i <= s - 2;
+  i ++ ) {
+    for ( int j = 1;
+    j <= s - 1;
+    j ++ ) {
+      int k = s - i - j;
+      maxvalue = max ( maxvalue, i * j * k );
+    }
+  }
+  return maxvalue;
+}
+
+
+",python,"def f_gold(s):
+    maxvalue = 0
+    i = 1
+    for i in range(s - 1):
+        j = 1
+        for j in range(s):
+            k = s - i - j
+            maxvalue = max(maxvalue, i * j * k)
+    return maxvalue
+
+
+",c++_python
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n = preorder.size();
+        unordered_map<int, int> d;
+        for (int i = 0; i < n; ++i) {
+            d[inorder[i]] = i;
+        }
+        function<TreeNode*(int, int, int)> dfs = [&](int i, int j, int n) -> TreeNode* {
+            if (n <= 0) {
+                return nullptr;
+            }
+            int v = preorder[i];
+            int k = d[v];
+            TreeNode* l = dfs(i + 1, j, k - j);
+            TreeNode* r = dfs(i + 1 + k - j, k + 1, n - 1 - (k - j));
+            return new TreeNode(v, l, r);
+        };
+        return dfs(0, 0, n);
+    }
+};",python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+# best
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder: # or, not inorder
+            return None
+        v = preorder[0]
+        i = inorder.index(v)
+        root = TreeNode(v)
+        root.left = self.buildTree(preorder[1: i+1], inorder[:i])
+        root.right = self.buildTree(preorder[i+1:], inorder[i+1:])
+        return root
+
+
+# inorder.index(preorder_val)
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(pleft, pright, ileft, iright):
+            if pleft > pright or ileft > iright:
+                return None
+            k = inorder.index(preorder[pleft])
+            root = TreeNode(preorder[pleft])
+            root.left = dfs(pleft + 1, pleft + (k - ileft), ileft, k - 1)
+            root.right = dfs(pleft + 1 + (k - ileft), pright, k + 1, iright)
+            return root
+
+        n = len(preorder)
+        return dfs(0, n - 1, 0, n - 1)
+
+
+# build dict for val => index
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(pleft, pright, ileft, iright):
+            if pleft > pright or ileft > iright:
+                return None
+            v = preorder[pleft]
+            k = d[v]
+            root = TreeNode(v)
+            root.left = dfs(pleft + 1, pleft + (k - ileft), ileft, k - 1)
+            root.right = dfs(pleft + 1 + (k - ileft), pright, k + 1, iright)
+            return root
+
+        d = {v: i for i, v in enumerate(inorder)}
+        n = len(preorder)
+        return dfs(0, n - 1, 0, n - 1)
+
+############
+
+'''
+search for index, also use .index(val)
+  >>> a = [1,2,3,4,5]
+  >>> a.index(3)
+  2
+'''
+class Solution(object):
+  def buildTree(self, preorder, inorder):
+    """"""
+    :type preorder: List[int]
+    :type inorder: List[int]
+    :rtype: TreeNode
+    """"""
+
+    self.preindex = 0
+    ind = {v: i for i, v in enumerate(inorder)}
+    head = self.dc(0, len(preorder) - 1, preorder, inorder, ind)
+    return head
+
+  def dc(self, start, end, preorder, inorder, ind):
+    if start <= end:
+      mid = ind[preorder[self.preindex]]
+      self.preindex += 1
+      root = TreeNode(inorder[mid])
+      root.left = self.dc(start, mid - 1, preorder, inorder, ind)
+      root.right = self.dc(mid + 1, end, preorder, inorder, ind)
+      return root
+
+############
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        def dfs(i: int, j: int, n: int):
+            if n <= 0:
+                return None
+            v = preorder[i]
+            k = d[v]
+            l = dfs(i + 1, j, k - j)
+            r = dfs(i + 1 + k - j, k + 1, n - k + j - 1)
+            return TreeNode(v, l, r)
+
+        d = {v: i for i, v in enumerate(inorder)}
+        return dfs(0, 0, len(preorder))",c++_python
+c++,"class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        int f[k + 1][2];
+        memset(f, 0, sizeof(f));
+        for (int j = 1; j <= k; ++j) {
+            f[j][1] = -prices[0];
+        }
+        for (int i = 1; i < n; ++i) {
+            for (int j = k; j; --j) {
+                f[j][0] = max(f[j][1] + prices[i], f[j][0]);
+                f[j][1] = max(f[j - 1][0] - prices[i], f[j][1]);
+            }
+        }
+        return f[k][0];
+    }
+};",python,"class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        if n < 2:
+            return 0
+        # 3-D dp: n days * k completed transactions * 2 ops buy/sell
+        # my understanding, one transaction, meaning both buy then sell completed
+        dp = [[[0] * 2 for _ in range(k + 1)] for _ in range(n)]
+        for i in range(1, k + 1):
+            dp[0][i][1] = -prices[0] # dp[][][ 0/1 ], 1 is buy, 0 is sell
+        for i in range(1, n):
+            for j in range(1, k + 1):
+                dp[i][j][0] = max(dp[i - 1][j][1] + prices[i], dp[i - 1][j][0]) # [1] => sell happening <= that day
+                dp[i][j][1] = max(dp[i - 1][j - 1][0] - prices[i], dp[i - 1][j][1])
+        return dp[-1][k][0]
+
+##############
+
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        @cache
+        def dfs(i, j, k):
+            if i >= len(prices):
+                return 0
+            ans = dfs(i + 1, j, k)
+            if k:
+                ans = max(ans, prices[i] + dfs(i + 1, j, 0))
+            elif j:
+                ans = max(ans, -prices[i] + dfs(i + 1, j - 1, 1))
+            return ans
+
+        return dfs(0, k, 0)
+
+##############
+
+import heapq
+import random
+
+
+class Solution(object):
+  def findKthLargest(self, nums, k):
+    """"""
+    :type A: List[int]
+    :type k: int
+    :rtype: int
+    """"""
+
+    def quickselect(start, end, nums, k):
+      if start == end:
+        return nums[start]
+
+      mid = partition(start, end, nums)
+
+      if mid == k:
+        return nums[mid]
+      elif k > mid:
+        return quickselect(mid + 1, end, nums, k)
+      else:
+        return quickselect(start, mid - 1, nums, k)
+
+    def partition(start, end, nums):
+      p = random.randrange(start, end + 1)
+      pv = nums[p]
+      nums[end], nums[p] = nums[p], nums[end]
+      mid = start
+      for i in range(start, end):
+        if nums[i] >= pv:
+          nums[i], nums[mid] = nums[mid], nums[i]
+          mid += 1
+      nums[mid], nums[end] = nums[end], nums[mid]
+      return mid
+
+    return quickselect(0, len(nums) - 1, nums, k - 1)
+
+  def maxProfit(self, k, prices):
+    """"""
+    :type k: int
+    :type prices: List[int]
+    :rtype: int
+    """"""
+    if not prices:
+      return 0
+    stack = []
+    heap = []
+    v = p = 0
+    n = len(prices)
+    ans = 0
+    while p < n:
+      v = p
+      while v < n - 1 and prices[v] >= prices[v + 1]:
+        v += 1
+      p = v + 1
+      while p < n and prices[p] > prices[p - 1]:
+        p += 1
+      while stack and prices[stack[-1][0]] > prices[v]:
+        _v, _p = stack.pop()
+        heap.append(prices[_p - 1] - prices[_v])
+      while stack and prices[stack[-1][1] - 1] < prices[p - 1]:
+        heap.append(prices[stack[-1][1] - 1] - prices[v])
+        v, _ = stack.pop()
+      stack.append((v, p))
+
+    heap += [prices[p - 1] - prices[v] for v, p in stack]
+    if len(heap) < k:
+      return sum(heap)
+    self.findKthLargest(heap, k)
+    return sum(heap[:k])",c++_python
+c++,"class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t res = 0;
+        for (int i = 0; i < 32; ++i) {
+            res |= ((n & 1) << (31 - i));
+            n >>= 1;
+        }
+        return res;
+    }
+};",python,"class Solution:
+    def reverseBits(self, n: int) -> int:
+        res = 0
+        for i in range(32):
+            res |= (n & 1) << (31 - i)
+            n >>= 1
+        return res",c++_python
+c++,"class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0, mi = prices[0];
+        for (int& v : prices) {
+            ans = max(ans, v - mi);
+            mi = min(mi, v);
+        }
+        return ans;
+    }
+};",python,"'''
+>>> import math
+>>> a = math.inf
+>>> a
+inf
+
+>>> x = float('-inf')
+>>> y = float('inf')
+>>> print(x < y)  # Output: True
+True
+>>>
+>>> z = -math.inf
+>>> x==z
+True
+
+'''
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        ans, mi = 0, inf
+        for v in prices:
+            mi = min(mi, v)
+            ans = max(ans, v - mi)
+        return ans
+
+############
+
+class Solution(object):
+  def maxProfit(self, prices):
+    """"""
+    :type prices: List[int]
+    :rtype: int
+    """"""
+    if not prices:
+      return 0
+    ans = 0
+    pre = prices[0]
+    for i in range(1, len(prices)):
+      pre = min(pre, prices[i])
+      ans = max(prices[i] - pre, ans)
+    return ans",c++_python
+c++,"class Solution {
+public:
+    int minElement(vector<int>& nums) {
+        int ans = 100;
+        for (int x : nums) {
+            int y = 0;
+            for (; x > 0; x /= 10) {
+                y += x % 10;
+            }
+            ans = min(ans, y);
+        }
+        return ans;
+    }
+};",python,"class Solution:
+    def minElement(self, nums: List[int]) -> int:
+        return min(sum(int(b) for b in str(x)) for x in nums)",c++_python
+c++,"
+using namespace std;
+int f_gold ( string S, string T ) {
+  int m = T . length ( ), n = S . length ( );
+  if ( m > n ) return 0;
+  int mat [ m + 1 ] [ n + 1 ];
+  for ( int i = 1;
+  i <= m;
+  i ++ ) mat [ i ] [ 0 ] = 0;
+  for ( int j = 0;
+  j <= n;
+  j ++ ) mat [ 0 ] [ j ] = 1;
+  for ( int i = 1;
+  i <= m;
+  i ++ ) {
+    for ( int j = 1;
+    j <= n;
+    j ++ ) {
+      if ( T [ i - 1 ] != S [ j - 1 ] ) mat [ i ] [ j ] = mat [ i ] [ j - 1 ];
+      else mat [ i ] [ j ] = mat [ i ] [ j - 1 ] + mat [ i - 1 ] [ j - 1 ];
+    }
+  }
+  return mat [ m ] [ n ];
+}
+
+
+",python,"def f_gold ( S , T ) :
+    m = len ( T )
+    n = len ( S )
+    if m > n :
+        return 0
+    mat = [ [ 0 for _ in range ( n + 1 ) ] for __ in range ( m + 1 ) ]
+    for i in range ( 1 , m + 1 ) :
+        mat [ i ] [ 0 ] = 0
+    for j in range ( n + 1 ) :
+        mat [ 0 ] [ j ] = 1
+    for i in range ( 1 , m + 1 ) :
+        for j in range ( 1 , n + 1 ) :
+            if T [ i - 1 ] != S [ j - 1 ] :
+                mat [ i ] [ j ] = mat [ i ] [ j - 1 ]
+            else :
+                mat [ i ] [ j ] = ( mat [ i ] [ j - 1 ] + mat [ i - 1 ] [ j - 1 ] )
+    return mat [ m ] [ n ]
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int a, int b ) {
+  if ( a == 0 ) return b;
+  return f_gold ( b % a, a );
+}
+
+
+",python,"def f_gold ( a , b ) :
+    if a == 0 :
+        return b
+    return f_gold ( b % a , a )
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int addDigits(int num) {
+        return (num - 1) % 9 + 1;
+    }
+};",python,"class Solution:
+    def addDigits(self, num: int) -> int:
+        return 0 if num == 0 else (num - 1) % 9 + 1",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int dp [ n ];
+  for ( int i = 0;
+  i < n;
+  i ++ ) dp [ i ] = 1;
+  for ( int i = 1;
+  i < n;
+  i ++ ) {
+    for ( int j = 0;
+    j < i;
+    j ++ ) {
+      if ( ( arr [ i ] == arr [ j ] + 1 ) || ( arr [ i ] == arr [ j ] - 1 ) ) dp [ i ] = max ( dp [ i ], dp [ j ] + 1 );
+    }
+  }
+  int result = 1;
+  for ( int i = 0;
+  i < n;
+  i ++ ) if ( result < dp [ i ] ) result = dp [ i ];
+  return result;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    dp = [ 1 for i in range ( n ) ]
+    for i in range ( n ) :
+        for j in range ( i ) :
+            if ( ( arr [ i ] == arr [ j ] + 1 ) or ( arr [ i ] == arr [ j ] - 1 ) ) :
+                dp [ i ] = max ( dp [ i ] , dp [ j ] + 1 )
+    result = 1
+    for i in range ( n ) :
+        if ( result < dp [ i ] ) :
+            result = dp [ i ]
+    return result
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int sum = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) sum += i * ( n - i );
+  return 2 * sum;
+}
+
+
+",python,"def f_gold ( n ) :
+    sum = 0
+    for i in range ( n ) :
+        sum += i * ( n - i )
+    return 2 * sum
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int result = - 1;
+  for ( int i = 0;
+  i < n;
+  i ++ ) for ( int j = 0;
+  j < n - 1;
+  j ++ ) for ( int k = j + 1;
+  k < n;
+  k ++ ) if ( arr [ j ] * arr [ k ] == arr [ i ] ) result = max ( result, arr [ i ] );
+  return result;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    result = - 1
+    for i in range ( n ) :
+        for j in range ( n - 1 ) :
+            for k in range ( j + 1 , n ) :
+                if ( arr [ j ] * arr [ k ] == arr [ i ] ) :
+                    result = max ( result , arr [ i ] )
+    return result
+
+
+",c++_python
+c++,"/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+
+class NestedIterator {
+public:
+    NestedIterator(vector<NestedInteger>& nestedList) {
+        dfs(nestedList);
+    }
+
+    int next() {
+        return vals[cur++];
+    }
+
+    bool hasNext() {
+        return cur < vals.size();
+    }
+
+private:
+    vector<int> vals;
+    int cur = 0;
+
+    void dfs(vector<NestedInteger>& nestedList) {
+        for (auto& e : nestedList) {
+            if (e.isInteger()) {
+                vals.push_back(e.getInteger());
+            } else {
+                dfs(e.getList());
+            }
+        }
+    }
+};
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */",python,"# """"""
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """"""
+# class NestedInteger:
+#    def isInteger(self) -> bool:
+#        """"""
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        """"""
+#
+#    def getInteger(self) -> int:
+#        """"""
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        """"""
+#
+#    def getList(self) -> [NestedInteger]:
+#        """"""
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        """"""
+
+from collections import deque
+
+class NestedIterator:
+    def __init__(self, nestedList: [NestedInteger]):
+        self.stack = deque()
+        self.prepareStack(nestedList)
+
+    def next(self) -> int:
+        if not self.hasNext(): # trigger hasNext()
+            return None
+        self.hasNext()
+        return self.stack.pop().getInteger()
+
+    def hasNext(self) -> bool:
+        while self.stack and not self.stack[-1].isInteger():
+            # getList() more like get item, could be Integer or NestedInteger
+            lst = self.stack.pop().getList()
+            self.prepareStack(lst)
+        return bool(self.stack)
+
+    def prepareStack(self, nestedList):
+        for i in range(len(nestedList)-1, -1, -1):
+            self.stack.append(nestedList[i])
+
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
+
+
+############
+
+
+'''
+>>> from collections import deque
+>>>
+>>> stack = deque()
+>>> stack.append(3)
+>>> stack.append(2)
+>>> stack.append(1)
+>>> stack
+deque([3, 2, 1])
+>>> stack.pop()
+1
+'''
+class NestedIterator: # not working if memory is limited and input is huge list
+    def __init__(self, nestedList: [NestedInteger]):
+        def dfs(nestedList):
+            for e in nestedList:
+                if e.isInteger():
+                    self.vals.append(e.getInteger())
+                else:
+                    dfs(e.getList())
+
+        self.vals = []
+        dfs(nestedList)
+        self.cur = 0
+
+    def next(self) -> int:
+        res = self.vals[self.cur]
+        self.cur += 1
+        return res
+
+    def hasNext(self) -> bool:
+        return self.cur < len(self.vals)
+
+
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())",c++_python
+c++,"
+using namespace std;
+int f_gold ( int a [ ], int n, int k ) {
+  if ( k >= n - 1 ) return n;
+  int best = 0, times = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    if ( a [ i ] > best ) {
+      best = a [ i ];
+      if ( i ) times = 1;
+    }
+    else times += 1;
+    if ( times >= k ) return best;
+  }
+  return best;
+}
+
+
+",python,"def f_gold ( a , n , k ) :
+    if k >= n - 1 :
+        return n
+    best = 0
+    times = 0
+    for i in range ( n ) :
+        if a [ i ] > best :
+            best = a [ i ]
+            if i == True :
+                times = 1
+        else :
+            times += 1
+        if times >= k :
+            return best
+    return best
+
+
+",c++_python
+c++,"class Solution {
+public:
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size();
+        vector<vector<int>> f(m + 1, vector<int>(n + 1));
+        int ans = 0;
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (nums1[i - 1] == nums2[j - 1]) {
+                    f[i][j] = f[i - 1][j - 1] + 1;
+                    ans = max(ans, f[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+};",python,"'''
+# only set(), not list()
+
+>>> nums1 = [1,2,3,2,1]
+>>> nums2 = [3,2,1,4,7]
+>>> nums1 & nums2
+Traceback (most recent call last):
+  File ""<stdin>"", line 1, in <module>
+TypeError: unsupported operand type(s) for &: 'list' and 'list'
+'''
+
+class Solution:
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        m, n = len(nums1), len(nums2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        ans = 0
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if nums1[i - 1] == nums2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                    ans = max(ans, dp[i][j])
+        return ans
+
+############
+
+class Solution: # also OJ passed, with j iterated reversely
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        m, n = len(nums1), len(nums2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        ans = 0
+        for i in range(1, m + 1):
+            for j in range(n, 0, -1):
+                if nums1[i - 1] == nums2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                    ans = max(ans, dp[i][j])
+        return ans
+
+############
+
+class Solution:
+    def findLength(self, A, B):
+        """"""
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: int
+        """"""
+        m, n = len(A), len(B)
+        dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
+        max_len = 0
+        for i in range(m + 1):
+            for j in range(n + 1):
+                if i == 0 or j == 0:
+                    dp[i][j] = 0
+                elif A[i - 1] == B[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                    max_len = max(max_len, dp[i][j])
+        return max_len",c++_python
+c++,"class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        int cnt[26]{};
+        for (char& c : magazine) {
+            ++cnt[c - 'a'];
+        }
+        for (char& c : ransomNote) {
+            if (--cnt[c - 'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+};",python,"class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        cnt = Counter(magazine)
+        for c in ransomNote:
+            cnt[c] -= 1
+            if cnt[c] < 0:
+                return False
+        return True",c++_python
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    const int inf = INT_MAX;
+    int ans;
+    int prev;
+
+    int minDiffInBST(TreeNode* root) {
+        ans = inf, prev = inf;
+        dfs(root);
+        return ans;
+    }
+
+    void dfs(TreeNode* root) {
+        if (!root) return;
+        dfs(root->left);
+        ans = min(ans, abs(prev - root->val));
+        prev = root->val;
+        dfs(root->right);
+    }
+};",python,"# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDiffInBST(self, root: Optional[TreeNode]) -> int:
+        def dfs(root):
+            if root is None:
+                return
+            dfs(root.left)
+            nonlocal ans, prev
+            ans = min(ans, abs(prev - root.val))
+            prev = root.val
+            dfs(root.right)
+
+        ans = prev = inf
+        dfs(root)
+        return ans",c++_python
+c++,"class Solution {
+public:
+    bool validWordAbbreviation(string word, string abbr) {
+        int m = word.size(), n = abbr.size();
+        int i = 0, j = 0, x = 0;
+        for (; i < m && j < n; ++j) {
+            if (isdigit(abbr[j])) {
+                if (abbr[j] == '0' && x == 0) {
+                    return false;
+                }
+                x = x * 10 + (abbr[j] - '0');
+            } else {
+                i += x;
+                x = 0;
+                if (i >= m || word[i] != abbr[j]) {
+                    return false;
+                }
+                ++i;
+            }
+        }
+        return i + x == m && j == n;
+    }
+};",python,"class Solution:
+    def validWordAbbreviation(self, word: str, abbr: str) -> bool:
+        m, n = len(word), len(abbr)
+        i = j = x = 0
+        while i < m and j < n:
+            if abbr[j].isdigit():
+                if abbr[j] == ""0"" and x == 0:
+                    return False
+                x = x * 10 + int(abbr[j])
+            else:
+                i += x
+                x = 0
+                if i >= m or word[i] != abbr[j]:
+                    return False
+                i += 1
+            j += 1
+        return i + x == m and j == n",c++_python
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int dp [ n + 1 ];
+  dp [ 0 ] = 0, dp [ 1 ] = 1;
+  for ( int i = 2;
+  i <= n;
+  i ++ ) dp [ i ] = max ( dp [ i / 2 ] + dp [ i / 3 ] + dp [ i / 4 ], i );
+  return dp [ n ];
+}
+
+
+",python,"def f_gold ( n ) :
+    dp = [ 0 ] * ( n + 1 )
+    dp [ 0 ] = 0
+    dp [ 1 ] = 1
+    for i in range ( 2 , n + 1 ) :
+        dp [ i ] = max ( dp [ int ( i / 2 ) ] + dp [ int ( i / 3 ) ] + dp [ int ( i / 4 ) ] , i ) ;
+    return dp [ n ]
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int sum = INT_MIN;
+  for ( int i = 0;
+  i < n;
+  i ++ ) for ( int j = i + 1;
+  j < n;
+  j ++ ) for ( int k = j + 1;
+  k < n;
+  k ++ ) if ( sum < arr [ i ] + arr [ j ] + arr [ k ] ) sum = arr [ i ] + arr [ j ] + arr [ k ];
+  return sum;
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    sm = - 1000000
+    for i in range ( 0 , n ) :
+        for j in range ( i + 1 , n ) :
+            for k in range ( j + 1 , n ) :
+                if ( sm < ( arr [ i ] + arr [ j ] + arr [ k ] ) ) :
+                    sm = arr [ i ] + arr [ j ] + arr [ k ]
+    return sm
+
+
+",c++_python
+c++,"
+using namespace std;
+int f_gold ( int stack1 [ ], int stack2 [ ], int stack3 [ ], int n1, int n2, int n3 ) {
+  int sum1 = 0, sum2 = 0, sum3 = 0;
+  for ( int i = 0;
+  i < n1;
+  i ++ ) sum1 += stack1 [ i ];
+  for ( int i = 0;
+  i < n2;
+  i ++ ) sum2 += stack2 [ i ];
+  for ( int i = 0;
+  i < n3;
+  i ++ ) sum3 += stack3 [ i ];
+  int top1 = 0, top2 = 0, top3 = 0;
+  int ans = 0;
+  while ( 1 ) {
+    if ( top1 == n1 || top2 == n2 || top3 == n3 ) return 0;
+    if ( sum1 == sum2 && sum2 == sum3 ) return sum1;
+    if ( sum1 >= sum2 && sum1 >= sum3 ) sum1 -= stack1 [ top1 ++ ];
+    else if ( sum2 >= sum3 && sum2 >= sum3 ) sum2 -= stack2 [ top2 ++ ];
+    else if ( sum3 >= sum2 && sum3 >= sum1 ) sum3 -= stack3 [ top3 ++ ];
+  }
+}
+
+
+",python,"def f_gold ( stack1 , stack2 , stack3 , n1 , n2 , n3 ) :
+    sum1 , sum2 , sum3 = 0 , 0 , 0
+    for i in range ( n1 ) :
+        sum1 += stack1 [ i ]
+    for i in range ( n2 ) :
+        sum2 += stack2 [ i ]
+    for i in range ( n3 ) :
+        sum3 += stack3 [ i ]
+    top1 , top2 , top3 = 0 , 0 , 0
+    ans = 0
+    while ( 1 ) :
+        if ( top1 == n1 or top2 == n2 or top3 == n3 ) :
+            return 0
+        if ( sum1 == sum2 and sum2 == sum3 ) :
+            return sum1
+        if ( sum1 >= sum2 and sum1 >= sum3 ) :
+            sum1 -= stack1 [ top1 ]
+            top1 = top1 + 1
+        elif ( sum2 >= sum3 and sum2 >= sum3 ) :
+            sum2 -= stack2 [ top2 ]
+            top2 = top2 + 1
+        elif ( sum3 >= sum2 and sum3 >= sum1 ) :
+            sum3 -= stack3 [ top3 ]
+            top3 = top3 + 1
+
+
+",c++_python
+c++,"
+using namespace std;
+void f_gold ( char s1 [ ], char s2 [ ], int index = 0 ) {
+  s2 [ index ] = s1 [ index ];
+  if ( s1 [ index ] == '\0' ) return;
+  f_gold ( s1, s2, index + 1 );
+}
+
+
+",python,"def f_gold ( s1 , s2 , index ) :
+    s2 [ index ] = s1 [ index ] ;
+    if ( index == len ( s1 ) - 1 ) :
+        return ;
+    f_gold ( s1 , s2 , index + 1 ) ;
+
+
+",c++_python
+c++,"
+using namespace std;
+void f_gold ( int arr [ ], int n ) {
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    arr [ i ] = i + 1;
+  }
+}
+
+
+",python,"def f_gold ( arr , n ) :
+    for i in range ( n ) :
+        arr [ i ] = i + 1
+
+
+",c++_python
+c++,"class Solution {
+public:
+    string rearrangeString(string s, int k) {
+        unordered_map<char, int> cnt;
+        for (char c : s) ++cnt[c];
+        priority_queue<pair<int, char>> pq;
+        for (auto& [c, v] : cnt) pq.push({v, c});
+        queue<pair<int, char>> q;
+        string ans;
+        while (!pq.empty()) {
+            auto [v, c] = pq.top();
+            pq.pop();
+            ans += c;
+            q.push({v - 1, c});
+            if (q.size() >= k) {
+                auto p = q.front();
+                q.pop();
+                if (p.first) {
+                    pq.push(p);
+                }
+            }
+        }
+        return ans.size() == s.size() ? ans : """";
+    }
+};",python,"from heapq import heapify
+
+class Solution:
+    def rearrangeString(self, s: str, k: int) -> str:
+        h = [(-v, c) for c, v in Counter(s).items()]
+        heapify(h)
+        q = deque()
+        ans = []
+        while h:
+            v, c = heappop(h)
+            v *= -1
+            ans.append(c)
+            q.append((v - 1, c)) # enqueue even if 'v-1==0'
+            # not '>='
+            # use example k=1, then q size is 2, then q can pop one out
+            if len(q) > k: # @note: this is avoid you pick up same char in the same k-segment.
+                w, c = q.popleft()
+                if w: # w!=0
+                    heappush(h, (-w, c))
+        return """" if len(ans) != len(s) else """".join(ans)
+
+#############
+
+import collections
+import heapq
+
+class Solution:
+    def rearrangeString(self, s: str, k: int) -> str:
+        if k == 0:
+            return s
+
+        counts = collections.Counter(s)
+
+        pq = []
+        for ch, count in counts.items():
+            heapq.heappush(pq, (-count, ch))
+
+        sb = []
+        while pq:
+            tmp = []
+            d = min(k, len(s))
+            for i in range(d):
+                if not pq:
+                    return """"
+                count, ch = heapq.heappop(pq)
+                sb.append(ch)
+                if count < -1: # pushed in as negated, so it's: if actual-positive-count > 1
+                    tmp.append((count+1, ch))
+                s = s[1:]
+
+            for count, ch in tmp:
+                heapq.heappush(pq, (count, ch))
+
+        return """".join(sb)",c++_python
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int arr_size ) {
+  for ( int i = 0;
+  i < arr_size;
+  i ++ ) {
+    int count = 0;
+    for ( int j = 0;
+    j < arr_size;
+    j ++ ) {
+      if ( arr [ i ] == arr [ j ] ) count ++;
+    }
+    if ( count % 2 != 0 ) return arr [ i ];
+  }
+  return - 1;
+}
+
+
+",python,"def f_gold ( arr , arr_size ) :
+    for i in range ( 0 , arr_size ) :
+        count = 0
+        for j in range ( 0 , arr_size ) :
+            if arr [ i ] == arr [ j ] :
+                count += 1
+        if ( count % 2 != 0 ) :
+            return arr [ i ]
+    return - 1
+
+
+",c++_python
+c++,"/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+class Solution {
+public:
+    NestedInteger deserialize(string s) {
+        if (s[0] != '[') {
+            return NestedInteger(stoi(s));
+        }
+        stack<NestedInteger> stk;
+        int x = 0;
+        bool neg = false;
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == '-') {
+                neg = true;
+            } else if (isdigit(s[i])) {
+                x = x * 10 + s[i] - '0';
+            } else if (s[i] == '[') {
+                stk.push(NestedInteger());
+            } else if (s[i] == ',' || s[i] == ']') {
+                if (isdigit(s[i - 1])) {
+                    if (neg) {
+                        x = -x;
+                    }
+                    stk.top().add(NestedInteger(x));
+                }
+                x = 0;
+                neg = false;
+                if (s[i] == ']' && stk.size() > 1) {
+                    auto t = stk.top();
+                    stk.pop();
+                    stk.top().add(t);
+                }
+            }
+        }
+        return stk.top();
+    }
+};",python,"# """"""
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """"""
+# class NestedInteger:
+#    def __init__(self, value=None):
+#        """"""
+#        If value is not specified, initializes an empty list.
+#        Otherwise initializes a single integer equal to value.
+#        """"""
+#
+#    def isInteger(self):
+#        """"""
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        :rtype bool
+#        """"""
+#
+#    def add(self, elem):
+#        """"""
+#        Set this NestedInteger to hold a nested list and adds a nested integer elem to it.
+#        :rtype void
+#        """"""
+#
+#    def setInteger(self, value):
+#        """"""
+#        Set this NestedInteger to hold a single integer equal to value.
+#        :rtype void
+#        """"""
+#
+#    def getInteger(self):
+#        """"""
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        :rtype int
+#        """"""
+#
+#    def getList(self):
+#        """"""
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        :rtype List[NestedInteger]
+#        """"""
+
+class Solution: # recursion
+    def deserialize(self, s: str) -> NestedInteger:
+        if not s:
+            return NestedInteger()
+        if s[0] != '[':
+            return NestedInteger(int(s))
+        if len(s) <= 2: # '[]'
+            return NestedInteger()
+        ans = NestedInteger()
+        depth, i = 0, 1 # i starting at 1, to skip first '['
+        for j in range(1, len(s)):
+            if depth == 0 and (s[j] == ',' or j == len(s) - 1):
+                ans.add(self.deserialize(s[i:j])) # j at ']', exclusive
+                i = j + 1
+            elif s[j] == '[':
+                depth += 1
+            elif s[j] == ']':
+                depth -= 1
+        return ans
+
+############
+
+
+'''
+If we encounter an opening bracket [
+    we push the current nested list onto the stack
+    and create a new nested list for the current level.
+
+If we encounter a closing bracket ]
+    we add the current number (if any) to the current nested list,
+    and if there are elements on the stack, we pop the top nested list from the stack and add the current nested list to it.
+
+If we encounter a comma ,
+    we add the current number (if any) to the current nested list.
+Otherwise, we append the character to the num string, which represents the number we are currently parsing.
+'''
+class Solution: # iteration
+    def deserialize(self, s: str) -> NestedInteger:
+        if not s:
+            return None
+
+        if s[0] != '[':
+            return NestedInteger(int(s))
+
+        stack = [] # keep track of nested levels
+        curr = None # current nested list that we are constructing
+        num = """"
+        for char in s:
+            if char == '[':
+                if curr:
+                    stack.append(curr)
+                curr = NestedInteger()
+            elif char == ']':
+                if num:
+                    curr.add(NestedInteger(int(num)))
+                    num = """"
+                if stack:
+                    pop_curr = curr
+                    curr = stack.pop()
+                    curr.add(pop_curr)
+            elif char == ',':
+                if num:
+                    curr.add(NestedInteger(int(num)))
+                    num = """"
+            else:
+                num += char
+
+        return curr",c++_python

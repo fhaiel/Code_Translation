@@ -1,0 +1,16 @@
+# VSCode
+.vscode/
+
+# Python virtual environment (backend)
+.venv/
+
+# Docker and environment files
+.env
+.DS_Store
+
+# Training
+model_training/results/
+model_training/data/
+model_training/training_codes/results/
+model_training/training_codes/logs/
+model_training/benchmarking/__pycache__

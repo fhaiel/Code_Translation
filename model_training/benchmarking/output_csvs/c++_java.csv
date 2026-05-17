@@ -1,0 +1,3341 @@
+input_language,input_code,target_language,target_code,target_column
+c++,"
+using namespace std;
+int f_gold ( int k, string s1, string s2 ) {
+  int n = s1 . length ( );
+  int m = s2 . length ( );
+  int lcs [ n + 1 ] [ m + 1 ];
+  int cnt [ n + 1 ] [ m + 1 ];
+  memset ( lcs, 0, sizeof ( lcs ) );
+  memset ( cnt, 0, sizeof ( cnt ) );
+  for ( int i = 1;
+  i <= n;
+  i ++ ) {
+    for ( int j = 1;
+    j <= m;
+    j ++ ) {
+      lcs [ i ] [ j ] = max ( lcs [ i - 1 ] [ j ], lcs [ i ] [ j - 1 ] );
+      if ( s1 [ i - 1 ] == s2 [ j - 1 ] ) cnt [ i ] [ j ] = cnt [ i - 1 ] [ j - 1 ] + 1;
+      if ( cnt [ i ] [ j ] >= k ) {
+        for ( int a = k;
+        a <= cnt [ i ] [ j ];
+        a ++ ) lcs [ i ] [ j ] = max ( lcs [ i ] [ j ], lcs [ i - a ] [ j - a ] + a );
+      }
+    }
+  }
+  return lcs [ n ] [ m ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LCS_FORMED_CONSECUTIVE_SEGMENTS_LEAST_LENGTH_K{
+static int f_gold ( int k , String s1 , String s2 ) {
+  int n = s1 . length ( ) ;
+  int m = s2 . length ( ) ;
+  int lcs [ ] [ ] = new int [ n + 1 ] [ m + 1 ] ;
+  int cnt [ ] [ ] = new int [ n + 1 ] [ m + 1 ] ;
+  for ( int i = 1 ;
+  i <= n ;
+  i ++ ) {
+    for ( int j = 1 ;
+    j <= m ;
+    j ++ ) {
+      lcs [ i ] [ j ] = Math . max ( lcs [ i - 1 ] [ j ] , lcs [ i ] [ j - 1 ] ) ;
+      if ( s1 . charAt ( i - 1 ) == s2 . charAt ( j - 1 ) ) cnt [ i ] [ j ] = cnt [ i - 1 ] [ j - 1 ] + 1 ;
+      if ( cnt [ i ] [ j ] >= k ) {
+        for ( int a = k ;
+        a <= cnt [ i ] [ j ] ;
+        a ++ ) lcs [ i ] [ j ] = Math . max ( lcs [ i ] [ j ] , lcs [ i - a ] [ j - a ] + a ) ;
+      }
+    }
+  }
+  return lcs [ n ] [ m ] ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int n ) {
+  return 1162261467 % n == 0;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_WHETHER_GIVEN_INTEGER_POWER_3_NOT{
+static boolean f_gold ( int n ) {
+  return 1162261467 % n == 0 ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    vector<int> getFinalState(vector<int>& nums, int k, int multiplier) {
+        if (multiplier == 1) {
+            return nums;
+        }
+
+        using ll = long long;
+        using pli = pair<ll, int>;
+        auto cmp = [](const pli& a, const pli& b) {
+            if (a.first == b.first) {
+                return a.second > b.second;
+            }
+            return a.first > b.first;
+        };
+        priority_queue<pli, vector<pli>, decltype(cmp)> pq(cmp);
+
+        int n = nums.size();
+        int m = *max_element(nums.begin(), nums.end());
+
+        for (int i = 0; i < n; ++i) {
+            pq.emplace(nums[i], i);
+        }
+
+        while (k > 0 && pq.top().first < m) {
+            auto p = pq.top();
+            pq.pop();
+            p.first *= multiplier;
+            pq.emplace(p);
+            --k;
+        }
+
+        auto qpow = [&](ll a, ll n, ll mod) {
+            ll ans = 1 % mod;
+            a = a % mod;
+            while (n > 0) {
+                if (n & 1) {
+                    ans = ans * a % mod;
+                }
+                a = a * a % mod;
+                n >>= 1;
+            }
+            return ans;
+        };
+
+        const int mod = 1e9 + 7;
+        for (int i = 0; i < n; ++i) {
+            auto p = pq.top();
+            pq.pop();
+            long long x = p.first;
+            int j = p.second;
+            nums[j] = static_cast<int>((x % mod) * qpow(multiplier, k / n + (i < k % n ? 1 : 0), mod) % mod);
+        }
+
+        return nums;
+    }
+};",java,"class Solution {
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        if (multiplier == 1) {
+            return nums;
+        }
+        PriorityQueue<long[]> pq = new PriorityQueue<>(
+            (a, b) -> a[0] == b[0] ? Long.compare(a[1], b[1]) : Long.compare(a[0], b[0]));
+        int n = nums.length;
+        int m = Arrays.stream(nums).max().getAsInt();
+        for (int i = 0; i < n; ++i) {
+            pq.offer(new long[] {nums[i], i});
+        }
+        for (; k > 0 && pq.peek()[0] < m; --k) {
+            long[] p = pq.poll();
+            p[0] *= multiplier;
+            pq.offer(p);
+        }
+        final int mod = (int) 1e9 + 7;
+        for (int i = 0; i < n; ++i) {
+            long[] p = pq.poll();
+            long x = p[0];
+            int j = (int) p[1];
+            nums[j] = (int) ((x % mod) * qpow(multiplier, k / n + (i < k % n ? 1 : 0), mod) % mod);
+        }
+        return nums;
+    }
+
+    private int qpow(long a, long n, long mod) {
+        long ans = 1 % mod;
+        for (; n > 0; n >>= 1) {
+            if ((n & 1) == 1) {
+                ans = ans * a % mod;
+            }
+            a = a * a % mod;
+        }
+        return (int) ans;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int a, int b, int k ) {
+  int p = pow ( a, b );
+  int count = 0;
+  while ( p > 0 && count < k ) {
+    int rem = p % 10;
+    count ++;
+    if ( count == k ) return rem;
+    p = p / 10;
+  }
+  return 0;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class K_TH_DIGIT_RAISED_POWER_B{
+public static int f_gold ( int a , int b , int k ) {
+  int p = ( int ) Math . pow ( a , b ) ;
+  int count = 0 ;
+  while ( p > 0 && count < k ) {
+    int rem = p % 10 ;
+    count ++ ;
+    if ( count == k ) return rem ;
+    p = p / 10 ;
+  }
+  return 0 ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int f[7][7];
+    unordered_map<string, bool> dp;
+
+    bool pyramidTransition(string bottom, vector<string>& allowed) {
+        memset(f, 0, sizeof f);
+        for (auto& s : allowed) {
+            int a = s[0] - 'A', b = s[1] - 'A';
+            f[a][b] |= 1 << (s[2] - 'A');
+        }
+        return dfs(bottom, """");
+    }
+
+    bool dfs(string& s, string t) {
+        if (s.size() == 1) {
+            return true;
+        }
+        if (t.size() + 1 == s.size()) {
+            return dfs(t, """");
+        }
+        string k = s + ""."" + t;
+        if (dp.count(k)) {
+            return dp[k];
+        }
+        int a = s[t.size()] - 'A', b = s[t.size() + 1] - 'A';
+        int cs = f[a][b];
+        for (int i = 0; i < 7; ++i) {
+            if ((cs >> i) & 1) {
+                if (dfs(s, t + (char) (i + 'A'))) {
+                    dp[k] = true;
+                    return true;
+                }
+            }
+        }
+        dp[k] = false;
+        return false;
+    }
+};",java,"class Solution {
+    private int[][] f = new int[7][7];
+    private Map<String, Boolean> dp = new HashMap<>();
+
+    public boolean pyramidTransition(String bottom, List<String> allowed) {
+        for (String s : allowed) {
+            int a = s.charAt(0) - 'A', b = s.charAt(1) - 'A';
+            f[a][b] |= 1 << (s.charAt(2) - 'A');
+        }
+        return dfs(bottom, new StringBuilder());
+    }
+
+    boolean dfs(String s, StringBuilder t) {
+        if (s.length() == 1) {
+            return true;
+        }
+        if (t.length() + 1 == s.length()) {
+            return dfs(t.toString(), new StringBuilder());
+        }
+        String k = s + ""."" + t.toString();
+        if (dp.containsKey(k)) {
+            return dp.get(k);
+        }
+        int a = s.charAt(t.length()) - 'A', b = s.charAt(t.length() + 1) - 'A';
+        int cs = f[a][b];
+        for (int i = 0; i < 7; ++i) {
+            if (((cs >> i) & 1) == 1) {
+                t.append((char) ('A' + i));
+                if (dfs(s, t)) {
+                    dp.put(k, true);
+                    return true;
+                }
+                t.deleteCharAt(t.length() - 1);
+            }
+        }
+        dp.put(k, false);
+        return false;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    long long validSubstringCount(string word1, string word2) {
+        if (word1.size() < word2.size()) {
+            return 0;
+        }
+        int cnt[26]{};
+        int need = 0;
+        for (char& c : word2) {
+            if (++cnt[c - 'a'] == 1) {
+                ++need;
+            }
+        }
+        long long ans = 0;
+        int win[26]{};
+        int l = 0;
+        for (char& c : word1) {
+            int i = c - 'a';
+            if (++win[i] == cnt[i]) {
+                --need;
+            }
+            while (need == 0) {
+                i = word1[l] - 'a';
+                if (win[i] == cnt[i]) {
+                    ++need;
+                }
+                --win[i];
+                ++l;
+            }
+            ans += l;
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public long validSubstringCount(String word1, String word2) {
+        if (word1.length() < word2.length()) {
+            return 0;
+        }
+        int[] cnt = new int[26];
+        int need = 0;
+        for (int i = 0; i < word2.length(); ++i) {
+            if (++cnt[word2.charAt(i) - 'a'] == 1) {
+                ++need;
+            }
+        }
+        long ans = 0;
+        int[] win = new int[26];
+        for (int l = 0, r = 0; r < word1.length(); ++r) {
+            int c = word1.charAt(r) - 'a';
+            if (++win[c] == cnt[c]) {
+                --need;
+            }
+            while (need == 0) {
+                c = word1.charAt(l) - 'a';
+                if (win[c] == cnt[c]) {
+                    ++need;
+                }
+                --win[c];
+                ++l;
+            }
+            ans += l;
+        }
+        return ans;
+    }
+}",c++_java
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> ans;
+        vector<string> t;
+        function<void(TreeNode*)> dfs = [&](TreeNode* root) {
+            if (!root) {
+                return;
+            }
+            t.push_back(to_string(root->val));
+            if (!root->left && !root->right) {
+                ans.push_back(join(t));
+            } else {
+                dfs(root->left);
+                dfs(root->right);
+            }
+            t.pop_back();
+        };
+        dfs(root);
+        return ans;
+    }
+
+    string join(vector<string>& t, string sep = ""->"") {
+        string ans;
+        for (int i = 0; i < t.size(); ++i) {
+            if (i > 0) {
+                ans += sep;
+            }
+            ans += t[i];
+        }
+        return ans;
+    }
+};",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private List<String> ans = new ArrayList<>();
+    private List<String> t = new ArrayList<>();
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        dfs(root);
+        return ans;
+    }
+
+    private void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        t.add(root.val + """");
+        if (root.left == null && root.right == null) {
+            ans.add(String.join(""->"", t));
+        } else {
+            dfs(root.left);
+            dfs(root.right);
+        }
+        t.remove(t.size() - 1);
+    }
+}",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int arr [ ], int n ) {
+  int sum = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) sum += arr [ i ];
+  if ( sum % 2 != 0 ) return false;
+  sum = sum / 2;
+  unordered_set < int > s;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    int val = sum - arr [ i ];
+    if ( s . find ( val ) != s . end ( ) ) {
+      printf ( ""Pair elements are %d and %d\n"", arr [ i ], val );
+      return true;
+    }
+    s . insert ( arr [ i ] );
+  }
+  return false;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class CHECK_EXIST_TWO_ELEMENTS_ARRAY_WHOSE_SUM_EQUAL_SUM_REST_ARRAY{
+static boolean f_gold ( int arr [ ] , int n ) {
+  int sum = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    sum += arr [ i ] ;
+  }
+  if ( sum % 2 != 0 ) {
+    return false ;
+  }
+  sum = sum / 2 ;
+  HashSet < Integer > s = new HashSet < Integer > ( ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    int val = sum - arr [ i ] ;
+    if ( s . contains ( val ) && val == ( int ) s . toArray ( ) [ s . size ( ) - 1 ] ) {
+      System . out . printf ( ""Pair elements are %d and %d\n"" , arr [ i ] , val ) ;
+      return true ;
+    }
+    s . add ( arr [ i ] ) ;
+  }
+  return false ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  return 1 + n * ( n + 1 ) / 2;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PIZZA_CUT_PROBLEM_CIRCLE_DIVISION_LINES{
+static int f_gold ( int n ) {
+  return 1 + n * ( n + 1 ) / 2 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int ar [ ], int n ) {
+  int res = 0;
+  sort ( ar, ar + n );
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    int count = 1;
+    for (;
+    i < n - 1;
+    i ++ ) {
+      if ( ar [ i ] == ar [ i + 1 ] ) count ++;
+      else break;
+    }
+    res = max ( res, count );
+  }
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_NUMBER_SUBSETS_DISTINCT_ELEMENTS{
+public static int f_gold ( int ar [ ] , int n ) {
+  int res = 0 ;
+  Arrays . sort ( ar ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    int count = 1 ;
+    for ( ;
+    i < n - 1 ;
+    i ++ ) {
+      if ( ar [ i ] == ar [ i + 1 ] ) count ++ ;
+      else break ;
+    }
+    res = Math . max ( res , count ) ;
+  }
+  return res ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    bool isPossibleToRearrange(string s, string t, int k) {
+        unordered_map<string, int> cnt;
+        int n = s.size();
+        int m = n / k;
+        for (int i = 0; i < n; i += m) {
+            cnt[s.substr(i, m)]++;
+            cnt[t.substr(i, m)]--;
+        }
+        for (auto& [_, v] : cnt) {
+            if (v) {
+                return false;
+            }
+        }
+        return true;
+    }
+};",java,"class Solution {
+    public boolean isPossibleToRearrange(String s, String t, int k) {
+        Map<String, Integer> cnt = new HashMap<>(k);
+        int n = s.length();
+        int m = n / k;
+        for (int i = 0; i < n; i += m) {
+            cnt.merge(s.substring(i, i + m), 1, Integer::sum);
+            cnt.merge(t.substring(i, i + m), -1, Integer::sum);
+        }
+        for (int v : cnt.values()) {
+            if (v != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        long long xs = 0;
+        for (int& x : nums) {
+            xs ^= x;
+        }
+        int lb = xs & -xs;
+        int a = 0;
+        for (int& x : nums) {
+            if (x & lb) {
+                a ^= x;
+            }
+        }
+        int b = xs ^ a;
+        return {a, b};
+    }
+};",java,"class Solution {
+    public int[] singleNumber(int[] nums) {
+        int xs = 0;
+        for (int x : nums) {
+            xs ^= x;
+        }
+        int lb = xs & -xs;
+        int a = 0;
+        for (int x : nums) {
+            if ((x & lb) != 0) {
+                a ^= x;
+            }
+        }
+        int b = xs ^ a;
+        return new int[] {a, b};
+    }
+}",c++_java
+c++,"
+using namespace std;
+bool f_gold ( unsigned int n ) {
+  return n != 0 && ( ( n & ( n - 1 ) ) == 0 ) && ! ( n & 0xAAAAAAAA );
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_WHETHER_A_GIVEN_NUMBER_IS_A_POWER_OF_4_OR_NOT_2{
+static boolean f_gold ( int n ) {
+  return n != 0 && ( ( n & ( n - 1 ) ) == 0 ) && ( n & 0xAAAAAAAA ) == 0 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int a1 [ ], int a2 [ ], int a3 [ ], int n1, int n2, int n3, int sum ) {
+  unordered_set < int > s;
+  for ( int i = 0;
+  i < n1;
+  i ++ ) s . insert ( a1 [ i ] );
+  for ( int i = 0;
+  i < n2;
+  i ++ ) {
+    for ( int j = 0;
+    j < n3;
+    j ++ ) {
+      if ( s . find ( sum - a2 [ i ] - a3 [ j ] ) != s . end ( ) ) return true;
+    }
+  }
+  return false;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_THREE_ELEMENT_FROM_DIFFERENT_THREE_ARRAYS_SUCH_THAT_THAT_A_B_C_K_1{
+static boolean f_gold ( int a1 [ ] , int a2 [ ] , int a3 [ ] , int n1 , int n2 , int n3 , int sum ) {
+  HashSet < Integer > s = new HashSet < Integer > ( ) ;
+  for ( int i = 0 ;
+  i < n1 ;
+  i ++ ) {
+    s . add ( a1 [ i ] ) ;
+  }
+  ArrayList < Integer > al = new ArrayList < > ( s ) ;
+  for ( int i = 0 ;
+  i < n2 ;
+  i ++ ) {
+    for ( int j = 0 ;
+    j < n3 ;
+    j ++ ) {
+      if ( al . contains ( sum - a2 [ i ] - a3 [ j ] ) & al . indexOf ( sum - a2 [ i ] - a3 [ j ] ) != al . get ( al . size ( ) - 1 ) ) {
+        return true ;
+      }
+    }
+  }
+  return false ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int climbStairs(int n) {
+        int a = 0, b = 1;
+        for (int i = 0; i < n; ++i) {
+            int c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+};",java,"class Solution {
+    public int climbStairs(int n) {
+        int a = 0, b = 1;
+        for (int i = 0; i < n; ++i) {
+            int c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr1 [ ], int arr2 [ ], int m, int n, int x ) {
+  int count = 0;
+  int l = 0, r = n - 1;
+  while ( l < m && r >= 0 ) {
+    if ( ( arr1 [ l ] + arr2 [ r ] ) == x ) {
+      l ++;
+      r --;
+      count ++;
+    }
+    else if ( ( arr1 [ l ] + arr2 [ r ] ) < x ) l ++;
+    else r --;
+  }
+  return count;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_PAIRS_TWO_SORTED_ARRAYS_WHOSE_SUM_EQUAL_GIVEN_VALUE_X_2{
+static int f_gold ( int arr1 [ ] , int arr2 [ ] , int m , int n , int x ) {
+  int count = 0 ;
+  int l = 0 , r = n - 1 ;
+  while ( l < m && r >= 0 ) {
+    if ( ( arr1 [ l ] + arr2 [ r ] ) == x ) {
+      l ++ ;
+      r -- ;
+      count ++ ;
+    }
+    else if ( ( arr1 [ l ] + arr2 [ r ] ) < x ) l ++ ;
+    else r -- ;
+  }
+  return count ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int sum = 0;
+  for ( int i = 1;
+  i <= n;
+  ++ i ) sum += ( n / i ) * i;
+  return sum;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_DIVISORS_1_N_1{
+static int f_gold ( int n ) {
+  int sum = 0 ;
+  for ( int i = 1 ;
+  i <= n ;
+  ++ i ) sum += ( n / i ) * i ;
+  return sum ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int price [ ], int n, int k ) {
+  int profit [ k + 1 ] [ n + 1 ];
+  for ( int i = 0;
+  i <= k;
+  i ++ ) profit [ i ] [ 0 ] = 0;
+  for ( int j = 0;
+  j <= n;
+  j ++ ) profit [ 0 ] [ j ] = 0;
+  for ( int i = 1;
+  i <= k;
+  i ++ ) {
+    int prevDiff = INT_MIN;
+    for ( int j = 1;
+    j < n;
+    j ++ ) {
+      prevDiff = max ( prevDiff, profit [ i - 1 ] [ j - 1 ] - price [ j - 1 ] );
+      profit [ i ] [ j ] = max ( profit [ i ] [ j - 1 ], price [ j ] + prevDiff );
+    }
+  }
+  return profit [ k ] [ n - 1 ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMUM_PROFIT_BY_BUYING_AND_SELLING_A_SHARE_AT_MOST_K_TIMES_1{
+static int f_gold ( int price [ ] , int n , int k ) {
+  int profit [ ] [ ] = new int [ k + 1 ] [ n + 1 ] ;
+  for ( int i = 0 ;
+  i <= k ;
+  i ++ ) profit [ i ] [ 0 ] = 0 ;
+  for ( int j = 0 ;
+  j <= n ;
+  j ++ ) profit [ 0 ] [ j ] = 0 ;
+  for ( int i = 1 ;
+  i <= k ;
+  i ++ ) {
+    int prevDiff = Integer . MIN_VALUE ;
+    for ( int j = 1 ;
+    j < n ;
+    j ++ ) {
+      prevDiff = Math . max ( prevDiff , profit [ i - 1 ] [ j - 1 ] - price [ j - 1 ] ) ;
+      profit [ i ] [ j ] = Math . max ( profit [ i ] [ j - 1 ] , price [ j ] + prevDiff ) ;
+    }
+  }
+  return profit [ k ] [ n - 1 ] ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+string f_gold ( string str ) {
+  string mx = """";
+  for ( int i = 0;
+  i < str . length ( );
+  ++ i ) mx = max ( mx, str . substr ( i ) );
+  return mx;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LEXICOGRAPHICAL_MAXIMUM_SUBSTRING_STRING{
+static String f_gold ( String str ) {
+  String mx = """" ;
+  for ( int i = 0 ;
+  i < str . length ( ) ;
+  ++ i ) {
+    if ( mx . compareTo ( str . substring ( i ) ) <= 0 ) {
+      mx = str . substring ( i ) ;
+    }
+  }
+  return mx ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int maxGoodNumber(vector<int>& nums) {
+        int ans = 0;
+        auto f = [&](vector<int>& nums) {
+            int res = 0;
+            vector<int> t;
+            for (int x : nums) {
+                for (; x; x >>= 1) {
+                    t.push_back(x & 1);
+                }
+            }
+            while (t.size()) {
+                res = res * 2 + t.back();
+                t.pop_back();
+            }
+            return res;
+        };
+        for (int i = 0; i < 6; ++i) {
+            ans = max(ans, f(nums));
+            next_permutation(nums.begin(), nums.end());
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    private int[] nums;
+
+    public int maxGoodNumber(int[] nums) {
+        this.nums = nums;
+        int ans = f(0, 1, 2);
+        ans = Math.max(ans, f(0, 2, 1));
+        ans = Math.max(ans, f(1, 0, 2));
+        ans = Math.max(ans, f(1, 2, 0));
+        ans = Math.max(ans, f(2, 0, 1));
+        ans = Math.max(ans, f(2, 1, 0));
+        return ans;
+    }
+
+    private int f(int i, int j, int k) {
+        String a = Integer.toBinaryString(nums[i]);
+        String b = Integer.toBinaryString(nums[j]);
+        String c = Integer.toBinaryString(nums[k]);
+        return Integer.parseInt(a + b + c, 2);
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int r ) {
+  if ( r <= 0 ) return 0;
+  int result = 4;
+  for ( int x = 1;
+  x < r;
+  x ++ ) {
+    int ySquare = r * r - x * x;
+    int y = sqrt ( ySquare );
+    if ( y * y == ySquare ) result += 4;
+  }
+  return result;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class CIRCLE_LATTICE_POINTS{
+static int f_gold ( int r ) {
+  if ( r <= 0 ) return 0 ;
+  int result = 4 ;
+  for ( int x = 1 ;
+  x < r ;
+  x ++ ) {
+    int ySquare = r * r - x * x ;
+    int y = ( int ) Math . sqrt ( ySquare ) ;
+    if ( y * y == ySquare ) result += 4 ;
+  }
+  return result ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+string f_gold ( string s ) {
+  int l = s . length ( );
+  string s1 = """";
+  bool isEven = ( l % 2 == 0 ) ? true : false;
+  for ( int i = 0;
+  i < l;
+  i += 2 ) {
+    if ( isEven ) {
+      s1 = s [ i ] + s1;
+      s1 += s [ i + 1 ];
+    }
+    else {
+      if ( l - i > 1 ) {
+        s1 += s [ i ];
+        s1 = s [ i + 1 ] + s1;
+      }
+      else {
+        s1 += s [ i ];
+      }
+    }
+  }
+  return s1;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class DECODE_MEDIAN_STRING_ORIGINAL_STRING{
+static String f_gold ( String s ) {
+  int l = s . length ( ) ;
+  String s1 = """" ;
+  boolean isEven = ( l % 2 == 0 ) ? true : false ;
+  for ( int i = 0 ;
+  i < l ;
+  i += 2 ) {
+    if ( isEven ) {
+      s1 = s . charAt ( i ) + s1 ;
+      s1 += s . charAt ( i + 1 ) ;
+    }
+    else {
+      if ( l - i > 1 ) {
+        s1 += s . charAt ( i ) ;
+        s1 = s . charAt ( i + 1 ) + s1 ;
+      }
+      else {
+        s1 += s . charAt ( i ) ;
+      }
+    }
+  }
+  return s1 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  return ( ( n + 1 ) * ( n + 2 ) ) / 2;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class NUMBER_NON_NEGATIVE_INTEGRAL_SOLUTIONS_B_C_N_1{
+static int f_gold ( int n ) {
+  return ( ( n + 1 ) * ( n + 2 ) ) / 2 ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int minTotalDistance(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        vector<int> rows;
+        vector<int> cols;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j]) {
+                    rows.emplace_back(i);
+                    cols.emplace_back(j);
+                }
+            }
+        }
+        sort(cols.begin(), cols.end());
+        int i = rows[rows.size() / 2];
+        int j = cols[cols.size() / 2];
+        auto f = [](vector<int>& arr, int x) {
+            int s = 0;
+            for (int v : arr) {
+                s += abs(v - x);
+            }
+            return s;
+        };
+        return f(rows, i) + f(cols, j);
+    }
+};",java,"class Solution {
+    public int minTotalDistance(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        List<Integer> rows = new ArrayList<>();
+        List<Integer> cols = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    rows.add(i);
+                    cols.add(j);
+                }
+            }
+        }
+        Collections.sort(cols);
+        int i = rows.get(rows.size() >> 1);
+        int j = cols.get(cols.size() >> 1);
+        return f(rows, i) + f(cols, j);
+    }
+
+    private int f(List<Integer> arr, int x) {
+        int s = 0;
+        for (int v : arr) {
+            s += Math.abs(v - x);
+        }
+        return s;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  if ( n < 4 ) return - 1;
+  int rem = n % 4;
+  if ( rem == 0 ) return n / 4;
+  if ( rem == 1 ) {
+    if ( n < 9 ) return - 1;
+    return ( n - 9 ) / 4 + 1;
+  }
+  if ( rem == 2 ) return ( n - 6 ) / 4 + 1;
+  if ( rem == 3 ) {
+    if ( n < 15 ) return - 1;
+    return ( n - 15 ) / 4 + 2;
+  }
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SPLIT_N_MAXIMUM_COMPOSITE_NUMBERS{
+static int f_gold ( int n ) {
+  if ( n < 4 ) return - 1 ;
+  int rem = n % 4 ;
+  if ( rem == 0 ) return n / 4 ;
+  if ( rem == 1 ) {
+    if ( n < 9 ) return - 1 ;
+    return ( n - 9 ) / 4 + 1 ;
+  }
+  if ( rem == 2 ) return ( n - 6 ) / 4 + 1 ;
+  if ( rem == 3 ) {
+    if ( n < 15 ) return - 1 ;
+    return ( n - 15 ) / 4 + 2 ;
+  }
+  return 0 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int N, int K ) {
+  sort ( arr, arr + N );
+  int res = INT_MAX;
+  for ( int i = 0;
+  i <= ( N - K );
+  i ++ ) {
+    int curSeqDiff = arr [ i + K - 1 ] - arr [ i ];
+    res = min ( res, curSeqDiff );
+  }
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_DIFFERENCE_MAX_MIN_K_SIZE_SUBSETS{
+static int f_gold ( int arr [ ] , int N , int K ) {
+  Arrays . sort ( arr ) ;
+  int res = 2147483647 ;
+  for ( int i = 0 ;
+  i <= ( N - K ) ;
+  i ++ ) {
+    int curSeqDiff = arr [ i + K - 1 ] - arr [ i ] ;
+    res = Math . min ( res , curSeqDiff ) ;
+  }
+  return res ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int stack1 [ ], int stack2 [ ], int stack3 [ ], int n1, int n2, int n3 ) {
+  int sum1 = 0, sum2 = 0, sum3 = 0;
+  for ( int i = 0;
+  i < n1;
+  i ++ ) sum1 += stack1 [ i ];
+  for ( int i = 0;
+  i < n2;
+  i ++ ) sum2 += stack2 [ i ];
+  for ( int i = 0;
+  i < n3;
+  i ++ ) sum3 += stack3 [ i ];
+  int top1 = 0, top2 = 0, top3 = 0;
+  int ans = 0;
+  while ( 1 ) {
+    if ( top1 == n1 || top2 == n2 || top3 == n3 ) return 0;
+    if ( sum1 == sum2 && sum2 == sum3 ) return sum1;
+    if ( sum1 >= sum2 && sum1 >= sum3 ) sum1 -= stack1 [ top1 ++ ];
+    else if ( sum2 >= sum3 && sum2 >= sum3 ) sum2 -= stack2 [ top2 ++ ];
+    else if ( sum3 >= sum2 && sum3 >= sum1 ) sum3 -= stack3 [ top3 ++ ];
+  }
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_MAXIMUM_SUM_POSSIBLE_EQUAL_SUM_THREE_STACKS{
+public static int f_gold ( int stack1 [ ] , int stack2 [ ] , int stack3 [ ] , int n1 , int n2 , int n3 ) {
+  int sum1 = 0 , sum2 = 0 , sum3 = 0 ;
+  for ( int i = 0 ;
+  i < n1 ;
+  i ++ ) sum1 += stack1 [ i ] ;
+  for ( int i = 0 ;
+  i < n2 ;
+  i ++ ) sum2 += stack2 [ i ] ;
+  for ( int i = 0 ;
+  i < n3 ;
+  i ++ ) sum3 += stack3 [ i ] ;
+  int top1 = 0 , top2 = 0 , top3 = 0 ;
+  int ans = 0 ;
+  while ( true ) {
+    if ( top1 == n1 || top2 == n2 || top3 == n3 ) return 0 ;
+    if ( sum1 == sum2 && sum2 == sum3 ) return sum1 ;
+    if ( sum1 >= sum2 && sum1 >= sum3 ) sum1 -= stack1 [ top1 ++ ] ;
+    else if ( sum2 >= sum3 && sum2 >= sum3 ) sum2 -= stack2 [ top2 ++ ] ;
+    else if ( sum3 >= sum2 && sum3 >= sum1 ) sum3 -= stack3 [ top3 ++ ] ;
+  }
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int ar1 [ ], int ar2 [ ], int n ) {
+  int i = 0;
+  int j = 0;
+  int count;
+  int m1 = - 1, m2 = - 1;
+  for ( count = 0;
+  count <= n;
+  count ++ ) {
+    if ( i == n ) {
+      m1 = m2;
+      m2 = ar2 [ 0 ];
+      break;
+    }
+    else if ( j == n ) {
+      m1 = m2;
+      m2 = ar1 [ 0 ];
+      break;
+    }
+    if ( ar1 [ i ] < ar2 [ j ] ) {
+      m1 = m2;
+      m2 = ar1 [ i ];
+      i ++;
+    }
+    else {
+      m1 = m2;
+      m2 = ar2 [ j ];
+      j ++;
+    }
+  }
+  return ( m1 + m2 ) / 2;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MEDIAN_OF_TWO_SORTED_ARRAYS{
+static int f_gold ( int ar1 [ ] , int ar2 [ ] , int n ) {
+  int i = 0 ;
+  int j = 0 ;
+  int count ;
+  int m1 = - 1 , m2 = - 1 ;
+  for ( count = 0 ;
+  count <= n ;
+  count ++ ) {
+    if ( i == n ) {
+      m1 = m2 ;
+      m2 = ar2 [ 0 ] ;
+      break ;
+    }
+    else if ( j == n ) {
+      m1 = m2 ;
+      m2 = ar1 [ 0 ] ;
+      break ;
+    }
+    if ( ar1 [ i ] < ar2 [ j ] ) {
+      m1 = m2 ;
+      m2 = ar1 [ i ] ;
+      i ++ ;
+    }
+    else {
+      m1 = m2 ;
+      m2 = ar2 [ j ] ;
+      j ++ ;
+    }
+  }
+  return ( m1 + m2 ) / 2 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int x, unsigned int y, int p ) {
+  int res = 1;
+  x = x % p;
+  while ( y > 0 ) {
+    if ( y & 1 ) res = ( res * x ) % p;
+    y = y >> 1;
+    x = ( x * x ) % p;
+  }
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MODULAR_EXPONENTIATION_POWER_IN_MODULAR_ARITHMETIC{
+static int f_gold ( int x , int y , int p ) {
+  int res = 1 ;
+  x = x % p ;
+  while ( y > 0 ) {
+    if ( ( y & 1 ) == 1 ) res = ( res * x ) % p ;
+    y = y >> 1 ;
+    x = ( x * x ) % p ;
+  }
+  return res ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int dp [ n + 1 ];
+  for ( int i = 0;
+  i <= n;
+  i ++ ) {
+    if ( i <= 2 ) dp [ i ] = i;
+    else dp [ i ] = dp [ i - 1 ] + ( i - 1 ) * dp [ i - 2 ];
+  }
+  return dp [ n ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FRIENDS_PAIRING_PROBLEM{
+static int f_gold ( int n ) {
+  int dp [ ] = new int [ n + 1 ] ;
+  for ( int i = 0 ;
+  i <= n ;
+  i ++ ) {
+    if ( i <= 2 ) dp [ i ] = i ;
+    else dp [ i ] = dp [ i - 1 ] + ( i - 1 ) * dp [ i - 2 ] ;
+  }
+  return dp [ n ] ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        while (left < right) {
+            int mid = left + right >> 1;
+            if (nums[mid] > nums[mid + 1]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+};",java,"class Solution {
+    public int findPeakElement(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] > nums[mid + 1]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    bool isReflected(vector<vector<int>>& points) {
+        const int inf = 1 << 30;
+        int minX = inf, maxX = -inf;
+        set<pair<int, int>> pointSet;
+        for (auto& p : points) {
+            minX = min(minX, p[0]);
+            maxX = max(maxX, p[0]);
+            pointSet.insert({p[0], p[1]});
+        }
+        int s = minX + maxX;
+        for (auto& p : points) {
+            if (!pointSet.count({s - p[0], p[1]})) {
+                return false;
+            }
+        }
+        return true;
+    }
+};",java,"class Solution {
+    public boolean isReflected(int[][] points) {
+        final int inf = 1 << 30;
+        int minX = inf, maxX = -inf;
+        Set<List<Integer>> pointSet = new HashSet<>();
+        for (int[] p : points) {
+            minX = Math.min(minX, p[0]);
+            maxX = Math.max(maxX, p[0]);
+            pointSet.add(List.of(p[0], p[1]));
+        }
+        int s = minX + maxX;
+        for (int[] p : points) {
+            if (!pointSet.contains(List.of(s - p[0], p[1]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        while (left < right) {
+            int mid = left + right >> 1;
+            if (nums[mid] >= target)
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        return nums[left] == target ? left : -1;
+    }
+};",java,"class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return nums[left] == target ? left : -1;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int * jumps = new int [ n ];
+  int i, j;
+  if ( n == 0 || arr [ 0 ] == 0 ) return INT_MAX;
+  jumps [ 0 ] = 0;
+  for ( i = 1;
+  i < n;
+  i ++ ) {
+    jumps [ i ] = INT_MAX;
+    for ( j = 0;
+    j < i;
+    j ++ ) {
+      if ( i <= j + arr [ j ] && jumps [ j ] != INT_MAX ) {
+        jumps [ i ] = min ( jumps [ i ], jumps [ j ] + 1 );
+        break;
+      }
+    }
+  }
+  return jumps [ n - 1 ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_NUMBER_OF_JUMPS_TO_REACH_END_OF_A_GIVEN_ARRAY_1{
+private static int f_gold ( int [ ] arr , int n ) {
+  int jumps [ ] = new int [ n ] ;
+  int i , j ;
+  if ( n == 0 || arr [ 0 ] == 0 ) return Integer . MAX_VALUE ;
+  jumps [ 0 ] = 0 ;
+  for ( i = 1 ;
+  i < n ;
+  i ++ ) {
+    jumps [ i ] = Integer . MAX_VALUE ;
+    for ( j = 0 ;
+    j < i ;
+    j ++ ) {
+      if ( i <= j + arr [ j ] && jumps [ j ] != Integer . MAX_VALUE ) {
+        jumps [ i ] = Math . min ( jumps [ i ] , jumps [ j ] + 1 ) ;
+        break ;
+      }
+    }
+  }
+  return jumps [ n - 1 ] ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i = 0, j = height.size() - 1;
+        int ans = 0;
+        while (i < j) {
+            int t = min(height[i], height[j]) * (j - i);
+            ans = max(ans, t);
+            if (height[i] < height[j]) {
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public int maxArea(int[] height) {
+        int i = 0, j = height.length - 1;
+        int ans = 0;
+        while (i < j) {
+            int t = Math.min(height[i], height[j]) * (j - i);
+            ans = Math.max(ans, t);
+            if (height[i] < height[j]) {
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return ans;
+    }
+}",c++_java
+c++,"using LL = long;
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        LL left = 1, right = n;
+        while (left < right) {
+            LL mid = left + right + 1 >> 1;
+            LL s = (1 + mid) * mid >> 1;
+            if (n < s)
+                right = mid - 1;
+            else
+                left = mid;
+        }
+        return left;
+    }
+};",java,"class Solution {
+    public int arrangeCoins(int n) {
+        return (int) (Math.sqrt(2) * Math.sqrt(n + 0.125) - 0.5);
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int l = sqrt ( n );
+  int sq = l * l;
+  if ( sq == n ) return l * 4;
+  else {
+    long long int row = n / l;
+    long long int perimeter = 2 * ( l + row );
+    if ( n % l != 0 ) perimeter += 2;
+    return perimeter;
+  }
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_PERIMETER_N_BLOCKS{
+public static long f_gold ( int n ) {
+  int l = ( int ) Math . sqrt ( n ) ;
+  int sq = l * l ;
+  if ( sq == n ) return l * 4 ;
+  else {
+    long row = n / l ;
+    long perimeter = 2 * ( l + row ) ;
+    if ( n % l != 0 ) perimeter += 2 ;
+    return perimeter ;
+  }
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int count = 0;
+  if ( n % 2 == 0 ) {
+    count ++;
+    while ( n % 2 == 0 ) n = n / 2;
+  }
+  for ( int i = 3;
+  i <= sqrt ( n );
+  i = i + 2 ) {
+    if ( n % i == 0 ) {
+      count ++;
+      while ( n % i == 0 ) n = n / i;
+    }
+  }
+  if ( n > 2 ) count ++;
+  return count;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class HARDY_RAMANUJAN_THEOREM{
+static int f_gold ( int n ) {
+  int count = 0 ;
+  if ( n % 2 == 0 ) {
+    count ++ ;
+    while ( n % 2 == 0 ) n = n / 2 ;
+  }
+  for ( int i = 3 ;
+  i <= Math . sqrt ( n ) ;
+  i = i + 2 ) {
+    if ( n % i == 0 ) {
+      count ++ ;
+      while ( n % i == 0 ) n = n / i ;
+    }
+  }
+  if ( n > 2 ) count ++ ;
+  return count ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int process, int need ) {
+  int minResources = 0;
+  minResources = process * ( need - 1 ) + 1;
+  return minResources;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PROGRAM_FOR_DEADLOCK_FREE_CONDITION_IN_OPERATING_SYSTEM{
+static int f_gold ( int process , int need ) {
+  int minResources = 0 ;
+  minResources = process * ( need - 1 ) + 1 ;
+  return minResources ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+bool f_gold ( string s ) {
+  int l = s . length ( );
+  int j;
+  for ( int i = 0, j = l - 1;
+  i <= j;
+  i ++, j -- ) {
+    if ( s [ i ] != s [ j ] ) return false;
+  }
+  return true;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_CHARACTERS_ADDED_FRONT_MAKE_STRING_PALINDROME{
+static boolean f_gold ( String s ) {
+  int l = s . length ( ) ;
+  for ( int i = 0 , j = l - 1 ;
+  i <= j ;
+  i ++ , j -- ) {
+    if ( s . charAt ( i ) != s . charAt ( j ) ) {
+      return false ;
+    }
+  }
+  return true ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+long long int f_gold ( int arr [ ], int n ) {
+  int res = 0;
+  unordered_map < int, int > m;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    int sum = 0;
+    for ( int j = i;
+    j < n;
+    j ++ ) {
+      sum += arr [ j ];
+      m [ sum ] ++;
+    }
+  }
+  for ( auto x : m ) if ( x . second == 1 ) res += x . first;
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_SUM_UNIQUE_SUB_ARRAY_SUM_GIVEN_ARRAY{
+static int f_gold ( int [ ] arr , int n ) {
+  int res = 0 ;
+  HashMap < Integer , Integer > m = new HashMap < Integer , Integer > ( ) ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    int sum = 0 ;
+    for ( int j = i ;
+    j < n ;
+    j ++ ) {
+      sum += arr [ j ] ;
+      if ( m . containsKey ( sum ) ) {
+        m . put ( sum , m . get ( sum ) + 1 ) ;
+      }
+      else {
+        m . put ( sum , 1 ) ;
+      }
+    }
+  }
+  for ( Map . Entry < Integer , Integer > x : m . entrySet ( ) ) if ( x . getValue ( ) == 1 ) res += x . getKey ( ) ;
+  return res ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int s ) {
+  int maxvalue = 0;
+  for ( int i = 1;
+  i <= s - 2;
+  i ++ ) {
+    for ( int j = 1;
+    j <= s - 1;
+    j ++ ) {
+      int k = s - i - j;
+      maxvalue = max ( maxvalue, i * j * k );
+    }
+  }
+  return maxvalue;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MAXIMIZE_VOLUME_CUBOID_GIVEN_SUM_SIDES{
+static int f_gold ( int s ) {
+  int maxvalue = 0 ;
+  for ( int i = 1 ;
+  i <= s - 2 ;
+  i ++ ) {
+    for ( int j = 1 ;
+    j <= s - 1 ;
+    j ++ ) {
+      int k = s - i - j ;
+      maxvalue = Math . max ( maxvalue , i * j * k ) ;
+    }
+  }
+  return maxvalue ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int start, int end, int arr [ ] ) {
+  unordered_map < int, int > frequency;
+  for ( int i = start;
+  i <= end;
+  i ++ ) frequency [ arr [ i ] ] ++;
+  int count = 0;
+  for ( auto x : frequency ) if ( x . first == x . second ) count ++;
+  return count;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class ARRAY_RANGE_QUERIES_ELEMENTS_FREQUENCY_VALUE{
+static int f_gold ( int start , int end , int arr [ ] ) {
+  Map < Integer , Integer > mp = new HashMap < > ( ) ;
+  for ( int i = start ;
+  i <= end ;
+  i ++ ) mp . put ( arr [ i ] , mp . get ( arr [ i ] ) == null ? 1 : mp . get ( arr [ i ] ) + 1 ) ;
+  int count = 0 ;
+  for ( Map . Entry < Integer , Integer > entry : mp . entrySet ( ) ) if ( entry . getKey ( ) == entry . getValue ( ) ) count ++ ;
+  return count ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int l, int w ) {
+  return ( 2 * ( l + w ) );
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PYTHON_PROGRAM_FIND_PERIMETER_CIRCUMFERENCE_SQUARE_RECTANGLE_1{
+static int f_gold ( int l , int w ) {
+  return ( 2 * ( l + w ) ) ;
+}
+
+
+",c++_java
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    const int inf = INT_MAX;
+    int ans;
+    int prev;
+
+    int minDiffInBST(TreeNode* root) {
+        ans = inf, prev = inf;
+        dfs(root);
+        return ans;
+    }
+
+    void dfs(TreeNode* root) {
+        if (!root) return;
+        dfs(root->left);
+        ans = min(ans, abs(prev - root->val));
+        prev = root->val;
+        dfs(root->right);
+    }
+};",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int ans;
+    private int prev;
+    private int inf = Integer.MAX_VALUE;
+
+    public int minDiffInBST(TreeNode root) {
+        ans = inf;
+        prev = inf;
+        dfs(root);
+        return ans;
+    }
+
+    private void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left);
+        ans = Math.min(ans, Math.abs(root.val - prev));
+        prev = root.val;
+        dfs(root.right);
+    }
+}",c++_java
+c++,"
+using namespace std;
+long f_gold ( int n, int k ) {
+  long total = k;
+  int mod = 1000000007;
+  int same = 0, diff = k;
+  for ( int i = 2;
+  i <= n;
+  i ++ ) {
+    same = diff;
+    diff = total * ( k - 1 );
+    diff = diff % mod;
+    total = ( same + diff ) % mod;
+  }
+  return total;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PAINTING_FENCE_ALGORITHM{
+static long f_gold ( int n , int k ) {
+  long total = k ;
+  int mod = 1000000007 ;
+  int same = 0 , diff = k ;
+  for ( int i = 2 ;
+  i <= n ;
+  i ++ ) {
+    same = diff ;
+    diff = ( int ) total * ( k - 1 ) ;
+    diff = diff % mod ;
+    total = ( same + diff ) % mod ;
+  }
+  return total ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+string f_gold ( string str1, string str2 ) {
+  if ( str1 . length ( ) > str2 . length ( ) ) swap ( str1, str2 );
+  string str = """";
+  int n1 = str1 . length ( ), n2 = str2 . length ( );
+  reverse ( str1 . begin ( ), str1 . end ( ) );
+  reverse ( str2 . begin ( ), str2 . end ( ) );
+  int carry = 0;
+  for ( int i = 0;
+  i < n1;
+  i ++ ) {
+    int sum = ( ( str1 [ i ] - '0' ) + ( str2 [ i ] - '0' ) + carry );
+    str . push_back ( sum % 10 + '0' );
+    carry = sum / 10;
+  }
+  for ( int i = n1;
+  i < n2;
+  i ++ ) {
+    int sum = ( ( str2 [ i ] - '0' ) + carry );
+    str . push_back ( sum % 10 + '0' );
+    carry = sum / 10;
+  }
+  if ( carry ) str . push_back ( carry + '0' );
+  reverse ( str . begin ( ), str . end ( ) );
+  return str;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class SUM_TWO_LARGE_NUMBERS{
+static String f_gold ( String str1 , String str2 ) {
+  if ( str1 . length ( ) > str2 . length ( ) ) {
+    String t = str1 ;
+    str1 = str2 ;
+    str2 = t ;
+  }
+  String str = """" ;
+  int n1 = str1 . length ( ) , n2 = str2 . length ( ) ;
+  str1 = new StringBuilder ( str1 ) . reverse ( ) . toString ( ) ;
+  str2 = new StringBuilder ( str2 ) . reverse ( ) . toString ( ) ;
+  int carry = 0 ;
+  for ( int i = 0 ;
+  i < n1 ;
+  i ++ ) {
+    int sum = ( ( int ) ( str1 . charAt ( i ) - '0' ) + ( int ) ( str2 . charAt ( i ) - '0' ) + carry ) ;
+    str += ( char ) ( sum % 10 + '0' ) ;
+    carry = sum / 10 ;
+  }
+  for ( int i = n1 ;
+  i < n2 ;
+  i ++ ) {
+    int sum = ( ( int ) ( str2 . charAt ( i ) - '0' ) + carry ) ;
+    str += ( char ) ( sum % 10 + '0' ) ;
+    carry = sum / 10 ;
+  }
+  if ( carry > 0 ) str += ( char ) ( carry + '0' ) ;
+  str = new StringBuilder ( str ) . reverse ( ) . toString ( ) ;
+  return str ;
+}
+
+
+",c++_java
+c++,"/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+
+class NestedIterator {
+public:
+    NestedIterator(vector<NestedInteger>& nestedList) {
+        dfs(nestedList);
+    }
+
+    int next() {
+        return vals[cur++];
+    }
+
+    bool hasNext() {
+        return cur < vals.size();
+    }
+
+private:
+    vector<int> vals;
+    int cur = 0;
+
+    void dfs(vector<NestedInteger>& nestedList) {
+        for (auto& e : nestedList) {
+            if (e.isInteger()) {
+                vals.push_back(e.getInteger());
+            } else {
+                dfs(e.getList());
+            }
+        }
+    }
+};
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */",java,"/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * public interface NestedInteger {
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     public List<NestedInteger> getList();
+ * }
+ */
+public class NestedIterator implements Iterator<Integer> {
+
+    private List<Integer> vals;
+
+    private Iterator<Integer> cur;
+
+    public NestedIterator(List<NestedInteger> nestedList) {
+        vals = new ArrayList<>();
+        dfs(nestedList);
+        cur = vals.iterator();
+    }
+
+    @Override
+    public Integer next() {
+        return cur.next();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return cur.hasNext();
+    }
+
+    private void dfs(List<NestedInteger> nestedList) {
+        for (NestedInteger e : nestedList) {
+            if (e.isInteger()) {
+                vals.add(e.getInteger());
+            } else {
+                dfs(e.getList());
+            }
+        }
+    }
+}
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i = new NestedIterator(nestedList);
+ * while (i.hasNext()) v[f()] = i.next();
+ */",c++_java
+c++,"/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* head;
+
+    Solution(ListNode* head) {
+        this->head = head;
+    }
+
+    int getRandom() {
+        int n = 0, ans = 0;
+        for (ListNode* node = head; node != nullptr; node = node->next) {
+            n += 1;
+            int x = 1 + rand() % n;
+            if (n == x) ans = node->val;
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(head);
+ * int param_1 = obj->getRandom();
+ */",java,"/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    private ListNode head;
+    private Random random = new Random();
+
+    public Solution(ListNode head) {
+        this.head = head;
+    }
+
+    public int getRandom() {
+        int ans = 0, n = 0;
+        for (ListNode node = head; node != null; node = node.next) {
+            ++n;
+            int x = 1 + random.nextInt(n);
+            if (n == x) {
+                ans = node.val;
+            }
+        }
+        return ans;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(head);
+ * int param_1 = obj.getRandom();
+ */",c++_java
+c++,"class Solution {
+public:
+    long long maximumTotalSum(vector<int>& maximumHeight) {
+        ranges::sort(maximumHeight, greater<int>());
+        long long ans = 0;
+        int mx = 1 << 30;
+        for (int x : maximumHeight) {
+            x = min(x, mx - 1);
+            if (x <= 0) {
+                return -1;
+            }
+            ans += x;
+            mx = x;
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public long maximumTotalSum(int[] maximumHeight) {
+        long ans = 0;
+        int mx = 1 << 30;
+        Arrays.sort(maximumHeight);
+        for (int i = maximumHeight.length - 1; i >= 0; --i) {
+            int x = Math.min(maximumHeight[i], mx - 1);
+            if (x <= 0) {
+                return -1;
+            }
+            ans += x;
+            mx = x;
+        }
+        return ans;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( string s, char c ) {
+  int res = 0;
+  for ( int i = 0;
+  i < s . length ( );
+  i ++ ) if ( s [ i ] == c ) res ++;
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PROGRAM_COUNT_OCCURRENCE_GIVEN_CHARACTER_STRING{
+public static int f_gold ( String s , char c ) {
+  int res = 0 ;
+  for ( int i = 0 ;
+  i < s . length ( ) ;
+  i ++ ) {
+    if ( s . charAt ( i ) == c ) res ++ ;
+  }
+  return res ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+float f_gold ( float a ) {
+  float area;
+  area = ( sqrt ( 5 * ( 5 + 2 * ( sqrt ( 5 ) ) ) ) * a * a ) / 4;
+  return area;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PROGRAM_TO_FIND_THE_AREA_OF_PENTAGON{
+static float f_gold ( float a ) {
+  float area ;
+  area = ( float ) ( Math . sqrt ( 5 * ( 5 + 2 * ( Math . sqrt ( 5 ) ) ) ) * a * a ) / 4 ;
+  return area ;
+}
+
+
+",c++_java
+c++,"/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if (!head || !head->next) return head;
+        auto* slow = head;
+        auto* fast = head->next;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        auto* t = slow->next;
+        slow->next = nullptr;
+        auto* l1 = sortList(head);
+        auto* l2 = sortList(t);
+        auto* dummy = new ListNode();
+        auto* cur = dummy;
+        while (l1 && l2) {
+            if (l1->val <= l2->val) {
+                cur->next = l1;
+                l1 = l1->next;
+            } else {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+            cur = cur->next;
+        }
+        cur->next = l1 ? l1 : l2;
+        return dummy->next;
+    }
+};",java,"/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode t = slow.next;
+        slow.next = null;
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(t);
+        ListNode dummy = new ListNode();
+        ListNode cur = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = l1 == null ? l2 : l1;
+        return dummy.next;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    long long countOfSubstrings(string word, int k) {
+        auto f = [&](int k) -> long long {
+            long long ans = 0;
+            int l = 0, x = 0;
+            unordered_map<char, int> cnt;
+            auto vowel = [&](char c) -> bool {
+                return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+            };
+            for (char c : word) {
+                if (vowel(c)) {
+                    cnt[c]++;
+                } else {
+                    ++x;
+                }
+                while (x >= k && cnt.size() == 5) {
+                    char d = word[l++];
+                    if (vowel(d)) {
+                        if (--cnt[d] == 0) {
+                            cnt.erase(d);
+                        }
+                    } else {
+                        --x;
+                    }
+                }
+                ans += l;
+            }
+            return ans;
+        };
+
+        return f(k) - f(k + 1);
+    }
+};",java,"class Solution {
+    public long countOfSubstrings(String word, int k) {
+        return f(word, k) - f(word, k + 1);
+    }
+
+    private long f(String word, int k) {
+        long ans = 0;
+        int l = 0, x = 0;
+        Map<Character, Integer> cnt = new HashMap<>(5);
+        for (char c : word.toCharArray()) {
+            if (vowel(c)) {
+                cnt.merge(c, 1, Integer::sum);
+            } else {
+                ++x;
+            }
+            while (x >= k && cnt.size() == 5) {
+                char d = word.charAt(l++);
+                if (vowel(d)) {
+                    if (cnt.merge(d, -1, Integer::sum) == 0) {
+                        cnt.remove(d);
+                    }
+                } else {
+                    --x;
+                }
+            }
+            ans += l;
+        }
+        return ans;
+    }
+
+    private boolean vowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+}",c++_java
+c++,"class NumArray {
+public:
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        s.resize(n + 1);
+        for (int i = 0; i < n; ++i) {
+            s[i + 1] = s[i] + nums[i];
+        }
+    }
+
+    int sumRange(int left, int right) {
+        return s[right + 1] - s[left];
+    }
+
+private:
+    vector<int> s;
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(left,right);
+ */",java,"class NumArray {
+    private int[] s;
+
+    public NumArray(int[] nums) {
+        int n = nums.length;
+        s = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            s[i + 1] = s[i] + nums[i];
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        return s[right + 1] - s[left];
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(left,right);
+ */",c++_java
+c++,"class Solution {
+public:
+    int divide(int a, int b) {
+        if (b == 1) {
+            return a;
+        }
+        if (a == INT_MIN && b == -1) {
+            return INT_MAX;
+        }
+        bool sign = (a > 0 && b > 0) || (a < 0 && b < 0);
+        a = a > 0 ? -a : a;
+        b = b > 0 ? -b : b;
+        int ans = 0;
+        while (a <= b) {
+            int x = b;
+            int cnt = 1;
+            while (x >= (INT_MIN >> 1) && a <= (x << 1)) {
+                x <<= 1;
+                cnt <<= 1;
+            }
+            ans += cnt;
+            a -= x;
+        }
+        return sign ? ans : -ans;
+    }
+};",java,"class Solution {
+    public int divide(int a, int b) {
+        if (b == 1) {
+            return a;
+        }
+        if (a == Integer.MIN_VALUE && b == -1) {
+            return Integer.MAX_VALUE;
+        }
+        boolean sign = (a > 0 && b > 0) || (a < 0 && b < 0);
+        a = a > 0 ? -a : a;
+        b = b > 0 ? -b : b;
+        int ans = 0;
+        while (a <= b) {
+            int x = b;
+            int cnt = 1;
+            while (x >= (Integer.MIN_VALUE >> 1) && a <= (x << 1)) {
+                x <<= 1;
+                cnt <<= 1;
+            }
+            ans += cnt;
+            a -= x;
+        }
+        return sign ? ans : -ans;
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  unordered_map < int, int > um;
+  int curr_sum = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    curr_sum += ( arr [ i ] == 0 ) ? - 1 : arr [ i ];
+    um [ curr_sum ] ++;
+  }
+  int count = 0;
+  for ( auto itr = um . begin ( );
+  itr != um . end ( );
+  itr ++ ) {
+    if ( itr -> second > 1 ) count += ( ( itr -> second * ( itr -> second - 1 ) ) / 2 );
+  }
+  if ( um . find ( 0 ) != um . end ( ) ) count += um [ 0 ];
+  return count;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_SUBARRAYS_EQUAL_NUMBER_1S_0S{
+static int f_gold ( int arr [ ] , int n ) {
+  Map < Integer , Integer > um = new HashMap < > ( ) ;
+  int curr_sum = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    curr_sum += ( arr [ i ] == 0 ) ? - 1 : arr [ i ] ;
+    um . put ( curr_sum , um . get ( curr_sum ) == null ? 1 : um . get ( curr_sum ) + 1 ) ;
+  }
+  int count = 0 ;
+  for ( Map . Entry < Integer , Integer > itr : um . entrySet ( ) ) {
+    if ( itr . getValue ( ) > 1 ) count += ( ( itr . getValue ( ) * ( itr . getValue ( ) - 1 ) ) / 2 ) ;
+  }
+  if ( um . containsKey ( 0 ) ) count += um . get ( 0 ) ;
+  return count ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int> ans;
+        for (int i = left; i <= right; ++i)
+            if (check(i))
+                ans.push_back(i);
+        return ans;
+    }
+
+    bool check(int num) {
+        for (int t = num; t; t /= 10) {
+            int x = t % 10;
+            if (x == 0 || num % x) return false;
+        }
+        return true;
+    }
+};",java,"class Solution {
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left; i <= right; ++i) {
+            if (check(i)) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    private boolean check(int num) {
+        for (int t = num; t != 0; t /= 10) {
+            int x = t % 10;
+            if (x == 0 || num % x != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    vector<string> stringSequence(string target) {
+        vector<string> ans;
+        for (char c : target) {
+            string s = ans.empty() ? """" : ans.back();
+            for (char a = 'a'; a <= c; ++a) {
+                string t = s + a;
+                ans.push_back(t);
+            }
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public List<String> stringSequence(String target) {
+        List<String> ans = new ArrayList<>();
+        for (char c : target.toCharArray()) {
+            String s = ans.isEmpty() ? """" : ans.get(ans.size() - 1);
+            for (char a = 'a'; a <= c; ++a) {
+                String t = s + a;
+                ans.add(t);
+            }
+        }
+        return ans;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    int maxRemovals(string source, string pattern, vector<int>& targetIndices) {
+        int m = source.length(), n = pattern.length();
+        vector<vector<int>> f(m + 1, vector<int>(n + 1, INT_MIN / 2));
+        f[0][0] = 0;
+
+        vector<int> s(m);
+        for (int i : targetIndices) {
+            s[i] = 1;
+        }
+
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 0; j <= n; ++j) {
+                f[i][j] = f[i - 1][j] + s[i - 1];
+                if (j > 0 && source[i - 1] == pattern[j - 1]) {
+                    f[i][j] = max(f[i][j], f[i - 1][j - 1]);
+                }
+            }
+        }
+
+        return f[m][n];
+    }
+};",java,"class Solution {
+    public int maxRemovals(String source, String pattern, int[] targetIndices) {
+        int m = source.length(), n = pattern.length();
+        int[][] f = new int[m + 1][n + 1];
+        final int inf = Integer.MAX_VALUE / 2;
+        for (var g : f) {
+            Arrays.fill(g, -inf);
+        }
+        f[0][0] = 0;
+        int[] s = new int[m];
+        for (int i : targetIndices) {
+            s[i] = 1;
+        }
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 0; j <= n; ++j) {
+                f[i][j] = f[i - 1][j] + s[i - 1];
+                if (j > 0 && source.charAt(i - 1) == pattern.charAt(j - 1)) {
+                    f[i][j] = Math.max(f[i][j], f[i - 1][j - 1]);
+                }
+            }
+        }
+        return f[m][n];
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int result = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    for ( int j = i + 1;
+    j < n;
+    j ++ ) {
+      int product = arr [ i ] * arr [ j ];
+      for ( int k = 0;
+      k < n;
+      k ++ ) {
+        if ( arr [ k ] == product ) {
+          result ++;
+          break;
+        }
+      }
+    }
+  }
+  return result;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_PAIRS_WHOSE_PRODUCTS_EXIST_IN_ARRAY{
+static int f_gold ( int arr [ ] , int n ) {
+  int result = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    for ( int j = i + 1 ;
+    j < n ;
+    j ++ ) {
+      int product = arr [ i ] * arr [ j ] ;
+      for ( int k = 0 ;
+      k < n ;
+      k ++ ) {
+        if ( arr [ k ] == product ) {
+          result ++ ;
+          break ;
+        }
+      }
+    }
+  }
+  return result ;
+}
+
+
+",c++_java
+c++,"typedef pair<int, int> pii;
+
+class Solution {
+public:
+    vector<vector<int>> heights;
+    int m;
+    int n;
+
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        m = heights.size();
+        n = heights[0].size();
+        this->heights = heights;
+        queue<pii> q1;
+        queue<pii> q2;
+        unordered_set<int> vis1;
+        unordered_set<int> vis2;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || j == 0) {
+                    vis1.insert(i * n + j);
+                    q1.emplace(i, j);
+                }
+                if (i == m - 1 || j == n - 1) {
+                    vis2.insert(i * n + j);
+                    q2.emplace(i, j);
+                }
+            }
+        }
+        bfs(q1, vis1);
+        bfs(q2, vis2);
+        vector<vector<int>> ans;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int x = i * n + j;
+                if (vis1.count(x) && vis2.count(x)) {
+                    ans.push_back({i, j});
+                }
+            }
+        }
+        return ans;
+    }
+
+    void bfs(queue<pii>& q, unordered_set<int>& vis) {
+        vector<int> dirs = {-1, 0, 1, 0, -1};
+        while (!q.empty()) {
+            for (int k = q.size(); k > 0; --k) {
+                auto p = q.front();
+                q.pop();
+                for (int i = 0; i < 4; ++i) {
+                    int x = p.first + dirs[i];
+                    int y = p.second + dirs[i + 1];
+                    if (x >= 0 && x < m && y >= 0 && y < n && !vis.count(x * n + y) && heights[x][y] >= heights[p.first][p.second]) {
+                        vis.insert(x * n + y);
+                        q.emplace(x, y);
+                    }
+                }
+            }
+        }
+    }
+};",java,"class Solution {
+    private int[][] heights;
+    private int m;
+    private int n;
+
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        m = heights.length;
+        n = heights[0].length;
+        this.heights = heights;
+        Deque<int[]> q1 = new LinkedList<>();
+        Deque<int[]> q2 = new LinkedList<>();
+        Set<Integer> vis1 = new HashSet<>();
+        Set<Integer> vis2 = new HashSet<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || j == 0) {
+                    vis1.add(i * n + j);
+                    q1.offer(new int[] {i, j});
+                }
+                if (i == m - 1 || j == n - 1) {
+                    vis2.add(i * n + j);
+                    q2.offer(new int[] {i, j});
+                }
+            }
+        }
+        bfs(q1, vis1);
+        bfs(q2, vis2);
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int x = i * n + j;
+                if (vis1.contains(x) && vis2.contains(x)) {
+                    ans.add(Arrays.asList(i, j));
+                }
+            }
+        }
+        return ans;
+    }
+
+    private void bfs(Deque<int[]> q, Set<Integer> vis) {
+        int[] dirs = {-1, 0, 1, 0, -1};
+        while (!q.isEmpty()) {
+            for (int k = q.size(); k > 0; --k) {
+                int[] p = q.poll();
+                for (int i = 0; i < 4; ++i) {
+                    int x = p[0] + dirs[i];
+                    int y = p[1] + dirs[i + 1];
+                    if (x >= 0 && x < m && y >= 0 && y < n && !vis.contains(x * n + y)
+                        && heights[x][y] >= heights[p[0]][p[1]]) {
+                        vis.add(x * n + y);
+                        q.offer(new int[] {x, y});
+                    }
+                }
+            }
+        }
+    }
+}",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n, int sum ) {
+  int curr_sum = arr [ 0 ], start = 0, i;
+  for ( i = 1;
+  i <= n;
+  i ++ ) {
+    while ( curr_sum > sum && start < i - 1 ) {
+      curr_sum = curr_sum - arr [ start ];
+      start ++;
+    }
+    if ( curr_sum == sum ) {
+      cout << ""Sum found between indexes "" << start << "" and "" << i - 1;
+      return 1;
+    }
+    if ( i < n ) curr_sum = curr_sum + arr [ i ];
+  }
+  cout << ""No subarray found"";
+  return 0;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_SUBARRAY_WITH_GIVEN_SUM_1{
+static int f_gold ( int arr [ ] , int n , int sum ) {
+  int curr_sum = arr [ 0 ] , start = 0 , i ;
+  for ( i = 1 ;
+  i <= n ;
+  i ++ ) {
+    while ( curr_sum > sum && start < i - 1 ) {
+      curr_sum = curr_sum - arr [ start ] ;
+      start ++ ;
+    }
+    if ( curr_sum == sum ) {
+      int p = i - 1 ;
+      System . out . println ( ""Sum found between indexes "" + start + "" and "" + p ) ;
+      return 1 ;
+    }
+    if ( i < n ) curr_sum = curr_sum + arr [ i ] ;
+  }
+  System . out . println ( ""No subarray found"" ) ;
+  return 0 ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int num ) {
+  if ( num / 10 == 0 ) return true;
+  while ( num != 0 ) {
+    if ( num / 10 == 0 ) return true;
+    int digit1 = num % 10;
+    int digit2 = ( num / 10 ) % 10;
+    if ( abs ( digit2 - digit1 ) > 1 ) return false;
+    num = num / 10;
+  }
+  return true;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class CHECK_IF_A_NUMBER_IS_JUMBLED_OR_NOT{
+static boolean f_gold ( int num ) {
+  if ( num / 10 == 0 ) return true ;
+  while ( num != 0 ) {
+    if ( num / 10 == 0 ) return true ;
+    int digit1 = num % 10 ;
+    int digit2 = ( num / 10 ) % 10 ;
+    if ( Math . abs ( digit2 - digit1 ) > 1 ) return false ;
+    num = num / 10 ;
+  }
+  return true ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int n ) {
+  if ( n <= 1 ) return false;
+  if ( n <= 3 ) return false;
+  if ( n % 2 == 0 || n % 3 == 0 ) return true;
+  for ( int i = 5;
+  i * i <= n;
+  i = i + 6 ) if ( n % i == 0 || n % ( i + 2 ) == 0 ) return true;
+  return false;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COMPOSITE_NUMBER{
+static boolean f_gold ( int n ) {
+  if ( n <= 1 ) System . out . println ( ""False"" ) ;
+  if ( n <= 3 ) System . out . println ( ""False"" ) ;
+  if ( n % 2 == 0 || n % 3 == 0 ) return true ;
+  for ( int i = 5 ;
+  i * i <= n ;
+  i = i + 6 ) if ( n % i == 0 || n % ( i + 2 ) == 0 ) return true ;
+  return false ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n, int m ) {
+  int count [ n + 1 ];
+  count [ 0 ] = 0;
+  for ( int i = 1;
+  i <= n;
+  i ++ ) {
+    if ( i > m ) count [ i ] = count [ i - 1 ] + count [ i - m ];
+    else if ( i < m ) count [ i ] = 1;
+    else count [ i ] = 2;
+  }
+  return count [ n ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_NUMBER_WAYS_TILE_FLOOR_SIZE_N_X_M_USING_1_X_M_SIZE_TILES{
+static int f_gold ( int n , int m ) {
+  int count [ ] = new int [ n + 1 ] ;
+  count [ 0 ] = 0 ;
+  int i ;
+  for ( i = 1 ;
+  i <= n ;
+  i ++ ) {
+    if ( i > m ) count [ i ] = count [ i - 1 ] + count [ i - m ] ;
+    else if ( i < m ) count [ i ] = 1 ;
+    else count [ i ] = 2 ;
+  }
+  return count [ n ] ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int a [ ], int n ) {
+  return ( n - 1 ) * ( * min_element ( a, a + n ) );
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class MINIMUM_COST_MAKE_ARRAY_SIZE_1_REMOVING_LARGER_PAIRS{
+static int f_gold ( int [ ] a , int n ) {
+  int min = a [ 0 ] ;
+  for ( int i = 1 ;
+  i < a . length ;
+  i ++ ) {
+    if ( a [ i ] < min ) min = a [ i ] ;
+  }
+  return ( n - 1 ) * min ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  int res = 0;
+  for ( int i = 0;
+  i < n - 1;
+  i ++ ) res = res ^ ( i + 1 ) ^ arr [ i ];
+  res = res ^ arr [ n - 1 ];
+  return res;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class FIND_REPETITIVE_ELEMENT_1_N_1_2{
+static int f_gold ( int arr [ ] , int n ) {
+  int res = 0 ;
+  for ( int i = 0 ;
+  i < n - 1 ;
+  i ++ ) res = res ^ ( i + 1 ) ^ arr [ i ] ;
+  res = res ^ arr [ n - 1 ] ;
+  return res ;
+}
+
+
+",c++_java
+c++,"class Solution {
+public:
+    int maxProduct(vector<string>& words) {
+        int n = words.size();
+        int mask[n];
+        memset(mask, 0, sizeof(mask));
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (char& c : words[i]) {
+                mask[i] |= 1 << (c - 'a');
+            }
+            for (int j = 0; j < i; ++j) {
+                if ((mask[i] & mask[j]) == 0) {
+                    ans = max(ans, (int) (words[i].size() * words[j].size()));
+                }
+            }
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public int maxProduct(String[] words) {
+        int n = words.length;
+        int[] mask = new int[n];
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (char c : words[i].toCharArray()) {
+                mask[i] |= 1 << (c - 'a');
+            }
+            for (int j = 0; j < i; ++j) {
+                if ((mask[i] & mask[j]) == 0) {
+                    ans = Math.max(ans, words[i].length() * words[j].length());
+                }
+            }
+        }
+        return ans;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+};",java,"class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    vector<int> cheapestJump(vector<int>& coins, int maxJump) {
+        int n = coins.size();
+        vector<int> ans;
+        if (coins[n - 1] == -1) {
+            return ans;
+        }
+        int f[n];
+        const int inf = 1 << 30;
+        f[n - 1] = coins[n - 1];
+        for (int i = n - 2; ~i; --i) {
+            f[i] = inf;
+            if (coins[i] != -1) {
+                for (int j = i + 1; j < min(n, i + maxJump + 1); ++j) {
+                    f[i] = min(f[i], f[j] + coins[i]);
+                }
+            }
+        }
+        if (f[0] == inf) {
+            return ans;
+        }
+        for (int i = 0, s = f[0]; i < n; ++i) {
+            if (f[i] == s) {
+                s -= coins[i];
+                ans.push_back(i + 1);
+            }
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public List<Integer> cheapestJump(int[] coins, int maxJump) {
+        int n = coins.length;
+        List<Integer> ans = new ArrayList<>();
+        if (coins[n - 1] == -1) {
+            return ans;
+        }
+        int[] f = new int[n];
+        final int inf = 1 << 30;
+        Arrays.fill(f, inf);
+        f[n - 1] = coins[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            if (coins[i] != -1) {
+                for (int j = i + 1; j < Math.min(n, i + maxJump + 1); ++j) {
+                    if (f[i] > f[j] + coins[i]) {
+                        f[i] = f[j] + coins[i];
+                    }
+                }
+            }
+        }
+        if (f[0] == inf) {
+            return ans;
+        }
+        for (int i = 0, s = f[0]; i < n; ++i) {
+            if (f[i] == s) {
+                s -= coins[i];
+                ans.add(i + 1);
+            }
+        }
+        return ans;
+    }
+}",c++_java
+c++,"/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        int l = maxDepth(root->left), r = maxDepth(root->right);
+        return 1 + max(l, r);
+    }
+};",java,"/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = maxDepth(root.left);
+        int r = maxDepth(root.right);
+        return 1 + Math.max(l, r);
+    }
+}",c++_java
+c++,"class Solution {
+public:
+    int lengthOfLongestSubstringTwoDistinct(string s) {
+        unordered_map<char, int> cnt;
+        int n = s.size();
+        int ans = 0;
+        for (int i = 0, j = 0; i < n; ++i) {
+            cnt[s[i]]++;
+            while (cnt.size() > 2) {
+                cnt[s[j]]--;
+                if (cnt[s[j]] == 0) {
+                    cnt.erase(s[j]);
+                }
+                ++j;
+            }
+            ans = max(ans, i - j + 1);
+        }
+        return ans;
+    }
+};",java,"class Solution {
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        Map<Character, Integer> cnt = new HashMap<>();
+        int n = s.length();
+        int ans = 0;
+        for (int i = 0, j = 0; i < n; ++i) {
+            char c = s.charAt(i);
+            cnt.put(c, cnt.getOrDefault(c, 0) + 1);
+            while (cnt.size() > 2) {
+                char t = s.charAt(j++);
+                cnt.put(t, cnt.get(t) - 1);
+                if (cnt.get(t) == 0) {
+                    cnt.remove(t);
+                }
+            }
+            ans = Math.max(ans, i - j + 1);
+        }
+        return ans;
+    }
+}",c++_java
+c++,"
+using namespace std;
+bool f_gold ( int n ) {
+  if ( n <= 1 ) return false;
+  for ( int i = 2;
+  i < n;
+  i ++ ) if ( n % i == 0 ) return false;
+  return true;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class PRIMALITY_TEST_SET_1_INTRODUCTION_AND_SCHOOL_METHOD{
+static boolean f_gold ( int n ) {
+  if ( n <= 1 ) return false ;
+  for ( int i = 2 ;
+  i < n ;
+  i ++ ) if ( n % i == 0 ) return false ;
+  return true ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int arr [ ], int n ) {
+  unordered_map < int, int > um;
+  int sum = 0, maxLen = 0;
+  for ( int i = 0;
+  i < n;
+  i ++ ) {
+    sum += arr [ i ] == 0 ? - 1 : 1;
+    if ( sum == 1 ) maxLen = i + 1;
+    else if ( um . find ( sum ) == um . end ( ) ) um [ sum ] = i;
+    if ( um . find ( sum - 1 ) != um . end ( ) ) {
+      if ( maxLen < ( i - um [ sum - 1 ] ) ) maxLen = i - um [ sum - 1 ];
+    }
+  }
+  return maxLen;
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class LONGEST_SUBARRAY_COUNT_1S_ONE_COUNT_0S{
+static int f_gold ( int arr [ ] , int n ) {
+  HashMap < Integer , Integer > um = new HashMap < Integer , Integer > ( ) ;
+  int sum = 0 , maxLen = 0 ;
+  for ( int i = 0 ;
+  i < n ;
+  i ++ ) {
+    sum += arr [ i ] == 0 ? - 1 : 1 ;
+    if ( sum == 1 ) maxLen = i + 1 ;
+    else if ( ! um . containsKey ( sum ) ) um . put ( sum , i ) ;
+    if ( um . containsKey ( sum - 1 ) ) {
+      if ( maxLen < ( i - um . get ( sum - 1 ) ) ) maxLen = i - um . get ( sum - 1 ) ;
+    }
+  }
+  return maxLen ;
+}
+
+
+",c++_java
+c++,"
+using namespace std;
+int f_gold ( int n ) {
+  int a [ n ], b [ n ];
+  a [ 0 ] = b [ 0 ] = 1;
+  for ( int i = 1;
+  i < n;
+  i ++ ) {
+    a [ i ] = a [ i - 1 ] + b [ i - 1 ];
+    b [ i ] = a [ i - 1 ];
+  }
+  return a [ n - 1 ] + b [ n - 1 ];
+}
+
+
+",java,"
+import java.util. *;
+import java.util.stream.*;
+import java.lang.*;
+import javafx.util.Pair;
+public class COUNT_NUMBER_BINARY_STRINGS_WITHOUT_CONSECUTIVE_1S{
+static int f_gold ( int n ) {
+  int a [ ] = new int [ n ] ;
+  int b [ ] = new int [ n ] ;
+  a [ 0 ] = b [ 0 ] = 1 ;
+  for ( int i = 1 ;
+  i < n ;
+  i ++ ) {
+    a [ i ] = a [ i - 1 ] + b [ i - 1 ] ;
+    b [ i ] = a [ i - 1 ] ;
+  }
+  return a [ n - 1 ] + b [ n - 1 ] ;
+}
+
+
+",c++_java

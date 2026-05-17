@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Konieczny, Yang, Elfhaiel, Meng
+    given-names: Tobias, Anne, Malek, Eric Yiyang
+title: "Code Translation Model Fine-Tuning and Web Application"
+version: 1.0
+date-released: 2025-28-01
